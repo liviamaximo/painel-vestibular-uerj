@@ -1,4 +1,4 @@
-#Painel vestibular UERJ
+# Painel Vestibular UERJ
 ​Aplicação web desenvolvida para auxiliar estudantes na preparação e acompanhamento para o Vestibular da UERJ.
 
 ​© Direitos Autorais e Propriedade Intelectual
