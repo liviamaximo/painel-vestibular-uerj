@@ -1,0 +1,2728 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Observatório Vestibular UERJ | Painel Interativo (2010–2026)</title>
+
+  <!-- Google Fonts: Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+          },
+          colors: {
+            uerj: {
+              50: '#eff6ff',
+              100: '#dbeafe',
+              500: '#0056a3',
+              600: '#004a8f',
+              700: '#003a70',
+              900: '#002447',
+            }
+          }
+        }
+      }
+    };
+  </script>
+
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+    }
+    .custom-scroll::-webkit-scrollbar {
+      height: 6px;
+      width: 6px;
+    }
+    .custom-scroll::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    .custom-scroll::-webkit-scrollbar-thumb {
+      background-color: rgba(148, 163, 184, 0.45);
+      border-radius: 9999px;
+    }
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+    .sticky-col-shadow {
+      box-shadow: 4px 0 10px -4px rgba(15, 23, 42, 0.12);
+    }
+    .dark .sticky-col-shadow {
+      box-shadow: 4px 0 12px -4px rgba(0, 0, 0, 0.45);
+    }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800 dark:bg-slate-950 dark:text-slate-100 transition-colors duration-200 antialiased selection:bg-uerj-600 selection:text-white">
+
+  <!-- Top Navigation Bar -->
+  <header class="sticky top-0 z-40 backdrop-blur-md bg-white/95 dark:bg-slate-900/95 border-b border-slate-200/90 dark:border-slate-800">
+    <div class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-16 gap-2 sm:gap-3">
+        <!-- Brand -->
+        <a href="#panorama" class="flex items-center gap-2 sm:gap-2.5 shrink-0 group">
+          <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-gradient-to-br from-uerj-600 via-blue-600 to-sky-500 flex items-center justify-center text-white font-extrabold text-xs sm:text-sm shadow-md shadow-blue-900/15 group-hover:scale-105 transition shrink-0">
+            UERJ
+          </div>
+          <div class="leading-tight">
+            <h1 class="text-xs sm:text-base font-extrabold tracking-tight text-slate-900 dark:text-white">
+              Vestibular <span class="hidden sm:inline">UERJ</span>
+            </h1>
+            <p class="text-[10px] sm:text-[11px] font-medium text-slate-500 dark:text-slate-400">
+              <span class="sm:hidden">2010–2026</span>
+              <span class="hidden sm:inline">Painel Analítico • 2010–2026</span>
+            </p>
+          </div>
+        </a>
+
+        <!-- Quick Nav Links (Desktop) -->
+        <nav id="desktopNav" class="hidden xl:flex items-center gap-1 text-xs font-semibold">
+          <a href="#panorama" data-nav="panorama" class="nav-link px-2.5 py-2 rounded-lg text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition">Panorama</a>
+          <a href="#rankings" data-nav="rankings" class="nav-link px-2.5 py-2 rounded-lg text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition">Top 10</a>
+          <a href="#areas" data-nav="areas" class="nav-link px-2.5 py-2 rounded-lg text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition">Áreas</a>
+          <a href="#geografia" data-nav="geografia" class="nav-link px-2.5 py-2 rounded-lg text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition">Caxias × SG</a>
+          <a href="#corte" data-nav="corte" class="nav-link px-2.5 py-2 rounded-lg text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition">Notas de Corte</a>
+          <a href="#notas" data-nav="notas" class="nav-link px-2.5 py-2 rounded-lg text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition">Notas Máximas</a>
+          <a href="#cursos" data-nav="cursos" class="nav-link px-2.5 py-2 rounded-lg text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition">Por Curso</a>
+        </nav>
+
+        <!-- Global Year Filter + Theme Toggle -->
+        <div class="flex items-center gap-1.5 sm:gap-2 shrink-0">
+          <div class="flex items-center gap-1 sm:gap-1.5 bg-slate-100 dark:bg-slate-800 px-2 sm:px-2.5 py-1.5 rounded-xl border border-slate-200 dark:border-slate-700 focus-within:ring-2 focus-within:ring-uerj-500/40">
+            <svg class="w-4 h-4 text-uerj-600 dark:text-blue-400 shrink-0 hidden sm:block" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+            </svg>
+            <label for="globalYearSelect" class="text-xs font-semibold text-slate-500 dark:text-slate-400 hidden md:inline">Edição:</label>
+            <select id="globalYearSelect" aria-label="Filtrar edição do vestibular"
+              class="text-xs sm:text-sm font-bold bg-transparent text-slate-900 dark:text-white focus:outline-none cursor-pointer pr-0.5 max-w-[145px] sm:max-w-none">
+            </select>
+          </div>
+
+          <button id="themeToggle" type="button" aria-label="Alternar tema claro ou escuro"
+            class="p-2 sm:p-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 transition shadow-sm shrink-0">
+            <svg class="w-4 h-4 sm:w-5 sm:h-5 hidden dark:block" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m12.728 0l-.707-.707M6.343 6.343l-.707-.707M12 8a4 4 0 100 8 4 4 0 000-8z" />
+            </svg>
+            <svg class="w-4 h-4 sm:w-5 sm:h-5 block dark:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile & Tablet Quick Nav -->
+  <div id="mobileNavBar" class="xl:hidden sticky top-16 z-30 bg-white/95 dark:bg-slate-900/95 backdrop-blur border-b border-slate-200 dark:border-slate-800 px-3 py-2 overflow-x-auto no-scrollbar">
+    <div class="flex items-center gap-1.5 text-xs font-semibold whitespace-nowrap">
+      <a href="#panorama" data-nav="panorama" class="mobile-nav-link px-3 py-1.5 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 transition">Panorama</a>
+      <a href="#rankings" data-nav="rankings" class="mobile-nav-link px-3 py-1.5 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 transition">Top 10</a>
+      <a href="#areas" data-nav="areas" class="mobile-nav-link px-3 py-1.5 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 transition">Áreas</a>
+      <a href="#geografia" data-nav="geografia" class="mobile-nav-link px-3 py-1.5 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 transition">Caxias × SG</a>
+      <a href="#corte" data-nav="corte" class="mobile-nav-link px-3 py-1.5 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 transition">Notas de Corte</a>
+      <a href="#notas" data-nav="notas" class="mobile-nav-link px-3 py-1.5 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 transition">Notas Máximas</a>
+      <a href="#cursos" data-nav="cursos" class="mobile-nav-link px-3 py-1.5 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 transition">Por Curso</a>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-7 sm:py-9 space-y-12 sm:space-y-14">
+
+    <!-- =================================================================== -->
+    <!-- SECTION 1: PANORAMA GERAL & INSCRITOS TOTAIS                        -->
+    <!-- =================================================================== -->
+    <section id="panorama" class="scroll-mt-28 space-y-6">
+      <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-3">
+        <div>
+          <span id="selectedYearBadge" class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-uerj-50 text-uerj-600 dark:bg-blue-950/80 dark:text-blue-300 border border-blue-200/70 dark:border-blue-900">
+            Exibindo: Vestibular 2026
+          </span>
+          <h2 class="mt-2.5 text-2xl sm:text-3xl font-extrabold tracking-tight text-slate-900 dark:text-white">
+            Panorama Geral & Inscritos Totais
+          </h2>
+          <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">
+            Evolução histórica da demanda, vagas ofertadas e relação candidato/vaga no Vestibular Estadual da UERJ (2010–2026).
+          </p>
+        </div>
+      </div>
+
+      <!-- 4 KPI Cards -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div class="bg-white dark:bg-slate-900 rounded-2xl p-5 border border-slate-200/80 dark:border-slate-800 shadow-sm">
+          <p class="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">Inscritos Totais</p>
+          <p id="kpiInscritos" class="mt-2 text-3xl font-extrabold text-slate-900 dark:text-white tabular-nums">--</p>
+          <p id="kpiInscritosSub" class="mt-1.5 text-xs font-medium text-slate-500 dark:text-slate-400">--</p>
+        </div>
+
+        <div class="bg-white dark:bg-slate-900 rounded-2xl p-5 border border-slate-200/80 dark:border-slate-800 shadow-sm">
+          <p class="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">Vagas Ofertadas</p>
+          <p id="kpiVagas" class="mt-2 text-3xl font-extrabold text-slate-900 dark:text-white tabular-nums">--</p>
+          <p id="kpiVagasSub" class="mt-1.5 text-xs font-medium text-slate-500 dark:text-slate-400">--</p>
+        </div>
+
+        <div class="bg-white dark:bg-slate-900 rounded-2xl p-5 border border-slate-200/80 dark:border-slate-800 shadow-sm">
+          <p class="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">Relação C/V Geral</p>
+          <p id="kpiCVGeral" class="mt-2 text-3xl font-extrabold text-uerj-600 dark:text-blue-400 tabular-nums">--</p>
+          <p id="kpiCVSub" class="mt-1.5 text-xs font-medium text-slate-500 dark:text-slate-400">--</p>
+        </div>
+
+        <div class="bg-white dark:bg-slate-900 rounded-2xl p-5 border border-slate-200/80 dark:border-slate-800 shadow-sm">
+          <p class="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">Inscritos em Cotas</p>
+          <p id="kpiCotas" class="mt-2 text-3xl font-extrabold text-emerald-600 dark:text-emerald-400 tabular-nums">--</p>
+          <p id="kpiCotasSub" class="mt-1.5 text-xs font-medium text-slate-500 dark:text-slate-400">--</p>
+        </div>
+      </div>
+
+      <!-- Macro Historical Chart -->
+      <div class="bg-white dark:bg-slate-900 rounded-2xl p-4 sm:p-6 border border-slate-200/80 dark:border-slate-800 shadow-sm">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-5">
+          <div>
+            <h3 class="text-base font-bold text-slate-900 dark:text-white">Série Histórica de Inscritos e Concorrência (2010–2026)</h3>
+            <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">Acompanhe os ciclos de demanda e a distribuição entre ampla concorrência e cotas.</p>
+          </div>
+          <div class="inline-flex rounded-xl bg-slate-100 dark:bg-slate-800 p-1 text-xs font-semibold self-start sm:self-auto">
+            <button type="button" data-macro-mode="total" class="macro-btn px-3 py-1.5 rounded-lg bg-white dark:bg-slate-700 text-uerj-600 dark:text-white shadow-sm transition">Totais × C/V</button>
+            <button type="button" data-macro-mode="cotas" class="macro-btn px-3 py-1.5 rounded-lg text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition">Por Modalidade</button>
+          </div>
+        </div>
+        <div class="relative h-72 sm:h-80 w-full">
+          <canvas id="macroChart"></canvas>
+        </div>
+      </div>
+    </section>
+
+    <!-- =================================================================== -->
+    <!-- SECTION 2: TOP 10 MAIOR & MENOR RELAÇÃO C/V (2026)                  -->
+    <!-- =================================================================== -->
+    <section id="rankings" class="scroll-mt-28 space-y-6">
+      <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-3">
+        <div>
+          <h2 id="rankingsTitle" class="text-2xl font-extrabold tracking-tight text-slate-900 dark:text-white">
+            Top 10: Maior e Menor Concorrência (2026)
+          </h2>
+          <p id="rankingsSubtitle" class="mt-1 text-sm text-slate-500 dark:text-slate-400">
+            Os extremos da relação candidato/vaga no Vestibular 2026. Toque em qualquer barra para abrir o detalhamento completo do curso.
+          </p>
+        </div>
+        <div class="inline-flex rounded-xl bg-slate-100 dark:bg-slate-800 p-1 text-xs font-semibold self-start sm:self-auto">
+          <button type="button" data-rank-metric="cvGeral" class="rank-btn px-3 py-1.5 rounded-lg bg-uerj-600 text-white shadow-sm transition">C/V Geral</button>
+          <button type="button" data-rank-metric="cvAmpla" class="rank-btn px-3 py-1.5 rounded-lg text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition">C/V Ampla</button>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div class="bg-white dark:bg-slate-900 rounded-2xl p-4 sm:p-6 border border-slate-200/80 dark:border-slate-800 shadow-sm">
+          <div class="flex items-center justify-between mb-4">
+            <h3 class="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2">
+              <span class="w-2.5 h-2.5 rounded-full bg-rose-500"></span>
+              Top 10 Maior Relação C/V
+            </h3>
+            <span class="text-xs font-semibold text-rose-600 dark:text-rose-400 bg-rose-50 dark:bg-rose-950/60 px-2.5 py-0.5 rounded-full">Mais Disputados</span>
+          </div>
+          <div class="relative h-80 w-full">
+            <canvas id="top10HighChart"></canvas>
+          </div>
+        </div>
+
+        <div class="bg-white dark:bg-slate-900 rounded-2xl p-4 sm:p-6 border border-slate-200/80 dark:border-slate-800 shadow-sm">
+          <div class="flex items-center justify-between mb-4">
+            <h3 class="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2">
+              <span class="w-2.5 h-2.5 rounded-full bg-amber-500"></span>
+              Top 10 Menor Relação C/V
+            </h3>
+            <span class="text-xs font-semibold text-amber-700 dark:text-amber-400 bg-amber-50 dark:bg-amber-950/60 px-2.5 py-0.5 rounded-full">Menor Pressão</span>
+          </div>
+          <div class="relative h-80 w-full">
+            <canvas id="top10LowChart"></canvas>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =================================================================== -->
+    <!-- SECTION 3: RELAÇÃO C/V POR ÁREA DO CONHECIMENTO                     -->
+    <!-- =================================================================== -->
+    <section id="areas" class="scroll-mt-28 space-y-6">
+      <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-3">
+        <div>
+          <h2 id="areasTitle" class="text-2xl font-extrabold tracking-tight text-slate-900 dark:text-white">
+            Relação Candidato/Vaga por Área do Conhecimento
+          </h2>
+          <p id="areasSubtitle" class="mt-1 text-sm text-slate-500 dark:text-slate-400">
+            Comparativo entre as 5 grandes áreas acadêmicas da UERJ em 2026. Toque em uma área para filtrar os cursos correspondentes.
+          </p>
+        </div>
+        <div class="inline-flex rounded-xl bg-slate-100 dark:bg-slate-800 p-1 text-xs font-semibold self-start sm:self-auto">
+          <button type="button" data-area-metric="ponderado" class="area-btn px-3 py-1.5 rounded-lg bg-uerj-600 text-white shadow-sm transition">C/V Ponderado</button>
+          <button type="button" data-area-metric="media" class="area-btn px-3 py-1.5 rounded-lg text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition">Média Cursos</button>
+          <button type="button" data-area-metric="inscritos" class="area-btn px-3 py-1.5 rounded-lg text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition">Inscritos</button>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+        <div class="lg:col-span-7 bg-white dark:bg-slate-900 rounded-2xl p-4 sm:p-6 border border-slate-200/80 dark:border-slate-800 shadow-sm">
+          <h3 id="areaChartTitle" class="text-base font-bold text-slate-900 dark:text-white mb-4">C/V Ponderado (Inscritos ÷ Vagas) por Área</h3>
+          <div class="relative h-72 sm:h-80 w-full">
+            <canvas id="areaChart"></canvas>
+          </div>
+        </div>
+        <div id="areaCardsContainer" class="lg:col-span-5 space-y-3">
+          <!-- Populated dynamically -->
+        </div>
+      </div>
+    </section>
+
+    <!-- =================================================================== -->
+    <!-- SECTION 4: COMPARAÇÃO DUQUE DE CAXIAS × SÃO GONÇALO                 -->
+    <!-- =================================================================== -->
+    <section id="geografia" class="scroll-mt-28 space-y-8">
+      <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-3">
+        <div>
+          <h2 class="text-2xl font-extrabold tracking-tight text-slate-900 dark:text-white">
+            Duque de Caxias × São Gonçalo
+          </h2>
+          <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">
+            Comparação histórica (2010–2026) dos cursos oferecidos simultaneamente nos campi FEBF (Duque de Caxias) e FFP (São Gonçalo).
+          </p>
+        </div>
+        <div class="inline-flex rounded-xl bg-slate-100 dark:bg-slate-800 p-1 text-xs font-semibold self-start sm:self-auto">
+          <button type="button" data-geo-metric="cv" class="geo-btn px-3 py-1.5 rounded-lg bg-teal-600 text-white shadow-sm transition">Relação C/V</button>
+          <button type="button" data-geo-metric="insc" class="geo-btn px-3 py-1.5 rounded-lg text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition">Inscritos</button>
+          <button type="button" data-geo-metric="max" class="geo-btn px-3 py-1.5 rounded-lg text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition">Nota Máx. Ampla</button>
+        </div>
+      </div>
+
+      <!-- 4.1 Geografia -->
+      <div class="space-y-4">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="bg-white dark:bg-slate-900 rounded-2xl p-5 border-l-4 border-l-teal-500 border-y border-r border-slate-200/80 dark:border-y-slate-800 dark:border-r-slate-800 shadow-sm space-y-4">
+            <div class="flex items-start justify-between gap-2">
+              <div>
+                <h3 class="text-base font-extrabold text-slate-900 dark:text-white leading-snug">Geografia • Duque de Caxias (FEBF)</h3>
+                <p id="geoCaxiasYear" class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">Vestibular 2026</p>
+              </div>
+              <span id="geoCaxiasBadge" class="px-2.5 py-1 rounded-full text-xs font-bold bg-teal-50 text-teal-700 dark:bg-teal-950/70 dark:text-teal-300 shrink-0 tabular-nums">-- cand/vaga</span>
+            </div>
+            <div class="grid grid-cols-3 gap-2 pt-3 border-t border-slate-100 dark:border-slate-800 text-center">
+              <div>
+                <p class="text-[11px] font-medium text-slate-500 dark:text-slate-400">Relação C/V</p>
+                <p id="geoCaxiasCV" class="mt-1 text-lg font-extrabold text-slate-900 dark:text-white tabular-nums">--</p>
+              </div>
+              <div>
+                <p class="text-[11px] font-medium text-slate-500 dark:text-slate-400">Inscritos</p>
+                <p id="geoCaxiasInsc" class="mt-1 text-lg font-extrabold text-teal-600 dark:text-teal-400 tabular-nums">--</p>
+              </div>
+              <div>
+                <p class="text-[11px] font-medium text-slate-500 dark:text-slate-400">Nota Máx. Ampla</p>
+                <p id="geoCaxiasMax" class="mt-1 text-lg font-extrabold text-slate-900 dark:text-white tabular-nums">--</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-white dark:bg-slate-900 rounded-2xl p-5 border-l-4 border-l-indigo-500 border-y border-r border-slate-200/80 dark:border-y-slate-800 dark:border-r-slate-800 shadow-sm space-y-4">
+            <div class="flex items-start justify-between gap-2">
+              <div>
+                <h3 class="text-base font-extrabold text-slate-900 dark:text-white leading-snug">Geografia • São Gonçalo (FFP)</h3>
+                <p id="geoSGYear" class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">Vestibular 2026</p>
+              </div>
+              <span id="geoSGBadge" class="px-2.5 py-1 rounded-full text-xs font-bold bg-indigo-50 text-indigo-700 dark:bg-indigo-950/70 dark:text-indigo-300 shrink-0 tabular-nums">-- cand/vaga</span>
+            </div>
+            <div class="grid grid-cols-3 gap-2 pt-3 border-t border-slate-100 dark:border-slate-800 text-center">
+              <div>
+                <p class="text-[11px] font-medium text-slate-500 dark:text-slate-400">Relação C/V</p>
+                <p id="geoSGCV" class="mt-1 text-lg font-extrabold text-slate-900 dark:text-white tabular-nums">--</p>
+              </div>
+              <div>
+                <p class="text-[11px] font-medium text-slate-500 dark:text-slate-400">Inscritos</p>
+                <p id="geoSGInsc" class="mt-1 text-lg font-extrabold text-indigo-600 dark:text-indigo-400 tabular-nums">--</p>
+              </div>
+              <div>
+                <p class="text-[11px] font-medium text-slate-500 dark:text-slate-400">Nota Máx. Ampla</p>
+                <p id="geoSGMax" class="mt-1 text-lg font-extrabold text-slate-900 dark:text-white tabular-nums">--</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="bg-white dark:bg-slate-900 rounded-2xl p-4 sm:p-6 border border-slate-200/80 dark:border-slate-800 shadow-sm">
+          <div class="mb-4">
+            <h4 id="geoChartTitle" class="text-base font-bold text-slate-900 dark:text-white">Geografia: Relação Candidato/Vaga Geral (2010–2026)</h4>
+            <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">FEBF (Duque de Caxias) × FFP (São Gonçalo)</p>
+          </div>
+          <div class="relative h-64 sm:h-72 w-full">
+            <canvas id="geoChart"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <!-- 4.2 Pedagogia -->
+      <div class="space-y-4">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="bg-white dark:bg-slate-900 rounded-2xl p-5 border-l-4 border-l-pink-500 border-y border-r border-slate-200/80 dark:border-y-slate-800 dark:border-r-slate-800 shadow-sm space-y-4">
+            <div class="flex items-start justify-between gap-2">
+              <div>
+                <h3 class="text-base font-extrabold text-slate-900 dark:text-white leading-snug">Pedagogia • Duque de Caxias (FEBF)</h3>
+                <p id="pedCaxiasYear" class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">Vestibular 2026</p>
+              </div>
+              <span id="pedCaxiasBadge" class="px-2.5 py-1 rounded-full text-xs font-bold bg-pink-50 text-pink-700 dark:bg-pink-950/70 dark:text-pink-300 shrink-0 tabular-nums">-- cand/vaga</span>
+            </div>
+            <div class="grid grid-cols-3 gap-2 pt-3 border-t border-slate-100 dark:border-slate-800 text-center">
+              <div>
+                <p class="text-[11px] font-medium text-slate-500 dark:text-slate-400">Relação C/V</p>
+                <p id="pedCaxiasCV" class="mt-1 text-lg font-extrabold text-slate-900 dark:text-white tabular-nums">--</p>
+              </div>
+              <div>
+                <p class="text-[11px] font-medium text-slate-500 dark:text-slate-400">Inscritos</p>
+                <p id="pedCaxiasInsc" class="mt-1 text-lg font-extrabold text-pink-600 dark:text-pink-400 tabular-nums">--</p>
+              </div>
+              <div>
+                <p class="text-[11px] font-medium text-slate-500 dark:text-slate-400">Nota Máx. Ampla</p>
+                <p id="pedCaxiasMax" class="mt-1 text-lg font-extrabold text-slate-900 dark:text-white tabular-nums">--</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-white dark:bg-slate-900 rounded-2xl p-5 border-l-4 border-l-violet-500 border-y border-r border-slate-200/80 dark:border-y-slate-800 dark:border-r-slate-800 shadow-sm space-y-4">
+            <div class="flex items-start justify-between gap-2">
+              <div>
+                <h3 class="text-base font-extrabold text-slate-900 dark:text-white leading-snug">Pedagogia • São Gonçalo (FFP)</h3>
+                <p id="pedSGYear" class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">Vestibular 2026</p>
+              </div>
+              <span id="pedSGBadge" class="px-2.5 py-1 rounded-full text-xs font-bold bg-violet-50 text-violet-700 dark:bg-violet-950/70 dark:text-violet-300 shrink-0 tabular-nums">-- cand/vaga</span>
+            </div>
+            <div class="grid grid-cols-3 gap-2 pt-3 border-t border-slate-100 dark:border-slate-800 text-center">
+              <div>
+                <p class="text-[11px] font-medium text-slate-500 dark:text-slate-400">Relação C/V</p>
+                <p id="pedSGCV" class="mt-1 text-lg font-extrabold text-slate-900 dark:text-white tabular-nums">--</p>
+              </div>
+              <div>
+                <p class="text-[11px] font-medium text-slate-500 dark:text-slate-400">Inscritos</p>
+                <p id="pedSGInsc" class="mt-1 text-lg font-extrabold text-violet-600 dark:text-violet-400 tabular-nums">--</p>
+              </div>
+              <div>
+                <p class="text-[11px] font-medium text-slate-500 dark:text-slate-400">Nota Máx. Ampla</p>
+                <p id="pedSGMax" class="mt-1 text-lg font-extrabold text-slate-900 dark:text-white tabular-nums">--</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="bg-white dark:bg-slate-900 rounded-2xl p-4 sm:p-6 border border-slate-200/80 dark:border-slate-800 shadow-sm">
+          <div class="mb-4">
+            <h4 id="pedChartTitle" class="text-base font-bold text-slate-900 dark:text-white">Pedagogia: Relação Candidato/Vaga Geral (2010–2026)</h4>
+            <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">FEBF (Duque de Caxias) × FFP (São Gonçalo)</p>
+          </div>
+          <div class="relative h-64 sm:h-72 w-full">
+            <canvas id="pedChart"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <!-- 4.3 Matemática -->
+      <div class="space-y-4">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="bg-white dark:bg-slate-900 rounded-2xl p-5 border-l-4 border-l-orange-500 border-y border-r border-slate-200/80 dark:border-y-slate-800 dark:border-r-slate-800 shadow-sm space-y-4">
+            <div class="flex items-start justify-between gap-2">
+              <div>
+                <h3 class="text-base font-extrabold text-slate-900 dark:text-white leading-snug">Matemática • Duque de Caxias (FEBF)</h3>
+                <p id="matCaxiasYear" class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">Vestibular 2026</p>
+              </div>
+              <span id="matCaxiasBadge" class="px-2.5 py-1 rounded-full text-xs font-bold bg-orange-50 text-orange-700 dark:bg-orange-950/70 dark:text-orange-300 shrink-0 tabular-nums">-- cand/vaga</span>
+            </div>
+            <div class="grid grid-cols-3 gap-2 pt-3 border-t border-slate-100 dark:border-slate-800 text-center">
+              <div>
+                <p class="text-[11px] font-medium text-slate-500 dark:text-slate-400">Relação C/V</p>
+                <p id="matCaxiasCV" class="mt-1 text-lg font-extrabold text-slate-900 dark:text-white tabular-nums">--</p>
+              </div>
+              <div>
+                <p class="text-[11px] font-medium text-slate-500 dark:text-slate-400">Inscritos</p>
+                <p id="matCaxiasInsc" class="mt-1 text-lg font-extrabold text-orange-600 dark:text-orange-400 tabular-nums">--</p>
+              </div>
+              <div>
+                <p class="text-[11px] font-medium text-slate-500 dark:text-slate-400">Nota Máx. Ampla</p>
+                <p id="matCaxiasMax" class="mt-1 text-lg font-extrabold text-slate-900 dark:text-white tabular-nums">--</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-white dark:bg-slate-900 rounded-2xl p-5 border-l-4 border-l-sky-500 border-y border-r border-slate-200/80 dark:border-y-slate-800 dark:border-r-slate-800 shadow-sm space-y-4">
+            <div class="flex items-start justify-between gap-2">
+              <div>
+                <h3 class="text-base font-extrabold text-slate-900 dark:text-white leading-snug">Matemática • São Gonçalo (FFP)</h3>
+                <p id="matSGYear" class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">Vestibular 2026</p>
+              </div>
+              <span id="matSGBadge" class="px-2.5 py-1 rounded-full text-xs font-bold bg-sky-50 text-sky-700 dark:bg-sky-950/70 dark:text-sky-300 shrink-0 tabular-nums">-- cand/vaga</span>
+            </div>
+            <div class="grid grid-cols-3 gap-2 pt-3 border-t border-slate-100 dark:border-slate-800 text-center">
+              <div>
+                <p class="text-[11px] font-medium text-slate-500 dark:text-slate-400">Relação C/V</p>
+                <p id="matSGCV" class="mt-1 text-lg font-extrabold text-slate-900 dark:text-white tabular-nums">--</p>
+              </div>
+              <div>
+                <p class="text-[11px] font-medium text-slate-500 dark:text-slate-400">Inscritos</p>
+                <p id="matSGInsc" class="mt-1 text-lg font-extrabold text-sky-600 dark:text-sky-400 tabular-nums">--</p>
+              </div>
+              <div>
+                <p class="text-[11px] font-medium text-slate-500 dark:text-slate-400">Nota Máx. Ampla</p>
+                <p id="matSGMax" class="mt-1 text-lg font-extrabold text-slate-900 dark:text-white tabular-nums">--</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="bg-white dark:bg-slate-900 rounded-2xl p-4 sm:p-6 border border-slate-200/80 dark:border-slate-800 shadow-sm">
+          <div class="mb-4">
+            <h4 id="matChartTitle" class="text-base font-bold text-slate-900 dark:text-white">Matemática: Relação Candidato/Vaga Geral (2010–2026)</h4>
+            <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">FEBF (Duque de Caxias) × FFP (São Gonçalo)</p>
+          </div>
+          <div class="relative h-64 sm:h-72 w-full">
+            <canvas id="matChart"></canvas>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =================================================================== -->
+    <!-- SECTION 5: NOTAS DE CORTE (NOTA MÍNIMA — 1ª CLASSIFICAÇÃO)          -->
+    <!-- =================================================================== -->
+    <section id="corte" class="scroll-mt-28 space-y-6">
+      <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-3">
+        <div>
+          <h2 class="text-2xl font-extrabold tracking-tight text-slate-900 dark:text-white">
+            Notas de Corte Históricas (1ª Classificação)
+          </h2>
+          <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">
+            Evolução da pontuação mínima exigida (0 a 100 pontos) na Ampla Concorrência, Escola Pública (EP) e Negros e Indígenas (NI).
+          </p>
+        </div>
+        <div class="flex items-center gap-2 self-start sm:self-auto">
+          <label for="corteCourseSelect" class="text-xs font-semibold text-slate-500 dark:text-slate-400">Curso:</label>
+          <select id="corteCourseSelect" class="px-3.5 py-2 text-xs sm:text-sm font-semibold rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-uerj-500">
+            <option value="Medicina (RIO)">Medicina (RIO)</option>
+            <option value="Direito (RIO)">Direito (RIO)</option>
+            <option value="Ciência da Computação (RIO)">Ciência da Computação (RIO)</option>
+            <option value="Psicologia (RIO)">Psicologia (RIO)</option>
+            <option value="Jornalismo (RIO)">Jornalismo (RIO)</option>
+            <option value="Relações Internacionais (RIO)">Relações Internacionais (RIO)</option>
+            <option value="Engenharia Civil (RIO)">Engenharia Civil (RIO)</option>
+            <option value="Administração (RIO)">Administração (RIO)</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- 3 Corte KPI Cards -->
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <div class="bg-white dark:bg-slate-900 rounded-2xl p-5 border-t-4 border-t-blue-600 border-x border-b border-slate-200/80 dark:border-x-slate-800 dark:border-b-slate-800 shadow-sm">
+          <p class="text-xs font-bold uppercase tracking-wider text-blue-600 dark:text-blue-400">Nota Mínima • Ampla</p>
+          <p id="corteAmplaVal" class="mt-2 text-3xl font-extrabold text-slate-900 dark:text-white tabular-nums">--</p>
+          <p id="corteAmplaSub" class="mt-1 text-xs text-slate-500 dark:text-slate-400">--</p>
+        </div>
+        <div class="bg-white dark:bg-slate-900 rounded-2xl p-5 border-t-4 border-t-emerald-500 border-x border-b border-slate-200/80 dark:border-x-slate-800 dark:border-b-slate-800 shadow-sm">
+          <p class="text-xs font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">Nota Mínima • Escola Pública (EP)</p>
+          <p id="corteEPVal" class="mt-2 text-3xl font-extrabold text-slate-900 dark:text-white tabular-nums">--</p>
+          <p id="corteEPSub" class="mt-1 text-xs text-slate-500 dark:text-slate-400">--</p>
+        </div>
+        <div class="bg-white dark:bg-slate-900 rounded-2xl p-5 border-t-4 border-t-amber-500 border-x border-b border-slate-200/80 dark:border-x-slate-800 dark:border-b-slate-800 shadow-sm">
+          <p class="text-xs font-bold uppercase tracking-wider text-amber-600 dark:text-amber-400">Nota Mínima • Negros e Indígenas (NI)</p>
+          <p id="corteNIVal" class="mt-2 text-3xl font-extrabold text-slate-900 dark:text-white tabular-nums">--</p>
+          <p id="corteNISub" class="mt-1 text-xs text-slate-500 dark:text-slate-400">--</p>
+        </div>
+      </div>
+
+      <div class="bg-white dark:bg-slate-900 rounded-2xl p-4 sm:p-6 border border-slate-200/80 dark:border-slate-800 shadow-sm">
+        <div class="relative h-72 sm:h-80 w-full">
+          <canvas id="corteChart"></canvas>
+        </div>
+      </div>
+    </section>
+
+    <!-- =================================================================== -->
+    <!-- SECTION 6: NOTAS MÁXIMAS (AMPLA × EP × NI — 2026)                   -->
+    <!-- =================================================================== -->
+    <section id="notas" class="scroll-mt-28 space-y-6">
+      <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-3">
+        <div>
+          <h2 class="text-2xl font-extrabold tracking-tight text-slate-900 dark:text-white">
+            Notas Máximas por Modalidade (2026)
+          </h2>
+          <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">
+            Comparativo da maior pontuação alcançada na 1ª classificação entre Ampla Concorrência, Escola Pública (EP) e Negros e Indígenas (NI).
+          </p>
+        </div>
+        <div class="flex items-center gap-2 self-start sm:self-auto">
+          <label for="notasAreaFilter" class="text-xs font-semibold text-slate-500 dark:text-slate-400">Filtro:</label>
+          <select id="notasAreaFilter" class="px-3.5 py-2 text-xs sm:text-sm font-semibold rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-uerj-500">
+            <option value="TOP15">Top 15 Mais Concorridos</option>
+            <option value="Ciências Biomédicas e da Saúde">Ciências Biomédicas e da Saúde</option>
+            <option value="Ciências Exatas e Engenharias">Ciências Exatas e Engenharias</option>
+            <option value="Ciências Humanas e Educação">Ciências Humanas e Educação</option>
+            <option value="Ciências Sociais Aplicadas">Ciências Sociais Aplicadas</option>
+            <option value="Letras, Artes e Comunicação">Letras, Artes e Comunicação</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- 3 Average Max Score Cards -->
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <div class="bg-white dark:bg-slate-900 rounded-2xl p-5 border border-slate-200/80 dark:border-slate-800 shadow-sm">
+          <p class="text-xs font-bold uppercase tracking-wider text-blue-600 dark:text-blue-400">Média Nota Máx. • Ampla</p>
+          <p id="avgMaxAmpla" class="mt-2 text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white tabular-nums">--</p>
+        </div>
+        <div class="bg-white dark:bg-slate-900 rounded-2xl p-5 border border-slate-200/80 dark:border-slate-800 shadow-sm">
+          <p class="text-xs font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">Média Nota Máx. • Escola Pública (EP)</p>
+          <p id="avgMaxEP" class="mt-2 text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white tabular-nums">--</p>
+        </div>
+        <div class="bg-white dark:bg-slate-900 rounded-2xl p-5 border border-slate-200/80 dark:border-slate-800 shadow-sm">
+          <p class="text-xs font-bold uppercase tracking-wider text-amber-600 dark:text-amber-400">Média Nota Máx. • Negros e Indígenas (NI)</p>
+          <p id="avgMaxNI" class="mt-2 text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white tabular-nums">--</p>
+        </div>
+      </div>
+
+      <div class="bg-white dark:bg-slate-900 rounded-2xl p-4 sm:p-6 border border-slate-200/80 dark:border-slate-800 shadow-sm">
+        <div class="relative h-80 sm:h-96 w-full">
+          <canvas id="notasMaxChart"></canvas>
+        </div>
+      </div>
+    </section>
+
+    <!-- =================================================================== -->
+    <!-- SECTION 7: RELAÇÃO CANDIDATO/VAGA POR CURSO (LISTA + MODAL COMPLETO)-->
+    <!-- =================================================================== -->
+    <section id="cursos" class="scroll-mt-28 space-y-6">
+      <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-3">
+        <div>
+          <div class="flex flex-wrap items-center gap-2 mb-1.5">
+            <span id="cursosYearBadge" class="inline-flex items-center px-3 py-0.5 rounded-full text-xs font-semibold bg-uerj-50 text-uerj-600 dark:bg-blue-950/80 dark:text-blue-300 border border-blue-200/70 dark:border-blue-900">
+              Vestibular 2026
+            </span>
+          </div>
+          <h2 class="text-2xl font-extrabold tracking-tight text-slate-900 dark:text-white">
+            Relação Candidato/Vaga por Curso
+          </h2>
+          <p id="cursosSubtitle" class="mt-1 text-sm text-slate-500 dark:text-slate-400">
+            Pesquise, filtre por campus ou área e toque em qualquer curso para ver vagas, inscritos, relação candidato/vaga por cota e notas de 2026.
+          </p>
+        </div>
+        <button id="resetFiltersBtn" type="button" class="hidden self-start sm:self-auto inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold bg-slate-200/80 dark:bg-slate-800 text-slate-700 dark:text-slate-200 hover:bg-slate-300 dark:hover:bg-slate-700 transition">
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+          Limpar filtros
+        </button>
+      </div>
+
+      <!-- Notice shown only when an edition prior to 2023 is selected -->
+      <div id="cursosYearNotice" class="hidden rounded-2xl p-3.5 sm:p-4 bg-amber-50/90 dark:bg-amber-950/40 border border-amber-200/80 dark:border-amber-900/70 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
+        <p id="cursosYearNoticeText" class="text-amber-900 dark:text-amber-200 font-medium">
+          O detalhamento completo de todos os cursos por cota está disponível para as edições de 2023 a 2026 (exibindo 2026 como referência).
+        </p>
+        <div class="flex flex-wrap items-center gap-1.5 shrink-0">
+          <button type="button" data-quick-year="2026" class="quick-year-btn px-2.5 py-1 rounded-lg bg-white dark:bg-slate-800 text-amber-800 dark:text-amber-200 font-bold border border-amber-300/80 dark:border-amber-800 hover:bg-amber-100 dark:hover:bg-slate-700 transition">2026</button>
+          <button type="button" data-quick-year="2025" class="quick-year-btn px-2.5 py-1 rounded-lg bg-white dark:bg-slate-800 text-amber-800 dark:text-amber-200 font-bold border border-amber-300/80 dark:border-amber-800 hover:bg-amber-100 dark:hover:bg-slate-700 transition">2025</button>
+          <button type="button" data-quick-year="2024" class="quick-year-btn px-2.5 py-1 rounded-lg bg-white dark:bg-slate-800 text-amber-800 dark:text-amber-200 font-bold border border-amber-300/80 dark:border-amber-800 hover:bg-amber-100 dark:hover:bg-slate-700 transition">2024</button>
+          <button type="button" data-quick-year="2023" class="quick-year-btn px-2.5 py-1 rounded-lg bg-white dark:bg-slate-800 text-amber-800 dark:text-amber-200 font-bold border border-amber-300/80 dark:border-amber-800 hover:bg-amber-100 dark:hover:bg-slate-700 transition">2023</button>
+        </div>
+      </div>
+
+      <!-- Filter Bar (Search + Area + Campus + Sort) -->
+      <div class="bg-white dark:bg-slate-900 rounded-2xl p-4 sm:p-5 border border-slate-200/80 dark:border-slate-800 shadow-sm">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-3">
+          <div class="sm:col-span-2 lg:col-span-4 relative">
+            <svg class="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            </svg>
+            <input id="courseSearch" type="text" placeholder="Buscar curso (ex: Direito, Medicina)..."
+              class="w-full pl-10 pr-3.5 py-2.5 text-sm rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-800 dark:text-slate-100 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-uerj-500" />
+          </div>
+
+          <div class="lg:col-span-3">
+            <select id="courseAreaFilter" aria-label="Filtrar por área" class="w-full px-3.5 py-2.5 text-sm font-medium rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-uerj-500">
+              <option value="ALL">Todas as Áreas</option>
+            </select>
+          </div>
+
+          <div class="lg:col-span-2">
+            <select id="courseCampusFilter" aria-label="Filtrar por campus" class="w-full px-3.5 py-2.5 text-sm font-medium rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-uerj-500">
+              <option value="ALL">Todos os Campi</option>
+            </select>
+          </div>
+
+          <div class="lg:col-span-3">
+            <select id="courseSort" aria-label="Ordenar cursos" class="w-full px-3.5 py-2.5 text-sm font-medium rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-uerj-500">
+              <option value="cv_desc">Ordenar: Maior C/V Geral</option>
+              <option value="cv_asc">Ordenar: Menor C/V Geral</option>
+              <option value="ampla_desc">Ordenar: Maior C/V Ampla</option>
+              <option value="ep_desc">Ordenar: Maior C/V EP</option>
+              <option value="ni_desc">Ordenar: Maior C/V NI</option>
+              <option value="pcd_desc">Ordenar: Maior C/V PcD</option>
+              <option value="insc_desc">Ordenar: Mais Inscritos</option>
+              <option value="name_asc">Ordenar: A → Z</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- Dynamic Bar Chart -->
+      <div class="bg-white dark:bg-slate-900 rounded-2xl p-4 sm:p-6 border border-slate-200/80 dark:border-slate-800 shadow-sm">
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-3 mb-4">
+          <div>
+            <h3 class="text-base font-bold text-slate-900 dark:text-white flex items-center flex-wrap gap-2">
+              <span id="courseChartTitle">Gráfico Dinâmico por Curso (C/V Geral)</span>
+              <span id="chartCountBadge" class="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300"></span>
+            </h3>
+            <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">Exibindo até 20 cursos • Toque em uma barra para detalhes</p>
+          </div>
+          <div class="inline-flex flex-wrap rounded-xl bg-slate-100 dark:bg-slate-800 p-1 text-xs font-semibold self-start md:self-auto gap-0.5">
+            <button type="button" data-course-mod="cvGeral" class="course-mod-btn px-2.5 py-1.5 rounded-lg bg-uerj-600 text-white shadow-sm transition">Geral</button>
+            <button type="button" data-course-mod="cvAmpla" class="course-mod-btn px-2.5 py-1.5 rounded-lg text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition">Ampla</button>
+            <button type="button" data-course-mod="cvEP" class="course-mod-btn px-2.5 py-1.5 rounded-lg text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition">EP</button>
+            <button type="button" data-course-mod="cvNI" class="course-mod-btn px-2.5 py-1.5 rounded-lg text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition">NI</button>
+            <button type="button" data-course-mod="cvPcD" class="course-mod-btn px-2.5 py-1.5 rounded-lg text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition">PcD</button>
+          </div>
+        </div>
+        <div id="allCoursesChartWrapper" class="relative h-96 w-full transition-all duration-200">
+          <canvas id="allCoursesChart"></canvas>
+        </div>
+      </div>
+
+      <!-- Clean Interactive Table (Tap any row to open the detailed modal) -->
+      <div class="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200/80 dark:border-slate-800 shadow-sm overflow-hidden">
+        <div class="px-4 sm:px-5 py-3.5 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between gap-3 text-xs">
+          <span class="text-slate-500 dark:text-slate-400 font-medium">Toque em um curso para abrir o detalhamento completo</span>
+          <span class="text-uerj-600 dark:text-blue-400 font-semibold shrink-0 sm:hidden">Deslize →</span>
+        </div>
+
+        <div class="overflow-x-auto custom-scroll">
+          <table class="w-full text-left border-collapse">
+            <thead>
+              <tr class="bg-slate-50/90 dark:bg-slate-800/70 text-[11px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 border-b border-slate-200/80 dark:border-slate-800">
+                <th class="sticky left-0 z-10 bg-slate-50 dark:bg-slate-800 py-3.5 px-4 sm:px-5 sticky-col-shadow min-w-[165px] sm:min-w-[240px]">Curso</th>
+                <th class="py-3.5 px-3 whitespace-nowrap">Campus</th>
+                <th class="py-3.5 px-3 text-right whitespace-nowrap">Vagas</th>
+                <th class="py-3.5 px-3 text-right whitespace-nowrap">Inscritos</th>
+                <th class="py-3.5 px-3 text-right whitespace-nowrap text-uerj-600 dark:text-blue-400">C/V Geral</th>
+                <th class="py-3.5 px-3 text-right whitespace-nowrap text-indigo-600 dark:text-indigo-400">C/V Ampla</th>
+                <th class="py-3.5 px-3 text-right whitespace-nowrap text-emerald-600 dark:text-emerald-400">C/V EP</th>
+                <th class="py-3.5 px-3 text-right whitespace-nowrap text-amber-600 dark:text-amber-400">C/V NI</th>
+                <th class="py-3.5 px-3 pr-5 text-right whitespace-nowrap text-violet-600 dark:text-violet-400">C/V PcD</th>
+              </tr>
+            </thead>
+            <tbody id="coursesTableBody" class="divide-y divide-slate-100 dark:divide-slate-800/80 text-sm">
+              <!-- Populated dynamically -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Course Detail Modal (4 Top KPI Cards + 3 Quota C/V Cards + Modality Table + Score Bars) -->
+  <div id="courseModal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-slate-950/60 backdrop-blur-sm" role="dialog" aria-modal="true" aria-labelledby="modalCourseTitle">
+    <div class="bg-white dark:bg-slate-900 w-full max-w-lg max-h-[90vh] overflow-y-auto custom-scroll rounded-3xl border border-slate-200 dark:border-slate-800 shadow-2xl">
+      <!-- Modal Header -->
+      <div class="sticky top-0 z-10 bg-white/95 dark:bg-slate-900/95 backdrop-blur p-5 sm:p-6 border-b border-slate-100 dark:border-slate-800 flex items-start justify-between gap-3">
+        <div>
+          <span id="modalCourseArea" class="inline-block px-3 py-0.5 rounded-full text-[11px] font-semibold bg-uerj-50 text-uerj-600 dark:bg-blue-950 dark:text-blue-300 mb-1.5">Área</span>
+          <h3 id="modalCourseTitle" class="text-xl font-extrabold text-slate-900 dark:text-white leading-snug">Curso</h3>
+          <p id="modalCourseCampus" class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">Campus • Vestibular Estadual 2026</p>
+        </div>
+        <button id="closeModalBtn" type="button" aria-label="Fechar detalhes do curso"
+          class="p-2 rounded-xl text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition shrink-0">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+        </button>
+      </div>
+
+      <!-- Modal Body -->
+      <div class="p-5 sm:p-6 space-y-5">
+        <!-- 4 Top Summary Cards -->
+        <div class="grid grid-cols-2 gap-3">
+          <div class="rounded-2xl bg-slate-50 dark:bg-slate-800/70 p-4 text-center border border-slate-100 dark:border-slate-800">
+            <p class="text-xs font-medium text-slate-500 dark:text-slate-400">Vagas</p>
+            <p id="modalVagas" class="mt-1 text-2xl font-extrabold text-slate-900 dark:text-white tabular-nums">--</p>
+          </div>
+          <div class="rounded-2xl bg-slate-50 dark:bg-slate-800/70 p-4 text-center border border-slate-100 dark:border-slate-800">
+            <p class="text-xs font-medium text-slate-500 dark:text-slate-400">Inscritos</p>
+            <p id="modalInscritos" class="mt-1 text-2xl font-extrabold text-slate-900 dark:text-white tabular-nums">--</p>
+          </div>
+          <div class="rounded-2xl bg-blue-50/70 dark:bg-blue-950/40 p-4 text-center border border-blue-100/80 dark:border-blue-900/60">
+            <p class="text-xs font-semibold text-uerj-600 dark:text-blue-400">C/V Geral</p>
+            <p id="modalCVGeral" class="mt-1 text-2xl font-extrabold text-uerj-600 dark:text-blue-300 tabular-nums">--</p>
+          </div>
+          <div class="rounded-2xl bg-violet-50/70 dark:bg-violet-950/40 p-4 text-center border border-violet-100/80 dark:border-violet-900/60">
+            <p class="text-xs font-semibold text-violet-700 dark:text-violet-400">C/V Ampla</p>
+            <p id="modalCVAmpla" class="mt-1 text-2xl font-extrabold text-violet-700 dark:text-violet-300 tabular-nums">--</p>
+          </div>
+        </div>
+
+        <!-- 3 Quota C/V Highlight Cards -->
+        <div class="grid grid-cols-3 gap-2.5">
+          <div class="rounded-2xl bg-emerald-50/80 dark:bg-emerald-950/40 p-3 text-center border border-emerald-100 dark:border-emerald-900/60">
+            <p class="text-[11px] font-semibold text-emerald-700 dark:text-emerald-400">C/V EP</p>
+            <p id="modalCVEP" class="mt-1 text-lg sm:text-xl font-extrabold text-emerald-700 dark:text-emerald-300 tabular-nums">--</p>
+          </div>
+          <div class="rounded-2xl bg-amber-50/80 dark:bg-amber-950/40 p-3 text-center border border-amber-100 dark:border-amber-900/60">
+            <p class="text-[11px] font-semibold text-amber-700 dark:text-amber-400">C/V NI</p>
+            <p id="modalCVNI" class="mt-1 text-lg sm:text-xl font-extrabold text-amber-700 dark:text-amber-300 tabular-nums">--</p>
+          </div>
+          <div class="rounded-2xl bg-fuchsia-50/80 dark:bg-fuchsia-950/40 p-3 text-center border border-fuchsia-100 dark:border-fuchsia-900/60">
+            <p class="text-[11px] font-semibold text-fuchsia-700 dark:text-fuchsia-400">C/V PcD</p>
+            <p id="modalCVPcD" class="mt-1 text-lg sm:text-xl font-extrabold text-fuchsia-700 dark:text-fuchsia-300 tabular-nums">--</p>
+          </div>
+        </div>
+
+        <!-- Detailed Modality Breakdown (Ampla, EP, NI, PcD) -->
+        <div class="space-y-2.5">
+          <h4 class="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">Detalhamento por Modalidade e Cotas</h4>
+          <div class="rounded-2xl border border-slate-200/80 dark:border-slate-800 overflow-hidden">
+            <table class="w-full text-xs sm:text-sm">
+              <thead>
+                <tr class="bg-slate-50 dark:bg-slate-800/80 text-[11px] font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400 border-b border-slate-200/80 dark:border-slate-800">
+                  <th class="py-2.5 px-3 text-left">Modalidade</th>
+                  <th class="py-2.5 px-2.5 text-right">Vagas</th>
+                  <th class="py-2.5 px-2.5 text-right">Inscritos</th>
+                  <th class="py-2.5 px-3 text-right">Rel. C/V</th>
+                </tr>
+              </thead>
+              <tbody id="modalModalityTableBody" class="divide-y divide-slate-100 dark:divide-slate-800/80">
+                <!-- Populated dynamically -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Score Range Bars (Mínima -> Máxima on 0-100 scale) -->
+        <div class="space-y-3.5 pt-1">
+          <div class="flex items-center justify-between gap-2">
+            <h4 class="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">Faixa de Pontuação (1ª Classificação • 0 a 100)</h4>
+            <span id="modalSobrouBadge" class="px-2.5 py-0.5 rounded-full text-[11px] font-semibold shrink-0">--</span>
+          </div>
+
+          <!-- Ampla -->
+          <div class="space-y-1">
+            <div class="flex justify-between text-xs font-semibold">
+              <span class="text-blue-700 dark:text-blue-400">Ampla Concorrência</span>
+              <span id="modalRangeAmpla" class="tabular-nums text-slate-700 dark:text-slate-200">--</span>
+            </div>
+            <div class="h-2.5 w-full rounded-full bg-slate-100 dark:bg-slate-800 relative overflow-hidden">
+              <div id="modalBarAmpla" class="h-full rounded-full bg-gradient-to-r from-blue-500 to-uerj-600 absolute transition-all duration-300"></div>
+            </div>
+          </div>
+
+          <!-- EP -->
+          <div class="space-y-1">
+            <div class="flex justify-between text-xs font-semibold">
+              <span class="text-emerald-700 dark:text-emerald-400">Escola Pública (EP)</span>
+              <span id="modalRangeEP" class="tabular-nums text-slate-700 dark:text-slate-200">--</span>
+            </div>
+            <div class="h-2.5 w-full rounded-full bg-slate-100 dark:bg-slate-800 relative overflow-hidden">
+              <div id="modalBarEP" class="h-full rounded-full bg-gradient-to-r from-emerald-400 to-emerald-600 absolute transition-all duration-300"></div>
+            </div>
+          </div>
+
+          <!-- NI -->
+          <div class="space-y-1">
+            <div class="flex justify-between text-xs font-semibold">
+              <span class="text-amber-700 dark:text-amber-400">Negros e Indígenas (NI)</span>
+              <span id="modalRangeNI" class="tabular-nums text-slate-700 dark:text-slate-200">--</span>
+            </div>
+            <div class="h-2.5 w-full rounded-full bg-slate-100 dark:bg-slate-800 relative overflow-hidden">
+              <div id="modalBarNI" class="h-full rounded-full bg-gradient-to-r from-amber-400 to-amber-600 absolute transition-all duration-300"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Back to Top Button -->
+  <button id="backToTopBtn" type="button" aria-label="Voltar ao topo"
+    class="fixed bottom-5 right-5 z-40 hidden p-3 rounded-full bg-uerj-600 text-white shadow-lg shadow-blue-900/25 hover:bg-uerj-700 hover:scale-105 transition">
+    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"/></svg>
+  </button>
+
+  <!-- Clean Public Footer -->
+  <footer class="border-t border-slate-200 dark:border-slate-800 mt-12 py-8 bg-white dark:bg-slate-900">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-500 dark:text-slate-400 text-center sm:text-left">
+      <p>
+        <strong class="text-slate-700 dark:text-slate-200">Projeto Vestibular UERJ</strong> • Dados oficiais extraídos dos relatórios do DSEA/UERJ (2010–2026).
+      </p>
+      <p class="text-slate-400 dark:text-slate-500">
+        Observatório Interativo de Concorrência e Notas
+      </p>
+    </div>
+  </footer>
+
+  <!-- ===================================================================== -->
+  <!-- DATA & APPLICATION LOGIC                                              -->
+  <!-- ===================================================================== -->
+  <script>
+    // -----------------------------------------------------------------------
+    // 1. DATASET: SÉRIE HISTÓRICA GERAL (2010–2026)
+    // -----------------------------------------------------------------------
+    const resumoAnual = [
+      { ano: 2010, vagasAmpla: 2841, inscAmpla: 29727, cvAmpla: 10.46, vagasEP: 1054, inscEP: 1621, cvEP: 1.54, vagasNI: 1054, inscNI: 1174, cvNI: 1.11, vagasPcD: 298, inscPcD: 35,  cvPcD: 0.12, vagasTotal: 5247, inscTotal: 32557, cvTotal: 6.20, obs: "Relação Inicial" },
+      { ano: 2011, vagasAmpla: 2865, inscAmpla: 34799, cvAmpla: 12.15, vagasEP: 1063, inscEP: 1847, cvEP: 1.74, vagasNI: 1063, inscNI: 1477, cvNI: 1.39, vagasPcD: 301, inscPcD: 36,  cvPcD: 0.12, vagasTotal: 5292, inscTotal: 38159, cvTotal: 7.21, obs: "Relação Inicial" },
+      { ano: 2012, vagasAmpla: 2878, inscAmpla: 37742, cvAmpla: 13.11, vagasEP: 1067, inscEP: 1401, cvEP: 1.31, vagasNI: 1067, inscNI: 1037, cvNI: 0.97, vagasPcD: 304, inscPcD: 25,  cvPcD: 0.08, vagasTotal: 5316, inscTotal: 40205, cvTotal: 7.56, obs: "Relação Inicial" },
+      { ano: 2013, vagasAmpla: 2919, inscAmpla: 41610, cvAmpla: 14.25, vagasEP: 1080, inscEP: 2163, cvEP: 2.00, vagasNI: 1080, inscNI: 1625, cvNI: 1.50, vagasPcD: 302, inscPcD: 49,  cvPcD: 0.16, vagasTotal: 5381, inscTotal: 45447, cvTotal: 8.45, obs: "Relação Inicial" },
+      { ano: 2014, vagasAmpla: 3039, inscAmpla: 42742, cvAmpla: 14.06, vagasEP: 1124, inscEP: 2086, cvEP: 1.86, vagasNI: 1124, inscNI: 1836, cvNI: 1.63, vagasPcD: 314, inscPcD: 48,  cvPcD: 0.15, vagasTotal: 5601, inscTotal: 46712, cvTotal: 8.34, obs: "Relação Inicial" },
+      { ano: 2015, vagasAmpla: 3093, inscAmpla: 46077, cvAmpla: 14.90, vagasEP: 1144, inscEP: 1835, cvEP: 1.60, vagasNI: 1144, inscNI: 1168, cvNI: 1.02, vagasPcD: 320, inscPcD: 47,  cvPcD: 0.15, vagasTotal: 5701, inscTotal: 49127, cvTotal: 8.62, obs: "Relação Inicial" },
+      { ano: 2018, vagasAmpla: 3119, inscAmpla: 23180, cvAmpla: 7.43,  vagasEP: 1154, inscEP: 902,  cvEP: 0.78, vagasNI: 1154, inscNI: 634,  cvNI: 0.55, vagasPcD: 324, inscPcD: 35,  cvPcD: 0.11, vagasTotal: 5751, inscTotal: 24751, cvTotal: 4.30, obs: "Relação Inicial" },
+      { ano: 2019, vagasAmpla: 3091, inscAmpla: 27916, cvAmpla: 9.03,  vagasEP: 1144, inscEP: 1062, cvEP: 0.93, vagasNI: 1144, inscNI: 722,  cvNI: 0.63, vagasPcD: 322, inscPcD: 32,  cvPcD: 0.10, vagasTotal: 5701, inscTotal: 29732, cvTotal: 5.22, obs: "Relação Inicial" },
+      { ano: 2020, vagasAmpla: 3107, inscAmpla: 34662, cvAmpla: 11.16, vagasEP: 1150, inscEP: 1983, cvEP: 1.72, vagasNI: 1150, inscNI: 969,  cvNI: 0.84, vagasPcD: 324, inscPcD: 32,  cvPcD: 0.10, vagasTotal: 5731, inscTotal: 37646, cvTotal: 6.57, obs: "Relação Inicial" },
+      { ano: 2021, vagasAmpla: 3109, inscAmpla: 22136, cvAmpla: 7.12,  vagasEP: 322,  inscEP: 1224, cvEP: 3.80, vagasNI: 1150, inscNI: 780,  cvNI: 0.68, vagasPcD: 322, inscPcD: 41,  cvPcD: 0.13, vagasTotal: 5731, inscTotal: 24181, cvTotal: 4.22, obs: "Exame Único (Pandemia)" },
+      { ano: 2022, vagasAmpla: 3112, inscAmpla: 30404, cvAmpla: 9.77,  vagasEP: 1151, inscEP: 1596, cvEP: 1.39, vagasNI: 1151, inscNI: 760,  cvNI: 0.66, vagasPcD: 322, inscPcD: 65,  cvPcD: 0.20, vagasTotal: 5736, inscTotal: 32825, cvTotal: 5.72, obs: "Exame Único" },
+      { ano: 2023, vagasAmpla: 3390, inscAmpla: 38690, cvAmpla: 11.41, vagasEP: 1255, inscEP: 1840, cvEP: 1.47, vagasNI: 1255, inscNI: 1229, cvNI: 0.98, vagasPcD: 356, inscPcD: 86,  cvPcD: 0.24, vagasTotal: 6256, inscTotal: 41845, cvTotal: 6.69, obs: "Exame Único (Inclusão UEZO)" },
+      { ano: 2024, vagasAmpla: 3488, inscAmpla: 27857, cvAmpla: 7.99,  vagasEP: 1291, inscEP: 4603, cvEP: 3.57, vagasNI: 1291, inscNI: 2941, cvNI: 2.28, vagasPcD: 366, inscPcD: 210, cvPcD: 0.57, vagasTotal: 6436, inscTotal: 35611, cvTotal: 5.53, obs: "Retorno do Exame Discursivo" },
+      { ano: 2025, vagasAmpla: 3460, inscAmpla: 33224, cvAmpla: 9.60,  vagasEP: 1281, inscEP: 1395, cvEP: 1.09, vagasNI: 1281, inscNI: 1027, cvNI: 0.80, vagasPcD: 364, inscPcD: 76,  cvPcD: 0.21, vagasTotal: 6386, inscTotal: 35722, cvTotal: 5.59, obs: "Relação Inicial" },
+      { ano: 2026, vagasAmpla: 3413, inscAmpla: 33599, cvAmpla: 9.84,  vagasEP: 1266, inscEP: 1360, cvEP: 1.07, vagasNI: 1266, inscNI: 1003, cvNI: 0.79, vagasPcD: 359, inscPcD: 110, cvPcD: 0.31, vagasTotal: 6304, inscTotal: 36072, cvTotal: 5.72, obs: "Relação Inicial" }
+    ];
+
+    // -----------------------------------------------------------------------
+    // 2. DATASET: CURSOS DO VESTIBULAR 2026 (TODOS OS 79 CURSOS POR MODALIDADE)
+    // -----------------------------------------------------------------------
+    const cursos2026 = [
+      { curso: "Administração (RIO)", campus: "RIO", area: "Ciências Sociais Aplicadas", vagas: 120, inscritos: 593, cvGeral: 4.94, vagasAmpla: 66, inscAmpla: 530, cvAmpla: 8.03, vagasEP: 24, inscEP: 33, cvEP: 1.38, vagasNI: 24, inscNI: 29, cvNI: 1.21, vagasPcD: 6, inscPcD: 1, cvPcD: 0.17, minAmpla: 47.50, maxAmpla: 84.75, minEP: 20.75, maxEP: 52.25, minNI: 21.75, maxNI: 75.75, sobrou: "Não" },
+      { curso: "Arqueologia (RIO)", campus: "RIO", area: "Ciências Humanas e Educação", vagas: 30, inscritos: 57, cvGeral: 1.90, vagasAmpla: 16, inscAmpla: 50, cvAmpla: 3.13, vagasEP: 6, inscEP: 4, cvEP: 0.67, vagasNI: 6, inscNI: 3, cvNI: 0.50, vagasPcD: 2, inscPcD: 0, cvPcD: 0.00, minAmpla: 41.00, maxAmpla: 76.75, minEP: 34.75, maxEP: 49.00, minNI: 55.00, maxNI: 63.25, sobrou: "Não" },
+      { curso: "Arquitetura e Urbanismo (PETRÓPOLIS)", campus: "PETRÓPOLIS", area: "Ciências Sociais Aplicadas", vagas: 50, inscritos: 372, cvGeral: 7.44, vagasAmpla: 26, inscAmpla: 363, cvAmpla: 13.96, vagasEP: 10, inscEP: 7, cvEP: 0.70, vagasNI: 10, inscNI: 1, cvNI: 0.10, vagasPcD: 4, inscPcD: 1, cvPcD: 0.25, minAmpla: 65.25, maxAmpla: 89.00, minEP: 27.50, maxEP: 72.00, minNI: 46.25, maxNI: 46.25, sobrou: "Não" },
+      { curso: "Artes Visuais (RIO)", campus: "RIO", area: "Letras, Artes e Comunicação", vagas: 70, inscritos: 352, cvGeral: 5.03, vagasAmpla: 38, inscAmpla: 315, cvAmpla: 8.29, vagasEP: 14, inscEP: 23, cvEP: 1.64, vagasNI: 14, inscNI: 12, cvNI: 0.86, vagasPcD: 4, inscPcD: 2, cvPcD: 0.50, minAmpla: 55.75, maxAmpla: 88.25, minEP: 25.50, maxEP: 67.00, minNI: 21.50, maxNI: 61.00, sobrou: "Não" },
+      { curso: "Ciência da Computação (RIO)", campus: "RIO", area: "Ciências Exatas e Engenharias", vagas: 120, inscritos: 1260, cvGeral: 10.50, vagasAmpla: 66, inscAmpla: 1156, cvAmpla: 17.52, vagasEP: 24, inscEP: 60, cvEP: 2.50, vagasNI: 24, inscNI: 41, cvNI: 1.71, vagasPcD: 6, inscPcD: 3, cvPcD: 0.50, minAmpla: 76.00, maxAmpla: 94.25, minEP: 42.00, maxEP: 83.50, minNI: 22.50, maxNI: 71.25, sobrou: "Não" },
+      { curso: "Ciência da Computação (ZONA OESTE)", campus: "ZONA OESTE", area: "Ciências Exatas e Engenharias", vagas: 60, inscritos: 253, cvGeral: 4.22, vagasAmpla: 32, inscAmpla: 241, cvAmpla: 7.53, vagasEP: 12, inscEP: 9, cvEP: 0.75, vagasNI: 12, inscNI: 3, cvNI: 0.25, vagasPcD: 4, inscPcD: 0, cvPcD: 0.00, minAmpla: 49.50, maxAmpla: 86.50, minEP: 28.50, maxEP: 84.00, minNI: 42.00, maxNI: 51.00, sobrou: "Não" },
+      { curso: "Ciências Ambientais (CABO FRIO)", campus: "CABO FRIO", area: "Ciências Biomédicas e da Saúde", vagas: 50, inscritos: 35, cvGeral: 0.70, vagasAmpla: 27, inscAmpla: 33, cvAmpla: 1.22, vagasEP: 10, inscEP: 2, cvEP: 0.20, vagasNI: 10, inscNI: 0, cvNI: 0.00, vagasPcD: 3, inscPcD: 0, cvPcD: 0.00, minAmpla: 25.00, maxAmpla: 67.00, minEP: 30.75, maxEP: 47.25, minNI: null, maxNI: null, sobrou: "Sim" },
+      { curso: "Ciências Atuariais (RIO)", campus: "RIO", area: "Ciências Exatas e Engenharias", vagas: 40, inscritos: 98, cvGeral: 2.45, vagasAmpla: 22, inscAmpla: 92, cvAmpla: 4.18, vagasEP: 8, inscEP: 3, cvEP: 0.38, vagasNI: 8, inscNI: 3, cvNI: 0.38, vagasPcD: 2, inscPcD: 0, cvPcD: 0.00, minAmpla: 41.50, maxAmpla: 87.00, minEP: 23.50, maxEP: 44.75, minNI: 44.00, maxNI: 49.75, sobrou: "Não" },
+      { curso: "Ciências Biológicas (RIO)", campus: "RIO", area: "Ciências Biomédicas e da Saúde", vagas: 120, inscritos: 771, cvGeral: 6.43, vagasAmpla: 66, inscAmpla: 716, cvAmpla: 10.85, vagasEP: 24, inscEP: 28, cvEP: 1.17, vagasNI: 24, inscNI: 26, cvNI: 1.08, vagasPcD: 6, inscPcD: 1, cvPcD: 0.17, minAmpla: 49.25, maxAmpla: 79.00, minEP: 22.00, maxEP: 62.25, minNI: 21.75, maxNI: 46.25, sobrou: "Não" },
+      { curso: "Ciências Biológicas (SÃO GONÇALO)", campus: "SÃO GONÇALO", area: "Ciências Biomédicas e da Saúde", vagas: 80, inscritos: 84, cvGeral: 1.05, vagasAmpla: 44, inscAmpla: 80, cvAmpla: 1.82, vagasEP: 16, inscEP: 4, cvEP: 0.25, vagasNI: 16, inscNI: 0, cvNI: 0.00, vagasPcD: 4, inscPcD: 0, cvPcD: 0.00, minAmpla: 21.00, maxAmpla: 62.25, minEP: 21.00, maxEP: 29.50, minNI: null, maxNI: null, sobrou: "Não" },
+      { curso: "Ciências Biológicas (ZONA OESTE)", campus: "ZONA OESTE", area: "Ciências Biomédicas e da Saúde", vagas: 96, inscritos: 83, cvGeral: 0.86, vagasAmpla: 50, inscAmpla: 80, cvAmpla: 1.60, vagasEP: 20, inscEP: 2, cvEP: 0.10, vagasNI: 20, inscNI: 0, cvNI: 0.00, vagasPcD: 6, inscPcD: 1, cvPcD: 0.17, minAmpla: 20.00, maxAmpla: 59.25, minEP: 35.25, maxEP: 35.50, minNI: null, maxNI: null, sobrou: "Sim" },
+      { curso: "Ciências Contábeis (RIO)", campus: "RIO", area: "Ciências Sociais Aplicadas", vagas: 120, inscritos: 307, cvGeral: 2.56, vagasAmpla: 66, inscAmpla: 263, cvAmpla: 3.98, vagasEP: 24, inscEP: 26, cvEP: 1.08, vagasNI: 24, inscNI: 17, cvNI: 0.71, vagasPcD: 6, inscPcD: 1, cvPcD: 0.17, minAmpla: 41.25, maxAmpla: 80.50, minEP: 26.00, maxEP: 68.50, minNI: 20.50, maxNI: 45.00, sobrou: "Não" },
+      { curso: "Ciências Econômicas (RIO)", campus: "RIO", area: "Ciências Sociais Aplicadas", vagas: 140, inscritos: 789, cvGeral: 5.64, vagasAmpla: 76, inscAmpla: 744, cvAmpla: 9.79, vagasEP: 28, inscEP: 29, cvEP: 1.04, vagasNI: 28, inscNI: 16, cvNI: 0.57, vagasPcD: 8, inscPcD: 0, cvPcD: 0.00, minAmpla: 70.00, maxAmpla: 91.25, minEP: 25.00, maxEP: 74.50, minNI: 25.50, maxNI: 51.00, sobrou: "Não" },
+      { curso: "Ciências Sociais (RIO)", campus: "RIO", area: "Ciências Humanas e Educação", vagas: 100, inscritos: 235, cvGeral: 2.35, vagasAmpla: 54, inscAmpla: 202, cvAmpla: 3.74, vagasEP: 20, inscEP: 15, cvEP: 0.75, vagasNI: 20, inscNI: 17, cvNI: 0.85, vagasPcD: 6, inscPcD: 1, cvPcD: 0.17, minAmpla: 47.00, maxAmpla: 78.75, minEP: 34.25, maxEP: 60.00, minNI: 21.75, maxNI: 54.50, sobrou: "Não" },
+      { curso: "Cinema e Audiovisual (DUQUE DE CAXIAS)", campus: "DUQUE DE CAXIAS", area: "Letras, Artes e Comunicação", vagas: 30, inscritos: 163, cvGeral: 5.43, vagasAmpla: 16, inscAmpla: 151, cvAmpla: 9.44, vagasEP: 6, inscEP: 4, cvEP: 0.67, vagasNI: 6, inscNI: 7, cvNI: 1.17, vagasPcD: 2, inscPcD: 1, cvPcD: 0.50, minAmpla: 56.25, maxAmpla: 73.75, minEP: 30.50, maxEP: 59.25, minNI: 33.50, maxNI: 62.25, sobrou: "Não" },
+      { curso: "Design (RIO)", campus: "RIO", area: "Letras, Artes e Comunicação", vagas: 40, inscritos: 379, cvGeral: 9.48, vagasAmpla: 22, inscAmpla: 347, cvAmpla: 15.77, vagasEP: 8, inscEP: 17, cvEP: 2.13, vagasNI: 8, inscNI: 15, cvNI: 1.88, vagasPcD: 2, inscPcD: 0, cvPcD: 0.00, minAmpla: 77.00, maxAmpla: 91.00, minEP: 49.50, maxEP: 77.75, minNI: 39.00, maxNI: 64.25, sobrou: "Não" },
+      { curso: "Direito (RIO)", campus: "RIO", area: "Ciências Sociais Aplicadas", vagas: 312, inscritos: 4091, cvGeral: 13.11, vagasAmpla: 168, inscAmpla: 3788, cvAmpla: 22.55, vagasEP: 64, inscEP: 166, cvEP: 2.59, vagasNI: 64, inscNI: 123, cvNI: 1.92, vagasPcD: 16, inscPcD: 14, cvPcD: 0.88, minAmpla: 79.75, maxAmpla: 92.00, minEP: 52.75, maxEP: 80.00, minNI: 46.50, maxNI: 80.00, sobrou: "Não" },
+      { curso: "Educação Física (RIO)", campus: "RIO", area: "Ciências Biomédicas e da Saúde", vagas: 120, inscritos: 566, cvGeral: 4.72, vagasAmpla: 64, inscAmpla: 535, cvAmpla: 8.36, vagasEP: 24, inscEP: 15, cvEP: 0.63, vagasNI: 24, inscNI: 16, cvNI: 0.67, vagasPcD: 8, inscPcD: 0, cvPcD: 0.00, minAmpla: 33.00, maxAmpla: 74.00, minEP: 26.75, maxEP: 55.00, minNI: 21.50, maxNI: 37.25, sobrou: "Não" },
+      { curso: "Enfermagem (RIO)", campus: "RIO", area: "Ciências Biomédicas e da Saúde", vagas: 80, inscritos: 628, cvGeral: 7.85, vagasAmpla: 44, inscAmpla: 562, cvAmpla: 12.77, vagasEP: 16, inscEP: 30, cvEP: 1.88, vagasNI: 16, inscNI: 36, cvNI: 2.25, vagasPcD: 4, inscPcD: 0, cvPcD: 0.00, minAmpla: 46.00, maxAmpla: 67.75, minEP: 28.00, maxEP: 64.75, minNI: 27.00, maxNI: 54.00, sobrou: "Não" },
+      { curso: "Engenharia Ambiental e Sanitária (RIO)", campus: "RIO", area: "Ciências Exatas e Engenharias", vagas: 80, inscritos: 111, cvGeral: 1.39, vagasAmpla: 44, inscAmpla: 107, cvAmpla: 2.43, vagasEP: 16, inscEP: 1, cvEP: 0.06, vagasNI: 16, inscNI: 2, cvNI: 0.13, vagasPcD: 4, inscPcD: 1, cvPcD: 0.25, minAmpla: 23.00, maxAmpla: 75.75, minEP: 34.75, maxEP: 34.75, minNI: 66.00, maxNI: 66.00, sobrou: "Não" },
+      { curso: "Engenharia Cartográfica (RIO)", campus: "RIO", area: "Ciências Exatas e Engenharias", vagas: 40, inscritos: 18, cvGeral: 0.45, vagasAmpla: 22, inscAmpla: 18, cvAmpla: 0.82, vagasEP: 8, inscEP: 0, cvEP: 0.00, vagasNI: 8, inscNI: 0, cvNI: 0.00, vagasPcD: 2, inscPcD: 0, cvPcD: 0.00, minAmpla: 22.00, maxAmpla: 66.25, minEP: null, maxEP: null, minNI: null, maxNI: null, sobrou: "Sim" },
+      { curso: "Engenharia Civil (RIO)", campus: "RIO", area: "Ciências Exatas e Engenharias", vagas: 120, inscritos: 441, cvGeral: 3.68, vagasAmpla: 66, inscAmpla: 418, cvAmpla: 6.33, vagasEP: 24, inscEP: 15, cvEP: 0.63, vagasNI: 24, inscNI: 8, cvNI: 0.33, vagasPcD: 6, inscPcD: 0, cvPcD: 0.00, minAmpla: 50.50, maxAmpla: 93.25, minEP: 23.50, maxEP: 51.50, minNI: 25.00, maxNI: 47.00, sobrou: "Não" },
+      { curso: "Engenharia de Computação (NOVA FRIBURGO)", campus: "NOVA FRIBURGO", area: "Ciências Exatas e Engenharias", vagas: 40, inscritos: 250, cvGeral: 6.25, vagasAmpla: 22, inscAmpla: 238, cvAmpla: 10.82, vagasEP: 8, inscEP: 8, cvEP: 1.00, vagasNI: 8, inscNI: 4, cvNI: 0.50, vagasPcD: 2, inscPcD: 0, cvPcD: 0.00, minAmpla: 71.00, maxAmpla: 95.00, minEP: 33.75, maxEP: 63.25, minNI: 28.25, maxNI: 74.25, sobrou: "Não" },
+      { curso: "Engenharia de Energias Renováveis (RIO)", campus: "RIO", area: "Ciências Exatas e Engenharias", vagas: 40, inscritos: 55, cvGeral: 1.38, vagasAmpla: 22, inscAmpla: 53, cvAmpla: 2.41, vagasEP: 8, inscEP: 0, cvEP: 0.00, vagasNI: 8, inscNI: 2, cvNI: 0.25, vagasPcD: 2, inscPcD: 0, cvPcD: 0.00, minAmpla: 23.25, maxAmpla: 83.25, minEP: null, maxEP: null, minNI: 28.00, maxNI: 28.00, sobrou: "Não" },
+      { curso: "Engenharia de Materiais (ZONA OESTE)", campus: "ZONA OESTE", area: "Ciências Exatas e Engenharias", vagas: 30, inscritos: 11, cvGeral: 0.37, vagasAmpla: 16, inscAmpla: 10, cvAmpla: 0.63, vagasEP: 6, inscEP: 1, cvEP: 0.17, vagasNI: 6, inscNI: 0, cvNI: 0.00, vagasPcD: 2, inscPcD: 0, cvPcD: 0.00, minAmpla: 25.75, maxAmpla: 64.50, minEP: null, maxEP: null, minNI: null, maxNI: null, sobrou: "Sim" },
+      { curso: "Engenharia de Produção (RESENDE)", campus: "RESENDE", area: "Ciências Exatas e Engenharias", vagas: 80, inscritos: 32, cvGeral: 0.40, vagasAmpla: 43, inscAmpla: 32, cvAmpla: 0.74, vagasEP: 16, inscEP: 0, cvEP: 0.00, vagasNI: 16, inscNI: 0, cvNI: 0.00, vagasPcD: 5, inscPcD: 0, cvPcD: 0.00, minAmpla: 20.50, maxAmpla: 80.75, minEP: null, maxEP: null, minNI: null, maxNI: null, sobrou: "Sim" },
+      { curso: "Engenharia de Produção (RIO)", campus: "RIO", area: "Ciências Exatas e Engenharias", vagas: 80, inscritos: 545, cvGeral: 6.81, vagasAmpla: 44, inscAmpla: 526, cvAmpla: 11.95, vagasEP: 16, inscEP: 16, cvEP: 1.00, vagasNI: 16, inscNI: 2, cvNI: 0.13, vagasPcD: 4, inscPcD: 1, cvPcD: 0.25, minAmpla: 74.50, maxAmpla: 93.75, minEP: 23.25, maxEP: 73.50, minNI: 31.75, maxNI: 55.25, sobrou: "Não" },
+      { curso: "Engenharia de Produção (ZONA OESTE)", campus: "ZONA OESTE", area: "Ciências Exatas e Engenharias", vagas: 48, inscritos: 42, cvGeral: 0.88, vagasAmpla: 25, inscAmpla: 39, cvAmpla: 1.56, vagasEP: 10, inscEP: 3, cvEP: 0.30, vagasNI: 10, inscNI: 0, cvNI: 0.00, vagasPcD: 3, inscPcD: 0, cvPcD: 0.00, minAmpla: 20.00, maxAmpla: 74.75, minEP: 23.75, maxEP: 48.50, minNI: null, maxNI: null, sobrou: "Sim" },
+      { curso: "Engenharia Elétrica (RIO)", campus: "RIO", area: "Ciências Exatas e Engenharias", vagas: 200, inscritos: 576, cvGeral: 2.88, vagasAmpla: 110, inscAmpla: 563, cvAmpla: 5.12, vagasEP: 40, inscEP: 9, cvEP: 0.23, vagasNI: 40, inscNI: 4, cvNI: 0.10, vagasPcD: 10, inscPcD: 0, cvPcD: 0.00, minAmpla: 42.75, maxAmpla: 93.50, minEP: 27.50, maxEP: 40.50, minNI: 37.25, maxNI: 47.50, sobrou: "Não" },
+      { curso: "Engenharia Mecânica (NOVA FRIBURGO)", campus: "NOVA FRIBURGO", area: "Ciências Exatas e Engenharias", vagas: 64, inscritos: 126, cvGeral: 1.97, vagasAmpla: 35, inscAmpla: 123, cvAmpla: 3.51, vagasEP: 13, inscEP: 2, cvEP: 0.15, vagasNI: 13, inscNI: 1, cvNI: 0.08, vagasPcD: 3, inscPcD: 0, cvPcD: 0.00, minAmpla: 29.00, maxAmpla: 81.00, minEP: 20.25, maxEP: 20.25, minNI: null, maxNI: null, sobrou: "Não" },
+      { curso: "Engenharia Mecânica (RESENDE)", campus: "RESENDE", area: "Ciências Exatas e Engenharias", vagas: 80, inscritos: 64, cvGeral: 0.80, vagasAmpla: 43, inscAmpla: 63, cvAmpla: 1.47, vagasEP: 16, inscEP: 0, cvEP: 0.00, vagasNI: 16, inscNI: 1, cvNI: 0.06, vagasPcD: 5, inscPcD: 0, cvPcD: 0.00, minAmpla: 20.50, maxAmpla: 90.00, minEP: null, maxEP: null, minNI: 36.50, maxNI: 36.50, sobrou: "Sim" },
+      { curso: "Engenharia Mecânica (RIO)", campus: "RIO", area: "Ciências Exatas e Engenharias", vagas: 80, inscritos: 581, cvGeral: 7.26, vagasAmpla: 44, inscAmpla: 563, cvAmpla: 12.80, vagasEP: 16, inscEP: 12, cvEP: 0.75, vagasNI: 16, inscNI: 6, cvNI: 0.38, vagasPcD: 4, inscPcD: 0, cvPcD: 0.00, minAmpla: 73.00, maxAmpla: 94.00, minEP: 21.00, maxEP: 66.75, minNI: 28.00, maxNI: 78.50, sobrou: "Não" },
+      { curso: "Engenharia Metalúrgica (ZONA OESTE)", campus: "ZONA OESTE", area: "Ciências Exatas e Engenharias", vagas: 30, inscritos: 13, cvGeral: 0.43, vagasAmpla: 16, inscAmpla: 13, cvAmpla: 0.81, vagasEP: 6, inscEP: 0, cvEP: 0.00, vagasNI: 6, inscNI: 0, cvNI: 0.00, vagasPcD: 2, inscPcD: 0, cvPcD: 0.00, minAmpla: 24.00, maxAmpla: 45.75, minEP: null, maxEP: null, minNI: null, maxNI: null, sobrou: "Sim" },
+      { curso: "Engenharia Química (RESENDE)", campus: "RESENDE", area: "Ciências Exatas e Engenharias", vagas: 80, inscritos: 51, cvGeral: 0.64, vagasAmpla: 43, inscAmpla: 48, cvAmpla: 1.12, vagasEP: 16, inscEP: 2, cvEP: 0.13, vagasNI: 16, inscNI: 1, cvNI: 0.06, vagasPcD: 5, inscPcD: 0, cvPcD: 0.00, minAmpla: 26.75, maxAmpla: 80.50, minEP: 23.50, maxEP: 40.50, minNI: 21.00, maxNI: 21.00, sobrou: "Sim" },
+      { curso: "Engenharia Química (RIO)", campus: "RIO", area: "Ciências Exatas e Engenharias", vagas: 90, inscritos: 541, cvGeral: 6.01, vagasAmpla: 48, inscAmpla: 517, cvAmpla: 10.77, vagasEP: 18, inscEP: 18, cvEP: 1.00, vagasNI: 18, inscNI: 6, cvNI: 0.33, vagasPcD: 6, inscPcD: 0, cvPcD: 0.00, minAmpla: 60.25, maxAmpla: 83.00, minEP: 23.50, maxEP: 74.00, minNI: 22.75, maxNI: 52.00, sobrou: "Não" },
+      { curso: "Estatística (RIO)", campus: "RIO", area: "Ciências Exatas e Engenharias", vagas: 60, inscritos: 91, cvGeral: 1.52, vagasAmpla: 32, inscAmpla: 87, cvAmpla: 2.72, vagasEP: 12, inscEP: 2, cvEP: 0.17, vagasNI: 12, inscNI: 2, cvNI: 0.17, vagasPcD: 4, inscPcD: 0, cvPcD: 0.00, minAmpla: 21.00, maxAmpla: 88.25, minEP: 23.75, maxEP: 47.25, minNI: 21.50, maxNI: 21.50, sobrou: "Não" },
+      { curso: "Farmácia (ZONA OESTE)", campus: "ZONA OESTE", area: "Ciências Biomédicas e da Saúde", vagas: 60, inscritos: 275, cvGeral: 4.58, vagasAmpla: 32, inscAmpla: 247, cvAmpla: 7.72, vagasEP: 12, inscEP: 17, cvEP: 1.42, vagasNI: 12, inscNI: 9, cvNI: 0.75, vagasPcD: 4, inscPcD: 2, cvPcD: 0.50, minAmpla: 43.75, maxAmpla: 72.25, minEP: 20.50, maxEP: 52.75, minNI: 22.50, maxNI: 44.75, sobrou: "Não" },
+      { curso: "Filosofia (RIO)", campus: "RIO", area: "Ciências Humanas e Educação", vagas: 100, inscritos: 119, cvGeral: 1.19, vagasAmpla: 54, inscAmpla: 115, cvAmpla: 2.13, vagasEP: 20, inscEP: 2, cvEP: 0.10, vagasNI: 20, inscNI: 2, cvNI: 0.10, vagasPcD: 6, inscPcD: 0, cvPcD: 0.00, minAmpla: 20.25, maxAmpla: 83.00, minEP: 31.25, maxEP: 60.50, minNI: 28.75, maxNI: 46.50, sobrou: "Não" },
+      { curso: "Física (RIO)", campus: "RIO", area: "Ciências Exatas e Engenharias", vagas: 178, inscritos: 112, cvGeral: 0.63, vagasAmpla: 97, inscAmpla: 106, cvAmpla: 1.09, vagasEP: 36, inscEP: 4, cvEP: 0.11, vagasNI: 36, inscNI: 2, cvNI: 0.06, vagasPcD: 9, inscPcD: 0, cvPcD: 0.00, minAmpla: 20.75, maxAmpla: 90.50, minEP: 32.00, maxEP: 52.75, minNI: 46.00, maxNI: 55.50, sobrou: "Sim" },
+      { curso: "Fisioterapia (RIO)", campus: "RIO", area: "Ciências Biomédicas e da Saúde", vagas: 30, inscritos: 355, cvGeral: 11.83, vagasAmpla: 16, inscAmpla: 339, cvAmpla: 21.19, vagasEP: 6, inscEP: 8, cvEP: 1.33, vagasNI: 6, inscNI: 7, cvNI: 1.17, vagasPcD: 2, inscPcD: 1, cvPcD: 0.50, minAmpla: 51.00, maxAmpla: 66.00, minEP: 29.25, maxEP: 64.00, minNI: 28.50, maxNI: 55.25, sobrou: "Não" },
+      { curso: "Geografia (CABO FRIO)", campus: "CABO FRIO", area: "Ciências Humanas e Educação", vagas: 50, inscritos: 40, cvGeral: 0.80, vagasAmpla: 27, inscAmpla: 37, cvAmpla: 1.37, vagasEP: 10, inscEP: 0, cvEP: 0.00, vagasNI: 10, inscNI: 3, cvNI: 0.30, vagasPcD: 3, inscPcD: 0, cvPcD: 0.00, minAmpla: 23.00, maxAmpla: 69.75, minEP: null, maxEP: null, minNI: 36.50, maxNI: 53.00, sobrou: "Sim" },
+      { curso: "Geografia (DUQUE DE CAXIAS)", campus: "DUQUE DE CAXIAS", area: "Ciências Humanas e Educação", vagas: 70, inscritos: 29, cvGeral: 0.41, vagasAmpla: 38, inscAmpla: 27, cvAmpla: 0.71, vagasEP: 14, inscEP: 1, cvEP: 0.07, vagasNI: 14, inscNI: 1, cvNI: 0.07, vagasPcD: 4, inscPcD: 0, cvPcD: 0.00, minAmpla: 24.50, maxAmpla: 60.00, minEP: null, maxEP: null, minNI: 51.75, maxNI: 51.75, sobrou: "Sim" },
+      { curso: "Geografia (RIO)", campus: "RIO", area: "Ciências Humanas e Educação", vagas: 70, inscritos: 187, cvGeral: 2.67, vagasAmpla: 38, inscAmpla: 156, cvAmpla: 4.11, vagasEP: 14, inscEP: 20, cvEP: 1.43, vagasNI: 14, inscNI: 11, cvNI: 0.79, vagasPcD: 4, inscPcD: 0, cvPcD: 0.00, minAmpla: 53.25, maxAmpla: 82.25, minEP: 30.00, maxEP: 67.50, minNI: 28.00, maxNI: 58.00, sobrou: "Não" },
+      { curso: "Geografia (SÃO GONÇALO)", campus: "SÃO GONÇALO", area: "Ciências Humanas e Educação", vagas: 140, inscritos: 28, cvGeral: 0.20, vagasAmpla: 75, inscAmpla: 25, cvAmpla: 0.33, vagasEP: 28, inscEP: 2, cvEP: 0.07, vagasNI: 28, inscNI: 1, cvNI: 0.04, vagasPcD: 9, inscPcD: 0, cvPcD: 0.00, minAmpla: 20.75, maxAmpla: 67.75, minEP: 32.25, maxEP: 43.25, minNI: null, maxNI: null, sobrou: "Sim" },
+      { curso: "Geologia (RIO)", campus: "RIO", area: "Ciências Exatas e Engenharias", vagas: 30, inscritos: 83, cvGeral: 2.77, vagasAmpla: 16, inscAmpla: 76, cvAmpla: 4.75, vagasEP: 6, inscEP: 3, cvEP: 0.50, vagasNI: 6, inscNI: 3, cvNI: 0.50, vagasPcD: 2, inscPcD: 1, cvPcD: 0.50, minAmpla: 43.00, maxAmpla: 69.50, minEP: 21.00, maxEP: 34.75, minNI: 23.75, maxNI: 44.25, sobrou: "Não" },
+      { curso: "História (DUQUE DE CAXIAS)", campus: "DUQUE DE CAXIAS", area: "Ciências Humanas e Educação", vagas: 40, inscritos: 49, cvGeral: 1.23, vagasAmpla: 22, inscAmpla: 43, cvAmpla: 1.95, vagasEP: 8, inscEP: 4, cvEP: 0.50, vagasNI: 8, inscNI: 2, cvNI: 0.25, vagasPcD: 2, inscPcD: 0, cvPcD: 0.00, minAmpla: 26.75, maxAmpla: 73.75, minEP: 36.25, maxEP: 55.00, minNI: 31.50, maxNI: 37.50, sobrou: "Não" },
+      { curso: "História (RIO)", campus: "RIO", area: "Ciências Humanas e Educação", vagas: 100, inscritos: 438, cvGeral: 4.38, vagasAmpla: 54, inscAmpla: 398, cvAmpla: 7.37, vagasEP: 20, inscEP: 23, cvEP: 1.15, vagasNI: 20, inscNI: 17, cvNI: 0.85, vagasPcD: 6, inscPcD: 0, cvPcD: 0.00, minAmpla: 62.00, maxAmpla: 89.00, minEP: 29.25, maxEP: 78.00, minNI: 32.75, maxNI: 72.00, sobrou: "Não" },
+      { curso: "História (SÃO GONÇALO)", campus: "SÃO GONÇALO", area: "Ciências Humanas e Educação", vagas: 80, inscritos: 95, cvGeral: 1.19, vagasAmpla: 44, inscAmpla: 87, cvAmpla: 1.98, vagasEP: 16, inscEP: 4, cvEP: 0.25, vagasNI: 16, inscNI: 4, cvNI: 0.25, vagasPcD: 4, inscPcD: 0, cvPcD: 0.00, minAmpla: 21.75, maxAmpla: 88.75, minEP: 20.75, maxEP: 56.50, minNI: 34.00, maxNI: 49.50, sobrou: "Não" },
+      { curso: "História da Arte (RIO)", campus: "RIO", area: "Letras, Artes e Comunicação", vagas: 30, inscritos: 66, cvGeral: 2.20, vagasAmpla: 16, inscAmpla: 64, cvAmpla: 4.00, vagasEP: 6, inscEP: 2, cvEP: 0.33, vagasNI: 6, inscNI: 0, cvNI: 0.00, vagasPcD: 2, inscPcD: 0, cvPcD: 0.00, minAmpla: 42.50, maxAmpla: 73.25, minEP: 45.00, maxEP: 50.50, minNI: null, maxNI: null, sobrou: "Não" },
+      { curso: "Jornalismo (RIO)", campus: "RIO", area: "Letras, Artes e Comunicação", vagas: 50, inscritos: 901, cvGeral: 18.02, vagasAmpla: 26, inscAmpla: 824, cvAmpla: 31.69, vagasEP: 10, inscEP: 41, cvEP: 4.10, vagasNI: 10, inscNI: 36, cvNI: 3.60, vagasPcD: 4, inscPcD: 0, cvPcD: 0.00, minAmpla: 73.75, maxAmpla: 85.50, minEP: 55.25, maxEP: 76.50, minNI: 53.25, maxNI: 74.25, sobrou: "Não" },
+      { curso: "Letras (SÃO GONÇALO)", campus: "SÃO GONÇALO", area: "Letras, Artes e Comunicação", vagas: 160, inscritos: 62, cvGeral: 0.39, vagasAmpla: 88, inscAmpla: 60, cvAmpla: 0.68, vagasEP: 32, inscEP: 1, cvEP: 0.03, vagasNI: 32, inscNI: 1, cvNI: 0.03, vagasPcD: 8, inscPcD: 0, cvPcD: 0.00, minAmpla: 21.25, maxAmpla: 83.00, minEP: 70.00, maxEP: 70.00, minNI: 66.25, maxNI: 66.25, sobrou: "Sim" },
+      { curso: "Letras: Inglês/Literaturas (RIO)", campus: "RIO", area: "Letras, Artes e Comunicação", vagas: 70, inscritos: 196, cvGeral: 2.80, vagasAmpla: 38, inscAmpla: 177, cvAmpla: 4.66, vagasEP: 14, inscEP: 11, cvEP: 0.79, vagasNI: 14, inscNI: 7, cvNI: 0.50, vagasPcD: 4, inscPcD: 1, cvPcD: 0.25, minAmpla: 60.25, maxAmpla: 80.25, minEP: 26.75, maxEP: 69.75, minNI: 39.25, maxNI: 71.75, sobrou: "Não" },
+      { curso: "Letras: Português/Alemão (RIO)", campus: "RIO", area: "Letras, Artes e Comunicação", vagas: 25, inscritos: 8, cvGeral: 0.32, vagasAmpla: 13, inscAmpla: 8, cvAmpla: 0.62, vagasEP: 5, inscEP: 0, cvEP: 0.00, vagasNI: 5, inscNI: 0, cvNI: 0.00, vagasPcD: 2, inscPcD: 0, cvPcD: 0.00, minAmpla: 32.75, maxAmpla: 77.25, minEP: null, maxEP: null, minNI: null, maxNI: null, sobrou: "Sim" },
+      { curso: "Letras: Português/Espanhol (RIO)", campus: "RIO", area: "Letras, Artes e Comunicação", vagas: 44, inscritos: 52, cvGeral: 1.18, vagasAmpla: 23, inscAmpla: 40, cvAmpla: 1.74, vagasEP: 9, inscEP: 10, cvEP: 1.11, vagasNI: 9, inscNI: 2, cvNI: 0.22, vagasPcD: 3, inscPcD: 0, cvPcD: 0.00, minAmpla: 26.25, maxAmpla: 83.50, minEP: 32.25, maxEP: 54.25, minNI: 24.25, maxNI: 48.00, sobrou: "Não" },
+      { curso: "Letras: Português/Francês (RIO)", campus: "RIO", area: "Letras, Artes e Comunicação", vagas: 40, inscritos: 40, cvGeral: 1.00, vagasAmpla: 22, inscAmpla: 39, cvAmpla: 1.77, vagasEP: 8, inscEP: 1, cvEP: 0.13, vagasNI: 8, inscNI: 0, cvNI: 0.00, vagasPcD: 2, inscPcD: 0, cvPcD: 0.00, minAmpla: 21.75, maxAmpla: 93.00, minEP: 56.50, maxEP: 56.50, minNI: null, maxNI: null, sobrou: "Não" },
+      { curso: "Letras: Português/Grego (RIO)", campus: "RIO", area: "Letras, Artes e Comunicação", vagas: 15, inscritos: 11, cvGeral: 0.73, vagasAmpla: 8, inscAmpla: 8, cvAmpla: 1.00, vagasEP: 3, inscEP: 1, cvEP: 0.33, vagasNI: 3, inscNI: 2, cvNI: 0.67, vagasPcD: 1, inscPcD: 0, cvPcD: 0.00, minAmpla: 22.75, maxAmpla: 57.50, minEP: null, maxEP: null, minNI: 54.00, maxNI: 54.75, sobrou: "Sim" },
+      { curso: "Letras: Português/Italiano (RIO)", campus: "RIO", area: "Letras, Artes e Comunicação", vagas: 44, inscritos: 28, cvGeral: 0.64, vagasAmpla: 23, inscAmpla: 25, cvAmpla: 1.09, vagasEP: 9, inscEP: 3, cvEP: 0.33, vagasNI: 9, inscNI: 0, cvNI: 0.00, vagasPcD: 3, inscPcD: 0, cvPcD: 0.00, minAmpla: 21.50, maxAmpla: 72.25, minEP: 44.25, maxEP: 65.25, minNI: null, maxNI: null, sobrou: "Sim" },
+      { curso: "Letras: Português/Japonês (RIO)", campus: "RIO", area: "Letras, Artes e Comunicação", vagas: 20, inscritos: 39, cvGeral: 1.95, vagasAmpla: 11, inscAmpla: 33, cvAmpla: 3.00, vagasEP: 4, inscEP: 4, cvEP: 1.00, vagasNI: 4, inscNI: 1, cvNI: 0.25, vagasPcD: 1, inscPcD: 1, cvPcD: 1.00, minAmpla: 48.25, maxAmpla: 82.75, minEP: 38.25, maxEP: 58.50, minNI: 52.25, maxNI: 52.25, sobrou: "Não" },
+      { curso: "Letras: Português/Latim (RIO)", campus: "RIO", area: "Letras, Artes e Comunicação", vagas: 20, inscritos: 8, cvGeral: 0.40, vagasAmpla: 11, inscAmpla: 7, cvAmpla: 0.64, vagasEP: 4, inscEP: 1, cvEP: 0.25, vagasNI: 4, inscNI: 0, cvNI: 0.00, vagasPcD: 1, inscPcD: 0, cvPcD: 0.00, minAmpla: 28.25, maxAmpla: 63.50, minEP: null, maxEP: null, minNI: null, maxNI: null, sobrou: "Sim" },
+      { curso: "Letras: Português/Literatura (RIO)", campus: "RIO", area: "Letras, Artes e Comunicação", vagas: 70, inscritos: 178, cvGeral: 2.54, vagasAmpla: 38, inscAmpla: 162, cvAmpla: 4.26, vagasEP: 14, inscEP: 9, cvEP: 0.64, vagasNI: 14, inscNI: 7, cvNI: 0.50, vagasPcD: 4, inscPcD: 0, cvPcD: 0.00, minAmpla: 47.25, maxAmpla: 89.50, minEP: 21.50, maxEP: 74.75, minNI: 34.25, maxNI: 63.00, sobrou: "Não" },
+      { curso: "Matemática (DUQUE DE CAXIAS)", campus: "DUQUE DE CAXIAS", area: "Ciências Exatas e Engenharias", vagas: 40, inscritos: 9, cvGeral: 0.23, vagasAmpla: 22, inscAmpla: 9, cvAmpla: 0.41, vagasEP: 8, inscEP: 0, cvEP: 0.00, vagasNI: 8, inscNI: 0, cvNI: 0.00, vagasPcD: 2, inscPcD: 0, cvPcD: 0.00, minAmpla: 24.00, maxAmpla: 45.00, minEP: null, maxEP: null, minNI: null, maxNI: null, sobrou: "Sim" },
+      { curso: "Matemática (RIO)", campus: "RIO", area: "Ciências Exatas e Engenharias", vagas: 200, inscritos: 158, cvGeral: 0.79, vagasAmpla: 108, inscAmpla: 145, cvAmpla: 1.34, vagasEP: 40, inscEP: 7, cvEP: 0.18, vagasNI: 40, inscNI: 6, cvNI: 0.15, vagasPcD: 12, inscPcD: 0, cvPcD: 0.00, minAmpla: 20.25, maxAmpla: 92.00, minEP: 28.75, maxEP: 70.00, minNI: 31.00, maxNI: 70.00, sobrou: "Sim" },
+      { curso: "Matemática (SÃO GONÇALO)", campus: "SÃO GONÇALO", area: "Ciências Exatas e Engenharias", vagas: 80, inscritos: 27, cvGeral: 0.34, vagasAmpla: 44, inscAmpla: 25, cvAmpla: 0.57, vagasEP: 16, inscEP: 1, cvEP: 0.06, vagasNI: 16, inscNI: 1, cvNI: 0.06, vagasPcD: 4, inscPcD: 0, cvPcD: 0.00, minAmpla: 25.50, maxAmpla: 73.50, minEP: 51.50, maxEP: 51.50, minNI: 24.25, maxNI: 24.25, sobrou: "Sim" },
+      { curso: "Medicina (CABO FRIO)", campus: "CABO FRIO", area: "Ciências Biomédicas e da Saúde", vagas: 40, inscritos: 3772, cvGeral: 94.30, vagasAmpla: 22, inscAmpla: 3573, cvAmpla: 162.41, vagasEP: 8, inscEP: 113, cvEP: 14.13, vagasNI: 8, inscNI: 79, cvNI: 9.88, vagasPcD: 2, inscPcD: 7, cvPcD: 3.50, minAmpla: 85.50, maxAmpla: 90.25, minEP: 76.25, maxEP: 80.75, minNI: 71.50, maxNI: 83.25, sobrou: "Não" },
+      { curso: "Medicina (RIO)", campus: "RIO", area: "Ciências Biomédicas e da Saúde", vagas: 104, inscritos: 8024, cvGeral: 77.15, vagasAmpla: 57, inscAmpla: 7605, cvAmpla: 133.42, vagasEP: 21, inscEP: 200, cvEP: 9.52, vagasNI: 21, inscNI: 172, cvNI: 8.19, vagasPcD: 5, inscPcD: 47, cvPcD: 9.40, minAmpla: 86.75, maxAmpla: 94.00, minEP: 74.00, maxEP: 82.50, minNI: 72.75, maxNI: 84.75, sobrou: "Não" },
+      { curso: "Nutrição (RIO)", campus: "RIO", area: "Ciências Biomédicas e da Saúde", vagas: 88, inscritos: 657, cvGeral: 7.47, vagasAmpla: 46, inscAmpla: 615, cvAmpla: 13.37, vagasEP: 18, inscEP: 31, cvEP: 1.72, vagasNI: 18, inscNI: 10, cvNI: 0.56, vagasPcD: 6, inscPcD: 1, cvPcD: 0.17, minAmpla: 48.25, maxAmpla: 74.50, minEP: 20.00, maxEP: 46.50, minNI: 25.00, maxNI: 43.50, sobrou: "Não" },
+      { curso: "Oceanografia (RIO)", campus: "RIO", area: "Ciências Exatas e Engenharias", vagas: 40, inscritos: 57, cvGeral: 1.43, vagasAmpla: 22, inscAmpla: 50, cvAmpla: 2.27, vagasEP: 8, inscEP: 7, cvEP: 0.88, vagasNI: 8, inscNI: 0, cvNI: 0.00, vagasPcD: 2, inscPcD: 0, cvPcD: 0.00, minAmpla: 21.00, maxAmpla: 86.00, minEP: 42.00, maxEP: 72.50, minNI: null, maxNI: null, sobrou: "Não" },
+      { curso: "Odontologia (RIO)", campus: "RIO", area: "Ciências Biomédicas e da Saúde", vagas: 60, inscritos: 813, cvGeral: 13.55, vagasAmpla: 32, inscAmpla: 759, cvAmpla: 23.72, vagasEP: 12, inscEP: 17, cvEP: 1.42, vagasNI: 12, inscNI: 37, cvNI: 3.08, vagasPcD: 4, inscPcD: 0, cvPcD: 0.00, minAmpla: 63.00, maxAmpla: 78.75, minEP: 27.50, maxEP: 66.00, minNI: 32.50, maxNI: 63.50, sobrou: "Não" },
+      { curso: "Pedagogia (DUQUE DE CAXIAS)", campus: "DUQUE DE CAXIAS", area: "Ciências Humanas e Educação", vagas: 120, inscritos: 55, cvGeral: 0.46, vagasAmpla: 66, inscAmpla: 48, cvAmpla: 0.73, vagasEP: 24, inscEP: 4, cvEP: 0.17, vagasNI: 24, inscNI: 3, cvNI: 0.13, vagasPcD: 6, inscPcD: 0, cvPcD: 0.00, minAmpla: 20.25, maxAmpla: 53.50, minEP: 38.25, maxEP: 51.25, minNI: 33.00, maxNI: 52.00, sobrou: "Sim" },
+      { curso: "Pedagogia (RIO)", campus: "RIO", area: "Ciências Humanas e Educação", vagas: 360, inscritos: 524, cvGeral: 1.46, vagasAmpla: 196, inscAmpla: 443, cvAmpla: 2.26, vagasEP: 72, inscEP: 53, cvEP: 0.74, vagasNI: 72, inscNI: 26, cvNI: 0.36, vagasPcD: 20, inscPcD: 2, cvPcD: 0.10, minAmpla: 20.00, maxAmpla: 82.00, minEP: 20.00, maxEP: 65.50, minNI: 20.50, maxNI: 59.00, sobrou: "Não" },
+      { curso: "Pedagogia (SÃO GONÇALO)", campus: "SÃO GONÇALO", area: "Ciências Humanas e Educação", vagas: 120, inscritos: 77, cvGeral: 0.64, vagasAmpla: 66, inscAmpla: 67, cvAmpla: 1.02, vagasEP: 24, inscEP: 4, cvEP: 0.17, vagasNI: 24, inscNI: 5, cvNI: 0.21, vagasPcD: 6, inscPcD: 1, cvPcD: 0.17, minAmpla: 20.00, maxAmpla: 74.00, minEP: 29.50, maxEP: 41.50, minNI: 28.25, maxNI: 37.50, sobrou: "Sim" },
+      { curso: "Psicologia (RIO)", campus: "RIO", area: "Ciências Humanas e Educação", vagas: 96, inscritos: 2254, cvGeral: 23.48, vagasAmpla: 50, inscAmpla: 2054, cvAmpla: 41.08, vagasEP: 20, inscEP: 110, cvEP: 5.50, vagasNI: 20, inscNI: 75, cvNI: 3.75, vagasPcD: 6, inscPcD: 15, cvPcD: 2.50, minAmpla: 75.50, maxAmpla: 88.00, minEP: 57.75, maxEP: 74.00, minNI: 50.75, maxNI: 71.00, sobrou: "Não" },
+      { curso: "Química (RIO)", campus: "RIO", area: "Ciências Exatas e Engenharias", vagas: 50, inscritos: 116, cvGeral: 2.32, vagasAmpla: 26, inscAmpla: 108, cvAmpla: 4.15, vagasEP: 10, inscEP: 8, cvEP: 0.80, vagasNI: 10, inscNI: 0, cvNI: 0.00, vagasPcD: 4, inscPcD: 0, cvPcD: 0.00, minAmpla: 24.75, maxAmpla: 75.75, minEP: 25.75, maxEP: 33.00, minNI: null, maxNI: null, sobrou: "Não" },
+      { curso: "Relações Internacionais (RIO)", campus: "RIO", area: "Ciências Sociais Aplicadas", vagas: 40, inscritos: 648, cvGeral: 16.20, vagasAmpla: 22, inscAmpla: 617, cvAmpla: 28.05, vagasEP: 8, inscEP: 18, cvEP: 2.25, vagasNI: 8, inscNI: 12, cvNI: 1.50, vagasPcD: 2, inscPcD: 1, cvPcD: 0.50, minAmpla: 82.75, maxAmpla: 91.75, minEP: 57.25, maxEP: 75.75, minNI: 43.75, maxNI: 72.25, sobrou: "Não" },
+      { curso: "Relações Públicas (RIO)", campus: "RIO", area: "Letras, Artes e Comunicação", vagas: 50, inscritos: 436, cvGeral: 8.72, vagasAmpla: 26, inscAmpla: 382, cvAmpla: 14.69, vagasEP: 10, inscEP: 19, cvEP: 1.90, vagasNI: 10, inscNI: 33, cvNI: 3.30, vagasPcD: 4, inscPcD: 2, cvPcD: 0.50, minAmpla: 67.00, maxAmpla: 85.75, minEP: 43.75, maxEP: 63.00, minNI: 46.00, maxNI: 73.25, sobrou: "Não" },
+      { curso: "Serviço Social (RIO)", campus: "RIO", area: "Ciências Sociais Aplicadas", vagas: 100, inscritos: 171, cvGeral: 1.71, vagasAmpla: 54, inscAmpla: 136, cvAmpla: 2.52, vagasEP: 20, inscEP: 18, cvEP: 0.90, vagasNI: 20, inscNI: 17, cvNI: 0.85, vagasPcD: 6, inscPcD: 0, cvPcD: 0.00, minAmpla: 27.50, maxAmpla: 86.50, minEP: 24.00, maxEP: 68.50, minNI: 22.00, maxNI: 47.75, sobrou: "Não" },
+      { curso: "Tecnologia em Análise e Desenv. de Sistemas (ZONA OESTE)", campus: "ZONA OESTE", area: "Ciências Exatas e Engenharias", vagas: 60, inscritos: 120, cvGeral: 2.00, vagasAmpla: 32, inscAmpla: 114, cvAmpla: 3.56, vagasEP: 12, inscEP: 4, cvEP: 0.33, vagasNI: 12, inscNI: 2, cvNI: 0.17, vagasPcD: 4, inscPcD: 0, cvPcD: 0.00, minAmpla: 24.00, maxAmpla: 70.50, minEP: 31.00, maxEP: 58.25, minNI: 41.75, maxNI: 43.50, sobrou: "Não" },
+      { curso: "Tecnologia em Construção Naval (ZONA OESTE)", campus: "ZONA OESTE", area: "Ciências Exatas e Engenharias", vagas: 60, inscritos: 15, cvGeral: 0.25, vagasAmpla: 32, inscAmpla: 13, cvAmpla: 0.41, vagasEP: 12, inscEP: 2, cvEP: 0.17, vagasNI: 12, inscNI: 0, cvNI: 0.00, vagasPcD: 4, inscPcD: 0, cvPcD: 0.00, minAmpla: 29.25, maxAmpla: 80.25, minEP: 23.50, maxEP: 31.25, minNI: null, maxNI: null, sobrou: "Sim" },
+      { curso: "Turismo (RIO)", campus: "RIO", area: "Ciências Sociais Aplicadas", vagas: 40, inscritos: 76, cvGeral: 1.90, vagasAmpla: 22, inscAmpla: 67, cvAmpla: 3.05, vagasEP: 8, inscEP: 6, cvEP: 0.75, vagasNI: 8, inscNI: 3, cvNI: 0.38, vagasPcD: 2, inscPcD: 0, cvPcD: 0.00, minAmpla: 36.75, maxAmpla: 65.00, minEP: 29.50, maxEP: 55.25, minNI: 35.75, maxNI: 57.25, sobrou: "Não" }
+    ];
+
+    // -----------------------------------------------------------------------
+    // 2B. DATASET COMPACTO: CURSOS POR MODALIDADE — EDIÇÕES 2025, 2024 E 2023
+    // Formato: [vagasAmpla, inscAmpla, vagasEP, inscEP, vagasNI, inscNI, vagasPcD, inscPcD]
+    // -----------------------------------------------------------------------
+    const cursosPorAnoCompact = {
+      2025: {
+        "Administração (RIO)": [66,534,24,31,24,15,6,0],
+        "Arqueologia (RIO)": [16,64,6,1,6,2,2,0],
+        "Arquitetura e Urbanismo (PETRÓPOLIS)": [26,345,10,9,10,4,4,0],
+        "Artes Visuais (RIO)": [38,339,14,25,14,12,4,2],
+        "Ciência da Computação (RIO)": [66,1373,24,70,24,27,6,2],
+        "Ciência da Computação (ZONA OESTE)": [32,186,12,10,12,3,4,1],
+        "Ciências Ambientais (CABO FRIO)": [27,25,10,1,10,0,3,0],
+        "Ciências Atuariais (RIO)": [22,68,8,3,8,2,2,0],
+        "Ciências Biológicas (RIO)": [66,781,24,35,24,20,6,3],
+        "Ciências Biológicas (SÃO GONÇALO)": [44,88,16,5,16,1,4,0],
+        "Ciências Biológicas (ZONA OESTE)": [64,83,24,3,24,0,8,0],
+        "Ciências Contábeis (RIO)": [66,236,24,20,24,18,6,0],
+        "Ciências Econômicas (RIO)": [76,690,28,24,28,16,8,1],
+        "Ciências Sociais (RIO)": [54,162,20,10,20,13,6,0],
+        "Cinema e Audiovisual (DUQUE DE CAXIAS)": [16,68,6,2,6,2,2,0],
+        "Design (RIO)": [22,501,8,18,8,15,2,0],
+        "Direito (RIO)": [168,3558,64,155,64,135,16,5],
+        "Educação Física (RIO)": [64,533,24,30,24,25,8,0],
+        "Enfermagem (RIO)": [44,625,16,36,16,35,4,1],
+        "Engenharia Ambiental e Sanitária (RIO)": [44,118,16,3,16,1,4,0],
+        "Engenharia Cartográfica (RIO)": [22,18,8,0,8,0,2,0],
+        "Engenharia Civil (RIO)": [66,328,24,7,24,5,6,0],
+        "Engenharia de Computação (NOVA FRIBURGO)": [22,207,8,4,8,0,2,0],
+        "Engenharia de Materiais (ZONA OESTE)": [27,7,10,0,10,0,3,0],
+        "Engenharia de Produção (RESENDE)": [54,28,20,0,20,0,6,0],
+        "Engenharia de Produção (RIO)": [44,512,16,6,16,9,4,0],
+        "Engenharia de Produção (ZONA OESTE)": [32,33,12,2,12,3,4,0],
+        "Engenharia Elétrica (RIO)": [110,373,40,14,40,6,10,0],
+        "Engenharia Mecânica (NOVA FRIBURGO)": [44,86,16,3,16,1,4,0],
+        "Engenharia Mecânica (RESENDE)": [54,29,20,0,20,0,6,0],
+        "Engenharia Mecânica (RIO)": [44,439,16,5,16,8,4,0],
+        "Engenharia Metalúrgica (ZONA OESTE)": [27,6,10,0,10,0,3,0],
+        "Engenharia Química (RESENDE)": [54,44,20,0,20,0,6,0],
+        "Engenharia Química (RIO)": [48,470,18,9,18,10,6,1],
+        "Estatística (RIO)": [32,98,12,3,12,1,4,0],
+        "Farmácia (ZONA OESTE)": [32,251,12,13,12,5,4,1],
+        "Filosofia (RIO)": [54,90,20,12,20,1,6,0],
+        "Física (RIO)": [97,130,36,4,36,3,9,0],
+        "Geografia (CABO FRIO)": [27,18,10,1,10,1,3,0],
+        "Geografia (DUQUE DE CAXIAS)": [38,12,14,4,14,0,4,0],
+        "Geografia (RIO)": [38,162,14,12,14,8,4,2],
+        "Geografia (SÃO GONÇALO)": [75,21,28,2,28,1,9,0],
+        "Geologia (RIO)": [16,64,6,1,6,1,2,0],
+        "História (DUQUE DE CAXIAS)": [22,47,8,3,8,0,2,0],
+        "História (RIO)": [54,474,20,30,20,26,6,0],
+        "História (SÃO GONÇALO)": [44,91,16,2,16,0,4,0],
+        "História da Arte (RIO)": [16,42,6,3,6,2,2,0],
+        "Jornalismo (RIO)": [26,978,10,34,10,26,4,3],
+        "Letras (SÃO GONÇALO)": [88,63,32,4,32,3,8,0],
+        "Letras: Inglês/Literaturas (RIO)": [38,196,14,9,14,9,4,0],
+        "Letras: Português/Alemão (RIO)": [13,14,5,1,5,0,2,0],
+        "Letras: Português/Espanhol (RIO)": [23,61,9,7,9,5,3,0],
+        "Letras: Português/Francês (RIO)": [22,39,8,1,8,1,2,0],
+        "Letras: Português/Grego (RIO)": [8,4,3,0,3,0,1,0],
+        "Letras: Português/Italiano (RIO)": [23,29,9,3,9,1,3,0],
+        "Letras: Português/Japonês (RIO)": [11,32,4,1,4,1,1,0],
+        "Letras: Português/Latim (RIO)": [11,9,4,0,4,1,1,0],
+        "Letras: Português/Literatura (RIO)": [38,159,14,8,14,5,4,1],
+        "Matemática (DUQUE DE CAXIAS)": [22,14,8,1,8,0,2,0],
+        "Matemática (RIO)": [108,135,40,8,40,4,12,1],
+        "Matemática (SÃO GONÇALO)": [44,23,16,6,16,0,4,0],
+        "Medicina (CABO FRIO)": [22,3707,8,137,8,80,2,8],
+        "Medicina (RIO)": [57,7551,21,214,21,219,5,38],
+        "Nutrição (RIO)": [46,690,18,35,18,22,6,1],
+        "Oceanografia (RIO)": [22,43,8,3,8,1,2,0],
+        "Odontologia (RIO)": [32,656,12,27,12,17,4,0],
+        "Pedagogia (DUQUE DE CAXIAS)": [66,69,24,6,24,2,6,0],
+        "Pedagogia (RIO)": [196,404,72,63,72,33,20,0],
+        "Pedagogia (SÃO GONÇALO)": [66,96,24,5,24,4,6,0],
+        "Psicologia (RIO)": [50,2134,20,107,20,75,6,4],
+        "Química (RIO)": [26,131,10,3,10,2,4,0],
+        "Relações Internacionais (RIO)": [22,815,8,38,8,16,2,0],
+        "Relações Públicas (RIO)": [26,342,10,16,10,30,4,1],
+        "Serviço Social (RIO)": [54,169,20,18,20,24,6,0],
+        "Tecnologia em Análise e Desenv. de Sistemas (ZONA OESTE)": [32,120,12,6,12,4,4,0],
+        "Tecnologia em Construção Naval (ZONA OESTE)": [32,15,12,0,12,0,4,0],
+        "Turismo (RIO)": [22,69,8,3,8,5,2,0]
+      },
+      2024: {
+        "Administração (RIO)": [66,355,24,92,24,56,6,3],
+        "Arqueologia (RIO)": [16,62,6,17,6,3,2,0],
+        "Arquitetura e Urbanismo (PETRÓPOLIS)": [26,340,10,39,10,23,4,2],
+        "Artes Visuais (RIO)": [38,335,14,75,14,46,4,1],
+        "Ciência da Computação (RIO)": [66,1357,24,217,24,136,6,6],
+        "Ciência da Computação (ZONA OESTE)": [32,119,12,21,12,12,4,2],
+        "Ciências Ambientais (CABO FRIO)": [27,29,10,5,10,3,3,0],
+        "Ciências Atuariais (RIO)": [22,34,8,2,8,2,2,0],
+        "Ciências Biológicas (RIO)": [66,690,24,163,24,64,6,4],
+        "Ciências Biológicas (SÃO GONÇALO)": [44,64,16,17,16,7,4,0],
+        "Ciências Biológicas (ZONA OESTE)": [64,62,24,15,24,2,8,1],
+        "Ciências Contábeis (RIO)": [66,153,24,55,24,28,6,1],
+        "Ciências Econômicas (RIO)": [76,570,28,56,28,36,8,1],
+        "Ciências Sociais (RIO)": [54,134,20,35,20,37,6,0],
+        "Design (RIO)": [22,524,8,89,8,53,2,0],
+        "Direito (RIO)": [168,3115,64,435,64,396,16,28],
+        "Educação Física (RIO)": [64,367,24,94,24,65,8,1],
+        "Enfermagem (RIO)": [44,457,16,148,16,121,4,2],
+        "Engenharia Ambiental e Sanitária (RIO)": [44,74,16,9,16,6,4,0],
+        "Engenharia Cartográfica (RIO)": [22,19,8,1,8,0,2,0],
+        "Engenharia Civil (RIO)": [66,208,24,46,24,20,6,1],
+        "Engenharia de Computação (NOVA FRIBURGO)": [22,185,8,13,8,10,2,0],
+        "Engenharia de Materiais (ZONA OESTE)": [27,8,10,1,10,1,3,0],
+        "Engenharia de Produção (RESENDE)": [54,17,20,2,20,2,6,0],
+        "Engenharia de Produção (RIO)": [44,413,16,32,16,13,4,0],
+        "Engenharia de Produção (ZONA OESTE)": [32,23,12,6,12,1,4,0],
+        "Engenharia Elétrica (RIO)": [110,236,40,46,40,14,10,0],
+        "Engenharia Mecânica (NOVA FRIBURGO)": [44,53,16,10,16,3,4,0],
+        "Engenharia Mecânica (RESENDE)": [54,20,20,4,20,1,6,0],
+        "Engenharia Mecânica (RIO)": [44,379,16,37,16,20,4,1],
+        "Engenharia Metalúrgica (ZONA OESTE)": [27,2,10,0,10,0,3,0],
+        "Engenharia Química (RESENDE)": [54,32,20,1,20,4,6,0],
+        "Engenharia Química (RIO)": [48,383,18,42,18,30,6,0],
+        "Estatística (RIO)": [32,45,12,6,12,0,4,0],
+        "Farmácia (ZONA OESTE)": [32,190,12,44,12,29,4,0],
+        "Filosofia (RIO)": [54,77,20,8,20,11,6,0],
+        "Física (RIO)": [97,120,36,22,36,8,9,1],
+        "Geografia (CABO FRIO)": [27,22,10,9,10,3,3,0],
+        "Geografia (DUQUE DE CAXIAS)": [38,15,14,3,14,1,4,0],
+        "Geografia (RIO)": [38,129,14,34,14,19,4,2],
+        "Geografia (SÃO GONÇALO)": [75,28,28,14,28,3,9,2],
+        "Geologia (RIO)": [16,42,6,7,6,0,2,0],
+        "História (DUQUE DE CAXIAS)": [22,23,8,7,8,3,2,0],
+        "História (RIO)": [54,420,20,103,20,68,6,8],
+        "História (SÃO GONÇALO)": [44,54,16,24,16,10,4,0],
+        "História da Arte (RIO)": [16,45,6,2,6,4,2,1],
+        "Jornalismo (RIO)": [26,824,10,134,10,107,4,4],
+        "Letras (SÃO GONÇALO)": [88,43,32,15,32,11,8,0],
+        "Letras: Inglês/Literaturas (RIO)": [38,159,14,38,14,15,4,1],
+        "Letras: Português/Alemão (RIO)": [13,13,5,0,5,0,2,0],
+        "Letras: Português/Espanhol (RIO)": [23,36,9,13,9,7,3,0],
+        "Letras: Português/Francês (RIO)": [22,25,8,8,8,4,2,0],
+        "Letras: Português/Grego (RIO)": [8,9,3,2,3,1,1,0],
+        "Letras: Português/Italiano (RIO)": [23,14,9,1,9,2,3,0],
+        "Letras: Português/Japonês (RIO)": [11,16,4,8,4,2,1,0],
+        "Letras: Português/Latim (RIO)": [11,2,4,3,4,3,1,0],
+        "Letras: Português/Literatura (RIO)": [38,155,14,42,14,23,4,1],
+        "Matemática (DUQUE DE CAXIAS)": [22,15,8,5,8,2,2,0],
+        "Matemática (RIO)": [108,104,40,21,40,11,12,0],
+        "Matemática (SÃO GONÇALO)": [44,15,16,7,16,0,4,0],
+        "Medicina (CABO FRIO)": [22,1913,8,246,8,114,2,26],
+        "Medicina (RIO)": [57,7634,21,784,21,497,5,68],
+        "Nutrição (RIO)": [46,572,18,149,18,76,6,3],
+        "Oceanografia (RIO)": [22,54,8,3,8,2,2,0],
+        "Odontologia (RIO)": [32,484,12,93,12,57,4,8],
+        "Pedagogia (DUQUE DE CAXIAS)": [110,55,40,25,40,24,10,1],
+        "Pedagogia (RIO)": [196,279,72,148,72,85,20,3],
+        "Pedagogia (SÃO GONÇALO)": [66,43,24,40,24,16,6,1],
+        "Psicologia (RIO)": [50,1903,20,431,20,273,6,22],
+        "Química (RIO)": [26,69,10,22,10,11,4,0],
+        "Relações Internacionais (RIO)": [22,866,8,112,8,86,2,4],
+        "Relações Públicas (RIO)": [26,294,10,72,10,54,4,0],
+        "Serviço Social (RIO)": [54,105,20,34,20,61,6,0],
+        "Tecnologia em Análise e Desenv. de Sistemas (ZONA OESTE)": [32,80,12,24,12,9,4,0],
+        "Tecnologia em Construção Naval (ZONA OESTE)": [32,6,12,1,12,1,4,0],
+        "Turismo (RIO)": [22,41,8,14,8,13,2,0]
+      },
+      2023: {
+        "Administração (RIO)": [66,1049,24,59,24,38,6,0],
+        "Arqueologia (RIO)": [16,89,6,2,6,1,2,0],
+        "Arquitetura e Urbanismo (PETRÓPOLIS)": [26,372,10,13,10,5,4,1],
+        "Artes Visuais (RIO)": [38,515,14,27,14,19,4,1],
+        "Ciência da Computação (RIO)": [66,2056,24,110,24,46,6,2],
+        "Ciência da Computação (ZONA OESTE)": [32,163,12,5,12,3,4,0],
+        "Ciências Atuariais (RIO)": [22,58,8,7,8,0,2,0],
+        "Ciências Biológicas (RIO)": [66,1047,24,62,24,24,6,1],
+        "Ciências Biológicas (SÃO GONÇALO)": [44,106,16,4,16,1,4,0],
+        "Ciências Biológicas (ZONA OESTE)": [64,60,24,1,24,2,8,0],
+        "Ciências Contábeis (RIO)": [66,354,24,34,24,25,6,2],
+        "Ciências Econômicas (RIO)": [76,704,28,25,28,16,8,0],
+        "Ciências Sociais (RIO)": [54,220,20,15,20,11,6,0],
+        "Design (RIO)": [22,697,8,27,8,16,2,0],
+        "Direito (RIO)": [168,4195,64,129,64,120,16,10],
+        "Educação Física (RIO)": [64,985,24,50,24,37,8,2],
+        "Enfermagem (RIO)": [44,1195,16,84,16,65,4,2],
+        "Engenharia Ambiental e Sanitária (RIO)": [44,149,16,10,16,2,4,0],
+        "Engenharia Cartográfica (RIO)": [22,28,8,0,8,0,2,0],
+        "Engenharia Civil (RIO)": [66,407,24,23,24,13,6,0],
+        "Engenharia de Computação (NOVA FRIBURGO)": [22,181,8,5,8,1,2,0],
+        "Engenharia de Materiais (ZONA OESTE)": [27,10,10,1,10,0,3,0],
+        "Engenharia de Produção (RESENDE)": [54,40,20,0,20,1,6,0],
+        "Engenharia de Produção (RIO)": [44,453,16,19,16,5,4,1],
+        "Engenharia de Produção (ZONA OESTE)": [32,27,12,3,12,0,4,0],
+        "Engenharia Elétrica (RIO)": [110,387,40,20,40,6,10,0],
+        "Engenharia Mecânica (NOVA FRIBURGO)": [44,50,16,1,16,0,4,0],
+        "Engenharia Mecânica (RESENDE)": [54,22,20,0,20,0,6,0],
+        "Engenharia Mecânica (RIO)": [44,401,16,7,16,7,4,0],
+        "Engenharia Metalúrgica (ZONA OESTE)": [27,10,10,0,10,0,3,0],
+        "Engenharia Química (RESENDE)": [54,28,20,0,20,0,6,0],
+        "Engenharia Química (RIO)": [48,326,18,20,18,9,6,0],
+        "Estatística (RIO)": [32,73,12,3,12,0,4,0],
+        "Farmácia (ZONA OESTE)": [32,196,12,9,12,5,4,0],
+        "Filosofia (RIO)": [54,123,20,3,20,3,6,0],
+        "Física (RIO)": [97,158,36,3,36,0,9,0],
+        "Geografia (DUQUE DE CAXIAS)": [38,36,14,4,14,1,4,0],
+        "Geografia (RIO)": [38,165,14,8,14,5,4,0],
+        "Geografia (SÃO GONÇALO)": [75,45,28,5,28,5,9,0],
+        "Geologia (RIO)": [16,67,6,1,6,2,2,0],
+        "História (RIO)": [54,705,20,34,20,38,6,1],
+        "História (SÃO GONÇALO)": [44,104,16,7,16,3,4,0],
+        "História da Arte (RIO)": [16,84,6,6,6,2,2,0],
+        "Jornalismo (RIO)": [26,1170,10,46,10,43,4,1],
+        "Letras (SÃO GONÇALO)": [88,85,32,7,32,4,8,0],
+        "Letras: Inglês/Literaturas (RIO)": [38,253,14,20,14,7,4,2],
+        "Letras: Português/Alemão (RIO)": [13,20,5,2,5,0,2,0],
+        "Letras: Português/Espanhol (RIO)": [23,56,9,13,9,1,3,0],
+        "Letras: Português/Francês (RIO)": [22,37,8,6,8,1,2,0],
+        "Letras: Português/Grego (RIO)": [8,12,3,1,3,0,1,0],
+        "Letras: Português/Italiano (RIO)": [23,39,9,2,9,1,3,0],
+        "Letras: Português/Japonês (RIO)": [11,29,4,3,4,1,1,0],
+        "Letras: Português/Latim (RIO)": [11,14,4,1,4,2,1,0],
+        "Letras: Português/Literatura (RIO)": [38,241,14,19,14,13,4,0],
+        "Matemática (DUQUE DE CAXIAS)": [22,14,8,1,8,1,2,0],
+        "Matemática (RIO)": [108,185,40,8,40,3,12,1],
+        "Matemática (SÃO GONÇALO)": [44,37,16,2,16,0,4,0],
+        "Medicina (RIO)": [57,10301,21,394,21,284,5,52],
+        "Nutrição (RIO)": [46,1095,18,58,18,46,6,1],
+        "Oceanografia (RIO)": [22,106,8,6,8,2,2,0],
+        "Odontologia (RIO)": [32,879,12,48,12,34,4,2],
+        "Pedagogia (DUQUE DE CAXIAS)": [110,171,40,14,40,13,10,0],
+        "Pedagogia (RIO)": [196,720,72,64,72,47,20,0],
+        "Pedagogia (SÃO GONÇALO)": [66,134,24,14,24,5,6,0],
+        "Psicologia (RIO)": [50,3103,20,147,20,97,6,3],
+        "Química (RIO)": [26,129,10,6,10,1,4,0],
+        "Relações Internacionais (RIO)": [22,898,8,45,8,28,2,1],
+        "Relações Públicas (RIO)": [26,314,10,30,10,27,4,0],
+        "Serviço Social (RIO)": [54,265,20,21,20,26,6,0],
+        "Tecnologia em Análise e Desenv. de Sistemas (ZONA OESTE)": [32,122,12,5,12,1,4,0],
+        "Tecnologia em Construção Naval (ZONA OESTE)": [32,11,12,0,12,0,4,0],
+        "Turismo (RIO)": [22,110,8,11,8,4,2,0]
+      }
+    };
+
+    // -----------------------------------------------------------------------
+    // 3. DATASETS HISTÓRICOS: CAXIAS × SÃO GONÇALO (2010–2026)
+    // -----------------------------------------------------------------------
+    const geoHistorico = [
+      { ano: 2010, caxiasCV: 3.53, caxiasInsc: 141, caxiasMax: 67.50, sgCV: 1.94, sgInsc: 272, sgMax: 66.25 },
+      { ano: 2011, caxiasCV: 3.58, caxiasInsc: 143, caxiasMax: 71.00, sgCV: 1.81, sgInsc: 253, sgMax: 64.50 },
+      { ano: 2012, caxiasCV: 3.20, caxiasInsc: 128, caxiasMax: 70.25, sgCV: 1.91, sgInsc: 267, sgMax: 65.75 },
+      { ano: 2013, caxiasCV: 2.33, caxiasInsc: 93,  caxiasMax: 68.00, sgCV: 1.43, sgInsc: 200, sgMax: 63.50 },
+      { ano: 2014, caxiasCV: 2.50, caxiasInsc: 100, caxiasMax: 69.25, sgCV: 1.53, sgInsc: 214, sgMax: 62.75 },
+      { ano: 2015, caxiasCV: 2.75, caxiasInsc: 110, caxiasMax: null,  sgCV: 1.19, sgInsc: 167, sgMax: null  },
+      { ano: 2018, caxiasCV: 0.95, caxiasInsc: 67,  caxiasMax: 65.00, sgCV: 0.53, sgInsc: 74,  sgMax: 64.25 },
+      { ano: 2019, caxiasCV: 1.38, caxiasInsc: 97,  caxiasMax: 68.50, sgCV: 0.69, sgInsc: 97,  sgMax: 66.00 },
+      { ano: 2020, caxiasCV: 1.01, caxiasInsc: 71,  caxiasMax: 67.25, sgCV: 0.91, sgInsc: 127, sgMax: 68.50 },
+      { ano: 2021, caxiasCV: 0.50, caxiasInsc: 35,  caxiasMax: 61.50, sgCV: 0.26, sgInsc: 36,  sgMax: 62.00 },
+      { ano: 2022, caxiasCV: 0.51, caxiasInsc: 36,  caxiasMax: 63.00, sgCV: 0.21, sgInsc: 29,  sgMax: 64.50 },
+      { ano: 2023, caxiasCV: 0.59, caxiasInsc: 41,  caxiasMax: 66.50, sgCV: 0.39, sgInsc: 55,  sgMax: 68.00 },
+      { ano: 2024, caxiasCV: 0.27, caxiasInsc: 19,  caxiasMax: 70.00, sgCV: 0.34, sgInsc: 47,  sgMax: 70.50 },
+      { ano: 2025, caxiasCV: 0.23, caxiasInsc: 16,  caxiasMax: 64.00, sgCV: 0.17, sgInsc: 24,  sgMax: 65.75 },
+      { ano: 2026, caxiasCV: 0.41, caxiasInsc: 29,  caxiasMax: 60.00, sgCV: 0.20, sgInsc: 28,  sgMax: 67.75 }
+    ];
+
+    const pedHistorico = [
+      { ano: 2010, caxiasCV: 0.84, caxiasInsc: 168, caxiasMax: 62.50, sgCV: 1.11, sgInsc: 133, sgMax: 67.00 },
+      { ano: 2011, caxiasCV: 1.10, caxiasInsc: 220, caxiasMax: 65.25, sgCV: 1.34, sgInsc: 161, sgMax: 68.75 },
+      { ano: 2012, caxiasCV: 0.94, caxiasInsc: 188, caxiasMax: 64.00, sgCV: 1.25, sgInsc: 150, sgMax: 67.50 },
+      { ano: 2013, caxiasCV: 1.16, caxiasInsc: 232, caxiasMax: 66.75, sgCV: 1.19, sgInsc: 143, sgMax: 69.00 },
+      { ano: 2014, caxiasCV: 0.83, caxiasInsc: 166, caxiasMax: 63.50, sgCV: 0.98, sgInsc: 118, sgMax: 66.25 },
+      { ano: 2015, caxiasCV: 1.03, caxiasInsc: 206, caxiasMax: null,  sgCV: 0.95, sgInsc: 114, sgMax: null  },
+      { ano: 2018, caxiasCV: 0.24, caxiasInsc: 48,  caxiasMax: 59.00, sgCV: 0.62, sgInsc: 74,  sgMax: 63.75 },
+      { ano: 2019, caxiasCV: 0.33, caxiasInsc: 66,  caxiasMax: 61.25, sgCV: 0.79, sgInsc: 95,  sgMax: 65.50 },
+      { ano: 2020, caxiasCV: 0.59, caxiasInsc: 118, caxiasMax: 64.00, sgCV: 1.18, sgInsc: 142, sgMax: 69.25 },
+      { ano: 2021, caxiasCV: 0.38, caxiasInsc: 76,  caxiasMax: 60.50, sgCV: 0.64, sgInsc: 77,  sgMax: 64.00 },
+      { ano: 2022, caxiasCV: 0.72, caxiasInsc: 144, caxiasMax: 63.00, sgCV: 0.90, sgInsc: 108, sgMax: 66.50 },
+      { ano: 2023, caxiasCV: 0.99, caxiasInsc: 198, caxiasMax: 65.75, sgCV: 1.28, sgInsc: 153, sgMax: 68.00 },
+      { ano: 2024, caxiasCV: 0.53, caxiasInsc: 105, caxiasMax: 64.50, sgCV: 0.83, sgInsc: 100, sgMax: 61.50 },
+      { ano: 2025, caxiasCV: 0.64, caxiasInsc: 77,  caxiasMax: 62.50, sgCV: 0.88, sgInsc: 105, sgMax: 67.25 },
+      { ano: 2026, caxiasCV: 0.46, caxiasInsc: 55,  caxiasMax: 53.50, sgCV: 0.64, sgInsc: 77,  sgMax: 74.00 }
+    ];
+
+    const matHistorico = [
+      { ano: 2010, caxiasCV: 1.58, caxiasInsc: 63, caxiasMax: 61.25, sgCV: 1.23, sgInsc: 98,  sgMax: 68.50 },
+      { ano: 2011, caxiasCV: 0.90, caxiasInsc: 36, caxiasMax: 62.00, sgCV: 1.36, sgInsc: 109, sgMax: 71.25 },
+      { ano: 2012, caxiasCV: 1.33, caxiasInsc: 53, caxiasMax: 64.50, sgCV: 1.38, sgInsc: 110, sgMax: 73.00 },
+      { ano: 2013, caxiasCV: 1.45, caxiasInsc: 58, caxiasMax: 66.00, sgCV: 1.20, sgInsc: 96,  sgMax: 72.50 },
+      { ano: 2014, caxiasCV: 1.10, caxiasInsc: 44, caxiasMax: 63.75, sgCV: 1.19, sgInsc: 95,  sgMax: 76.50 },
+      { ano: 2015, caxiasCV: 1.68, caxiasInsc: 67, caxiasMax: null,  sgCV: 1.36, sgInsc: 109, sgMax: null  },
+      { ano: 2018, caxiasCV: 0.38, caxiasInsc: 15, caxiasMax: 58.25, sgCV: 0.38, sgInsc: 30,  sgMax: 64.00 },
+      { ano: 2019, caxiasCV: 0.70, caxiasInsc: 28, caxiasMax: 64.00, sgCV: 0.85, sgInsc: 68,  sgMax: 67.50 },
+      { ano: 2020, caxiasCV: 0.85, caxiasInsc: 34, caxiasMax: 68.50, sgCV: 0.98, sgInsc: 78,  sgMax: 70.25 },
+      { ano: 2021, caxiasCV: 0.25, caxiasInsc: 10, caxiasMax: 60.00, sgCV: 0.33, sgInsc: 26,  sgMax: 65.50 },
+      { ano: 2022, caxiasCV: 0.38, caxiasInsc: 15, caxiasMax: 67.00, sgCV: 0.34, sgInsc: 27,  sgMax: 69.00 },
+      { ano: 2023, caxiasCV: 0.40, caxiasInsc: 16, caxiasMax: 72.00, sgCV: 0.49, sgInsc: 39,  sgMax: 74.50 },
+      { ano: 2024, caxiasCV: 0.55, caxiasInsc: 22, caxiasMax: 80.00, sgCV: 0.28, sgInsc: 22,  sgMax: 83.50 },
+      { ano: 2025, caxiasCV: 0.38, caxiasInsc: 15, caxiasMax: 76.25, sgCV: 0.36, sgInsc: 29,  sgMax: 54.00 },
+      { ano: 2026, caxiasCV: 0.23, caxiasInsc: 9,  caxiasMax: 45.00, sgCV: 0.34, sgInsc: 27,  sgMax: 73.50 }
+    ];
+
+    // -----------------------------------------------------------------------
+    // 4. DATASET: NOTAS DE CORTE HISTÓRICAS (1ª CLASSIFICAÇÃO — SEM 2015)
+    // -----------------------------------------------------------------------
+    const notasCorteHistorico = {
+      "Medicina (RIO)": [
+        { ano: 2010, ampla: 82.00, ep: 68.50, ni: 66.25 },
+        { ano: 2011, ampla: 84.50, ep: 71.00, ni: 69.50 },
+        { ano: 2012, ampla: 85.25, ep: 72.75, ni: 71.00 },
+        { ano: 2013, ampla: 86.00, ep: 74.50, ni: 72.25 },
+        { ano: 2014, ampla: 87.75, ep: 77.25, ni: 79.00 },
+        { ano: 2018, ampla: 88.25, ep: 75.50, ni: 73.25 },
+        { ano: 2019, ampla: 87.50, ep: 76.00, ni: 74.00 },
+        { ano: 2020, ampla: 88.75, ep: 78.25, ni: 76.50 },
+        { ano: 2021, ampla: 84.00, ep: 74.50, ni: 72.00 },
+        { ano: 2022, ampla: 84.50, ep: 75.00, ni: 73.50 },
+        { ano: 2023, ampla: 86.00, ep: 76.50, ni: 74.00 },
+        { ano: 2024, ampla: 82.50, ep: 70.25, ni: 68.50 },
+        { ano: 2025, ampla: 88.00, ep: 78.00, ni: 76.75 },
+        { ano: 2026, ampla: 86.75, ep: 74.00, ni: 72.75 }
+      ],
+      "Direito (RIO)": [
+        { ano: 2010, ampla: 72.00, ep: 42.75, ni: 40.50 },
+        { ano: 2011, ampla: 77.25, ep: 48.00, ni: 45.25 },
+        { ano: 2012, ampla: 75.00, ep: 45.75, ni: 43.00 },
+        { ano: 2013, ampla: 78.75, ep: 53.00, ni: 50.25 },
+        { ano: 2014, ampla: 81.25, ep: 59.00, ni: 56.00 },
+        { ano: 2018, ampla: 82.75, ep: 50.50, ni: 47.00 },
+        { ano: 2019, ampla: 77.25, ep: 47.50, ni: 44.25 },
+        { ano: 2020, ampla: 81.25, ep: 62.25, ni: 56.50 },
+        { ano: 2021, ampla: 71.50, ep: 51.50, ni: 47.00 },
+        { ano: 2022, ampla: 67.50, ep: 45.00, ni: 42.50 },
+        { ano: 2023, ampla: 71.00, ep: 47.00, ni: 44.00 },
+        { ano: 2024, ampla: 74.50, ep: 41.25, ni: 42.50 },
+        { ano: 2025, ampla: 78.00, ep: 48.75, ni: 40.75 },
+        { ano: 2026, ampla: 79.75, ep: 52.75, ni: 46.50 }
+      ],
+      "Ciência da Computação (RIO)": [
+        { ano: 2010, ampla: 51.75, ep: 20.00, ni: 20.50 },
+        { ano: 2011, ampla: 49.50, ep: 21.50, ni: 20.25 },
+        { ano: 2012, ampla: 64.25, ep: 20.00, ni: 21.00 },
+        { ano: 2013, ampla: 60.00, ep: 20.75, ni: 21.50 },
+        { ano: 2014, ampla: 70.00, ep: 25.75, ni: 22.50 },
+        { ano: 2018, ampla: 67.50, ep: 32.75, ni: 26.00 },
+        { ano: 2019, ampla: 65.75, ep: 20.75, ni: 22.50 },
+        { ano: 2020, ampla: 75.25, ep: 31.25, ni: 28.00 },
+        { ano: 2021, ampla: 64.50, ep: 32.50, ni: 27.50 },
+        { ano: 2022, ampla: 66.00, ep: 46.00, ni: 35.00 },
+        { ano: 2023, ampla: 72.00, ep: 55.50, ni: 41.50 },
+        { ano: 2024, ampla: 83.25, ep: 52.00, ni: 36.50 },
+        { ano: 2025, ampla: 79.25, ep: 44.25, ni: 24.00 },
+        { ano: 2026, ampla: 76.00, ep: 42.00, ni: 22.50 }
+      ],
+      "Psicologia (RIO)": [
+        { ano: 2010, ampla: 66.50, ep: 38.00, ni: 34.50 },
+        { ano: 2011, ampla: 69.25, ep: 41.50, ni: 37.25 },
+        { ano: 2012, ampla: 71.00, ep: 44.00, ni: 39.50 },
+        { ano: 2013, ampla: 72.50, ep: 46.25, ni: 42.00 },
+        { ano: 2014, ampla: 74.00, ep: 49.50, ni: 44.75 },
+        { ano: 2018, ampla: 73.50, ep: 45.00, ni: 41.25 },
+        { ano: 2019, ampla: 72.75, ep: 47.25, ni: 43.00 },
+        { ano: 2020, ampla: 76.00, ep: 53.50, ni: 48.25 },
+        { ano: 2021, ampla: 68.50, ep: 49.00, ni: 44.50 },
+        { ano: 2022, ampla: 66.00, ep: 47.50, ni: 43.00 },
+        { ano: 2023, ampla: 70.50, ep: 52.00, ni: 46.50 },
+        { ano: 2024, ampla: 71.50, ep: 56.50, ni: 49.50 },
+        { ano: 2025, ampla: 72.50, ep: 55.50, ni: 43.50 },
+        { ano: 2026, ampla: 75.50, ep: 57.75, ni: 50.75 }
+      ],
+      "Jornalismo (RIO)": [
+        { ano: 2010, ampla: 68.00, ep: 42.50, ni: 40.00 },
+        { ano: 2011, ampla: 71.25, ep: 46.00, ni: 43.25 },
+        { ano: 2012, ampla: 72.50, ep: 48.75, ni: 45.50 },
+        { ano: 2013, ampla: 73.00, ep: 50.00, ni: 47.25 },
+        { ano: 2014, ampla: 74.75, ep: 52.50, ni: 50.00 },
+        { ano: 2018, ampla: 72.00, ep: 44.50, ni: 42.75 },
+        { ano: 2019, ampla: 71.50, ep: 46.25, ni: 44.00 },
+        { ano: 2020, ampla: 74.25, ep: 51.00, ni: 48.50 },
+        { ano: 2021, ampla: 67.50, ep: 45.50, ni: 43.00 },
+        { ano: 2022, ampla: 66.50, ep: 46.00, ni: 44.25 },
+        { ano: 2023, ampla: 69.50, ep: 48.00, ni: 47.50 },
+        { ano: 2024, ampla: 71.75, ep: 49.75, ni: 52.25 },
+        { ano: 2025, ampla: 73.50, ep: 46.00, ni: 53.00 },
+        { ano: 2026, ampla: 73.75, ep: 55.25, ni: 53.25 }
+      ],
+      "Relações Internacionais (RIO)": [
+        { ano: 2010, ampla: 73.50, ep: 48.00, ni: 44.50 },
+        { ano: 2011, ampla: 76.25, ep: 51.25, ni: 47.00 },
+        { ano: 2012, ampla: 78.00, ep: 53.50, ni: 49.25 },
+        { ano: 2013, ampla: 79.50, ep: 56.00, ni: 51.50 },
+        { ano: 2014, ampla: 81.00, ep: 58.25, ni: 54.00 },
+        { ano: 2018, ampla: 80.50, ep: 54.00, ni: 48.50 },
+        { ano: 2019, ampla: 79.25, ep: 55.50, ni: 50.00 },
+        { ano: 2020, ampla: 82.00, ep: 61.00, ni: 55.25 },
+        { ano: 2021, ampla: 75.00, ep: 55.00, ni: 49.00 },
+        { ano: 2022, ampla: 74.50, ep: 54.50, ni: 48.50 },
+        { ano: 2023, ampla: 78.50, ep: 59.00, ni: 53.00 },
+        { ano: 2024, ampla: 84.75, ep: 65.75, ni: 61.75 },
+        { ano: 2025, ampla: 80.25, ep: 63.75, ni: 46.00 },
+        { ano: 2026, ampla: 82.75, ep: 57.25, ni: 43.75 }
+      ],
+      "Engenharia Civil (RIO)": [
+        { ano: 2010, ampla: 69.50, ep: 39.25, ni: 37.00 },
+        { ano: 2011, ampla: 73.00, ep: 43.50, ni: 41.25 },
+        { ano: 2012, ampla: 75.50, ep: 46.00, ni: 44.50 },
+        { ano: 2013, ampla: 77.25, ep: 48.50, ni: 47.00 },
+        { ano: 2014, ampla: 79.00, ep: 50.75, ni: 54.50 },
+        { ano: 2018, ampla: 58.00, ep: 28.50, ni: 26.00 },
+        { ano: 2019, ampla: 54.50, ep: 26.25, ni: 24.50 },
+        { ano: 2020, ampla: 57.25, ep: 29.00, ni: 27.00 },
+        { ano: 2021, ampla: 49.00, ep: 25.00, ni: 23.50 },
+        { ano: 2022, ampla: 47.50, ep: 24.50, ni: 22.00 },
+        { ano: 2023, ampla: 48.50, ep: 25.50, ni: 23.00 },
+        { ano: 2024, ampla: 46.00, ep: 24.50, ni: 20.50 },
+        { ano: 2025, ampla: 46.75, ep: 25.75, ni: 28.25 },
+        { ano: 2026, ampla: 50.50, ep: 23.50, ni: 25.00 }
+      ],
+      "Administração (RIO)": [
+        { ano: 2010, ampla: 50.75, ep: 33.00, ni: 26.50 },
+        { ano: 2011, ampla: 55.25, ep: 31.50, ni: 27.00 },
+        { ano: 2012, ampla: 64.25, ep: 33.75, ni: 28.50 },
+        { ano: 2013, ampla: 52.75, ep: 26.50, ni: 25.00 },
+        { ano: 2014, ampla: 62.25, ep: 37.50, ni: 28.25 },
+        { ano: 2018, ampla: 56.00, ep: 22.50, ni: 21.50 },
+        { ano: 2019, ampla: 56.00, ep: 22.25, ni: 22.00 },
+        { ano: 2020, ampla: 64.25, ep: 30.00, ni: 25.50 },
+        { ano: 2021, ampla: 56.50, ep: 33.50, ni: 26.00 },
+        { ano: 2022, ampla: 56.50, ep: 38.00, ni: 29.50 },
+        { ano: 2023, ampla: 56.00, ep: 41.00, ni: 31.00 },
+        { ano: 2024, ampla: 45.00, ep: 20.00, ni: 21.00 },
+        { ano: 2025, ampla: 46.25, ep: 20.50, ni: 22.00 },
+        { ano: 2026, ampla: 47.50, ep: 20.75, ni: 21.75 }
+      ]
+    };
+
+    // -----------------------------------------------------------------------
+    // HELPERS & GLOBAL STATE
+    // -----------------------------------------------------------------------
+    const fmtInt = (n) => n == null ? '—' : n.toLocaleString('pt-BR');
+    const fmtDec = (n) => n == null ? '—' : n.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    const isMobile = () => window.innerWidth < 640;
+
+    function shortLabel(str, desktopMax = 34, mobileMax = 21) {
+      const limit = isMobile() ? mobileMax : desktopMax;
+      return str.length > limit ? str.slice(0, limit - 1).trim() + '…' : str;
+    }
+
+    let charts = {};
+    let selectedYear = '2026';
+    let currentMacroMode = 'total';
+    let currentRankMetric = 'cvGeral';
+    let currentAreaMetric = 'ponderado';
+    let currentGeoMetric = 'cv';
+    let currentCourseChartModality = 'cvGeral';
+    let resizeTimer = null;
+
+    const areaColorPalette = {
+      "Ciências Biomédicas e da Saúde": { bg: 'rgba(244, 63, 94, 0.85)', border: '#e11d48', dot: 'bg-rose-500', badge: 'bg-rose-50 text-rose-700 dark:bg-rose-950/60 dark:text-rose-300' },
+      "Ciências Sociais Aplicadas":     { bg: 'rgba(37, 99, 235, 0.85)', border: '#1d4ed8', dot: 'bg-blue-600', badge: 'bg-blue-50 text-blue-700 dark:bg-blue-950/60 dark:text-blue-300' },
+      "Letras, Artes e Comunicação":    { bg: 'rgba(139, 92, 246, 0.85)', border: '#7c3aed', dot: 'bg-violet-500', badge: 'bg-violet-50 text-violet-700 dark:bg-violet-950/60 dark:text-violet-300' },
+      "Ciências Humanas e Educação":    { bg: 'rgba(245, 158, 11, 0.85)', border: '#d97706', dot: 'bg-amber-500', badge: 'bg-amber-50 text-amber-700 dark:bg-amber-950/60 dark:text-amber-300' },
+      "Ciências Exatas e Engenharias":  { bg: 'rgba(16, 185, 129, 0.85)', border: '#059669', dot: 'bg-emerald-500', badge: 'bg-emerald-50 text-emerald-700 dark:bg-emerald-950/60 dark:text-emerald-300' }
+    };
+
+    const courseModalityMeta = {
+      cvGeral: { label: 'C/V Geral', sortKey: 'cv_desc', color: null },
+      cvAmpla: { label: 'C/V Ampla', sortKey: 'ampla_desc', color: 'rgba(37, 99, 235, 0.85)' },
+      cvEP:    { label: 'C/V Escola Pública (EP)', sortKey: 'ep_desc', color: 'rgba(16, 185, 129, 0.85)' },
+      cvNI:    { label: 'C/V Negros e Indígenas (NI)', sortKey: 'ni_desc', color: 'rgba(245, 158, 11, 0.85)' },
+      cvPcD:   { label: 'C/V PcD / Outros', sortKey: 'pcd_desc', color: 'rgba(139, 92, 246, 0.85)' }
+    };
+
+    const courseMetaLookup = Object.fromEntries(
+      cursos2026.map(c => [c.curso, { campus: c.campus, area: c.area }])
+    );
+
+    // Constrói os objetos completos de cursos para 2026, 2025, 2024, 2023 ou Acumulado (2023–2026)
+    function buildCoursesFromCompact(yearNum) {
+      const map = cursosPorAnoCompact[yearNum];
+      if (!map) return null;
+
+      return Object.entries(map).map(([curso, arr]) => {
+        const [vA, iA, vEP, iEP, vNI, iNI, vPcD, iPcD] = arr;
+        const vagas = vA + vEP + vNI + vPcD;
+        const inscritos = iA + iEP + iNI + iPcD;
+        const meta = courseMetaLookup[curso] || { campus: 'RIO', area: 'Ciências Humanas e Educação' };
+
+        // Se existir nota de corte histórica para este curso no ano selecionado, anexa
+        const corteList = notasCorteHistorico[curso];
+        const corteRow = corteList ? corteList.find(r => r.ano === yearNum) : null;
+
+        return {
+          curso,
+          campus: meta.campus,
+          area: meta.area,
+          vagas,
+          inscritos,
+          cvGeral: vagas ? +(inscritos / vagas).toFixed(2) : 0,
+          vagasAmpla: vA, inscAmpla: iA, cvAmpla: vA ? +(iA / vA).toFixed(2) : 0,
+          vagasEP: vEP,   inscEP: iEP,   cvEP: vEP ? +(iEP / vEP).toFixed(2) : 0,
+          vagasNI: vNI,   inscNI: iNI,   cvNI: vNI ? +(iNI / vNI).toFixed(2) : 0,
+          vagasPcD: vPcD, inscPcD: iPcD, cvPcD: vPcD ? +(iPcD / vPcD).toFixed(2) : 0,
+          minAmpla: corteRow ? corteRow.ampla : null,
+          maxAmpla: null,
+          minEP: corteRow ? corteRow.ep : null,
+          maxEP: null,
+          minNI: corteRow ? corteRow.ni : null,
+          maxNI: null,
+          sobrou: null
+        };
+      });
+    }
+
+    function buildAccumulatedCourses() {
+      const acc = {};
+      const addEntry = (c) => {
+        if (!acc[c.curso]) {
+          acc[c.curso] = {
+            curso: c.curso,
+            campus: c.campus,
+            area: c.area,
+            vagasAmpla: 0, inscAmpla: 0,
+            vagasEP: 0, inscEP: 0,
+            vagasNI: 0, inscNI: 0,
+            vagasPcD: 0, inscPcD: 0
+          };
+        }
+        const a = acc[c.curso];
+        a.vagasAmpla += c.vagasAmpla; a.inscAmpla += c.inscAmpla;
+        a.vagasEP    += c.vagasEP;    a.inscEP    += c.inscEP;
+        a.vagasNI    += c.vagasNI;    a.inscNI    += c.inscNI;
+        a.vagasPcD   += c.vagasPcD;   a.inscPcD   += c.inscPcD;
+      };
+
+      cursos2026.forEach(addEntry);
+      [2025, 2024, 2023].forEach(y => {
+        const list = buildCoursesFromCompact(y);
+        if (list) list.forEach(addEntry);
+      });
+
+      return Object.values(acc).map(a => {
+        const vagas = a.vagasAmpla + a.vagasEP + a.vagasNI + a.vagasPcD;
+        const inscritos = a.inscAmpla + a.inscEP + a.inscNI + a.inscPcD;
+        return {
+          ...a,
+          vagas,
+          inscritos,
+          cvGeral: vagas ? +(inscritos / vagas).toFixed(2) : 0,
+          cvAmpla: a.vagasAmpla ? +(a.inscAmpla / a.vagasAmpla).toFixed(2) : 0,
+          cvEP: a.vagasEP ? +(a.inscEP / a.vagasEP).toFixed(2) : 0,
+          cvNI: a.vagasNI ? +(a.inscNI / a.vagasNI).toFixed(2) : 0,
+          cvPcD: a.vagasPcD ? +(a.inscPcD / a.vagasPcD).toFixed(2) : 0,
+          minAmpla: null, maxAmpla: null,
+          minEP: null, maxEP: null,
+          minNI: null, maxNI: null,
+          sobrou: null
+        };
+      });
+    }
+
+    const coursesCache = {
+      '2026': cursos2026,
+      '2025': buildCoursesFromCompact(2025),
+      '2024': buildCoursesFromCompact(2024),
+      '2023': buildCoursesFromCompact(2023),
+      'ALL':  buildAccumulatedCourses()
+    };
+
+    function getActiveCoursesInfo() {
+      if (selectedYear === 'ALL') {
+        return {
+          courses: coursesCache.ALL,
+          yearLabel: 'Acumulado 2023–2026',
+          badgeText: 'Acumulado (2023–2026)',
+          hasFullScores: false,
+          isFallback: false
+        };
+      }
+      if (coursesCache[selectedYear]) {
+        return {
+          courses: coursesCache[selectedYear],
+          yearLabel: selectedYear,
+          badgeText: `Vestibular ${selectedYear}`,
+          hasFullScores: selectedYear === '2026',
+          isFallback: false
+        };
+      }
+      return {
+        courses: coursesCache['2026'],
+        yearLabel: '2026',
+        badgeText: 'Vestibular 2026 (Referência)',
+        hasFullScores: true,
+        isFallback: true,
+        requestedYear: selectedYear
+      };
+    }
+
+    function getThemeColors() {
+      const dark = document.documentElement.classList.contains('dark');
+      return {
+        text: dark ? '#cbd5e1' : '#475569',
+        grid: dark ? 'rgba(148, 163, 184, 0.12)' : 'rgba(148, 163, 184, 0.2)',
+        tooltipBg: dark ? 'rgba(15, 23, 42, 0.96)' : 'rgba(15, 23, 42, 0.92)'
+      };
+    }
+
+    // -----------------------------------------------------------------------
+    // GLOBAL YEAR FILTER (2010–2026 + ACUMULADO)
+    // -----------------------------------------------------------------------
+    function populateGlobalYearSelector() {
+      const sel = document.getElementById('globalYearSelect');
+      sel.innerHTML = '';
+
+      [...resumoAnual].reverse().forEach(r => {
+        const opt = document.createElement('option');
+        opt.value = String(r.ano);
+        opt.textContent = `Vestibular ${r.ano}`;
+        sel.appendChild(opt);
+      });
+
+      const accOpt = document.createElement('option');
+      accOpt.value = 'ALL';
+      accOpt.textContent = 'Acumulado (2010–2026)';
+      sel.appendChild(accOpt);
+
+      sel.value = '2026';
+    }
+
+    function applyGlobalYear(yearVal) {
+      selectedYear = yearVal;
+      const badge = document.getElementById('selectedYearBadge');
+
+      if (yearVal === 'ALL') {
+        badge.textContent = 'Exibindo: Acumulado Histórico (15 edições • 2010–2026)';
+        const totalInsc = resumoAnual.reduce((s, r) => s + r.inscTotal, 0);
+        const totalVagas = resumoAnual.reduce((s, r) => s + r.vagasTotal, 0);
+        const totalAmpla = resumoAnual.reduce((s, r) => s + r.inscAmpla, 0);
+        const totalCotas = resumoAnual.reduce((s, r) => s + r.inscEP + r.inscNI + r.inscPcD, 0);
+        const avgCV = totalInsc / totalVagas;
+        const pctCotas = (totalCotas / totalInsc) * 100;
+
+        document.getElementById('kpiInscritos').textContent = fmtInt(totalInsc);
+        document.getElementById('kpiInscritosSub').textContent = `Média de ${fmtInt(Math.round(totalInsc / resumoAnual.length))} inscritos/edição`;
+        document.getElementById('kpiVagas').textContent = fmtInt(totalVagas);
+        document.getElementById('kpiVagasSub').textContent = `Média de ${fmtInt(Math.round(totalVagas / resumoAnual.length))} vagas/edição`;
+        document.getElementById('kpiCVGeral').textContent = fmtDec(avgCV);
+        document.getElementById('kpiCVSub').textContent = `Ampla: ${fmtInt(totalAmpla)} inscritos no período`;
+        document.getElementById('kpiCotas').textContent = fmtInt(totalCotas);
+        document.getElementById('kpiCotasSub').textContent = `${fmtDec(pctCotas)}% do total acumulado`;
+      } else {
+        const y = Number(yearVal);
+        const row = resumoAnual.find(r => r.ano === y) || resumoAnual[resumoAnual.length - 1];
+        const cotasInsc = row.inscEP + row.inscNI + row.inscPcD;
+        const pctCotas = (cotasInsc / row.inscTotal) * 100;
+
+        badge.textContent = `Exibindo: Vestibular ${row.ano} (${row.obs})`;
+        document.getElementById('kpiInscritos').textContent = fmtInt(row.inscTotal);
+        document.getElementById('kpiInscritosSub').textContent = `Ampla: ${fmtInt(row.inscAmpla)} inscritos`;
+        document.getElementById('kpiVagas').textContent = fmtInt(row.vagasTotal);
+        document.getElementById('kpiVagasSub').textContent = `Ampla: ${fmtInt(row.vagasAmpla)} • Cotas: ${fmtInt(row.vagasTotal - row.vagasAmpla)}`;
+        document.getElementById('kpiCVGeral').textContent = fmtDec(row.cvTotal);
+        document.getElementById('kpiCVSub').textContent = `Ampla: ${fmtDec(row.cvAmpla)} cand/vaga`;
+        document.getElementById('kpiCotas').textContent = fmtInt(cotasInsc);
+        document.getElementById('kpiCotasSub').textContent = `${fmtDec(pctCotas)}% dos inscritos • EP ${fmtInt(row.inscEP)} | NI ${fmtInt(row.inscNI)}`;
+      }
+
+      renderMacroChart();
+      renderRankings();
+      renderAreaSection();
+      renderGeoChart();
+      renderCorteChart();
+      renderAllCoursesExplorer();
+    }
+
+    // -----------------------------------------------------------------------
+    // SECTION 1: MACRO HISTORICAL CHART
+    // -----------------------------------------------------------------------
+    function renderMacroChart() {
+      const tc = getThemeColors();
+      const ctx = document.getElementById('macroChart').getContext('2d');
+      if (charts.macro) charts.macro.destroy();
+
+      const labels = resumoAnual.map(r => String(r.ano));
+      const highlightYear = selectedYear === 'ALL' ? null : Number(selectedYear);
+
+      if (currentMacroMode === 'total') {
+        charts.macro = new Chart(ctx, {
+          type: 'bar',
+          data: {
+            labels,
+            datasets: [
+              {
+                type: 'bar',
+                label: 'Inscritos Totais',
+                data: resumoAnual.map(r => r.inscTotal),
+                backgroundColor: resumoAnual.map(r =>
+                  highlightYear === r.ano ? 'rgba(0, 86, 163, 0.95)' : 'rgba(59, 130, 246, 0.35)'
+                ),
+                borderColor: resumoAnual.map(r =>
+                  highlightYear === r.ano ? '#003a70' : 'rgba(59, 130, 246, 0.7)'
+                ),
+                borderWidth: 1,
+                borderRadius: 6,
+                yAxisID: 'y',
+                order: 2
+              },
+              {
+                type: 'line',
+                label: 'Relação C/V Geral',
+                data: resumoAnual.map(r => r.cvTotal),
+                borderColor: '#f43f5e',
+                backgroundColor: '#f43f5e',
+                borderWidth: 2.5,
+                tension: 0.3,
+                pointRadius: resumoAnual.map(r => highlightYear === r.ano ? 6 : 3.5),
+                pointHoverRadius: 7,
+                yAxisID: 'y1',
+                order: 1
+              }
+            ]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            interaction: { mode: 'index', intersect: false },
+            plugins: {
+              legend: { labels: { color: tc.text, font: { size: 11, weight: '600' }, usePointStyle: true } },
+              tooltip: {
+                backgroundColor: tc.tooltipBg,
+                padding: 12,
+                cornerRadius: 10,
+                callbacks: {
+                  label: (c) => c.dataset.yAxisID === 'y1'
+                    ? `${c.dataset.label}: ${fmtDec(c.parsed.y)} cand/vaga`
+                    : `${c.dataset.label}: ${fmtInt(c.parsed.y)}`
+                }
+              }
+            },
+            scales: {
+              x: { ticks: { color: tc.text, font: { size: 11 } }, grid: { display: false } },
+              y: {
+                position: 'left',
+                beginAtZero: true,
+                ticks: { color: tc.text, font: { size: 10 }, callback: (v) => (v / 1000) + 'k' },
+                grid: { color: tc.grid }
+              },
+              y1: {
+                position: 'right',
+                beginAtZero: true,
+                ticks: { color: '#f43f5e', font: { size: 10 }, callback: (v) => v + ' c/v' },
+                grid: { drawOnChartArea: false }
+              }
+            }
+          }
+        });
+      } else {
+        charts.macro = new Chart(ctx, {
+          type: 'bar',
+          data: {
+            labels,
+            datasets: [
+              { label: 'Ampla Concorrência', data: resumoAnual.map(r => r.inscAmpla), backgroundColor: 'rgba(37, 99, 235, 0.82)', borderRadius: 4 },
+              { label: 'Escola Pública (EP)', data: resumoAnual.map(r => r.inscEP), backgroundColor: 'rgba(16, 185, 129, 0.85)', borderRadius: 4 },
+              { label: 'Negros e Indígenas (NI)', data: resumoAnual.map(r => r.inscNI), backgroundColor: 'rgba(245, 158, 11, 0.85)', borderRadius: 4 },
+              { label: 'PcD / Outros', data: resumoAnual.map(r => r.inscPcD), backgroundColor: 'rgba(139, 92, 246, 0.85)', borderRadius: 4 }
+            ]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            interaction: { mode: 'index', intersect: false },
+            plugins: {
+              legend: { labels: { color: tc.text, font: { size: 11, weight: '600' }, usePointStyle: true } },
+              tooltip: {
+                backgroundColor: tc.tooltipBg,
+                padding: 12,
+                cornerRadius: 10,
+                callbacks: {
+                  label: (c) => `${c.dataset.label}: ${fmtInt(c.parsed.y)} inscritos`
+                }
+              }
+            },
+            scales: {
+              x: { stacked: true, ticks: { color: tc.text, font: { size: 11 } }, grid: { display: false } },
+              y: {
+                stacked: true,
+                beginAtZero: true,
+                ticks: { color: tc.text, font: { size: 10 }, callback: (v) => (v / 1000) + 'k' },
+                grid: { color: tc.grid }
+              }
+            }
+          }
+        });
+      }
+    }
+
+    // -----------------------------------------------------------------------
+    // SECTION 2: TOP 10 MAIOR & MENOR C/V (DINÂMICO POR EDIÇÃO)
+    // -----------------------------------------------------------------------
+    function renderRankings() {
+      const tc = getThemeColors();
+      const info = getActiveCoursesInfo();
+      const activeCourses = info.courses;
+      const metric = currentRankMetric;
+      const metricLabel = metric === 'cvGeral' ? 'C/V Geral' : 'C/V Ampla';
+
+      document.getElementById('rankingsTitle').textContent = `Top 10: Maior e Menor Concorrência (${info.yearLabel})`;
+      document.getElementById('rankingsSubtitle').textContent = info.isFallback
+        ? `Exibindo referência de 2026 (detalhamento individual por curso disponível de 2023 a 2026). Toque em qualquer barra para detalhes.`
+        : `Os extremos da relação candidato/vaga (${info.badgeText}). Toque em qualquer barra para abrir o detalhamento completo do curso.`;
+
+      const topHigh = [...activeCourses].sort((a, b) => b[metric] - a[metric]).slice(0, 10);
+      const topLow = [...activeCourses].sort((a, b) => a[metric] - b[metric]).slice(0, 10);
+
+      if (charts.top10High) charts.top10High.destroy();
+      charts.top10High = new Chart(document.getElementById('top10HighChart').getContext('2d'), {
+        type: 'bar',
+        data: {
+          labels: topHigh.map(c => shortLabel(c.curso, 28, 18)),
+          datasets: [{
+            label: metricLabel,
+            data: topHigh.map(c => c[metric]),
+            backgroundColor: 'rgba(244, 63, 94, 0.82)',
+            hoverBackgroundColor: '#e11d48',
+            borderRadius: 6,
+            maxBarThickness: 22
+          }]
+        },
+        options: {
+          indexAxis: 'y',
+          responsive: true,
+          maintainAspectRatio: false,
+          onClick: (evt, elems) => {
+            if (elems.length > 0) openCourseModal(topHigh[elems[0].index]);
+          },
+          plugins: {
+            legend: { display: false },
+            tooltip: {
+              backgroundColor: tc.tooltipBg,
+              padding: 12,
+              cornerRadius: 10,
+              callbacks: {
+                title: (items) => topHigh[items[0].dataIndex].curso,
+                label: (ctx) => {
+                  const c = topHigh[ctx.dataIndex];
+                  return [`${metricLabel}: ${fmtDec(c[metric])} cand/vaga`, `Inscritos: ${fmtInt(c.inscritos)} • Vagas: ${fmtInt(c.vagas)}`];
+                }
+              }
+            }
+          },
+          scales: {
+            x: { ticks: { color: tc.text, font: { size: 10 } }, grid: { color: tc.grid } },
+            y: { ticks: { color: tc.text, font: { size: isMobile() ? 10 : 11 } }, grid: { display: false } }
+          }
+        }
+      });
+
+      if (charts.top10Low) charts.top10Low.destroy();
+      charts.top10Low = new Chart(document.getElementById('top10LowChart').getContext('2d'), {
+        type: 'bar',
+        data: {
+          labels: topLow.map(c => shortLabel(c.curso, 28, 18)),
+          datasets: [{
+            label: metricLabel,
+            data: topLow.map(c => c[metric]),
+            backgroundColor: 'rgba(245, 158, 11, 0.85)',
+            hoverBackgroundColor: '#d97706',
+            borderRadius: 6,
+            maxBarThickness: 22
+          }]
+        },
+        options: {
+          indexAxis: 'y',
+          responsive: true,
+          maintainAspectRatio: false,
+          onClick: (evt, elems) => {
+            if (elems.length > 0) openCourseModal(topLow[elems[0].index]);
+          },
+          plugins: {
+            legend: { display: false },
+            tooltip: {
+              backgroundColor: tc.tooltipBg,
+              padding: 12,
+              cornerRadius: 10,
+              callbacks: {
+                title: (items) => topLow[items[0].dataIndex].curso,
+                label: (ctx) => {
+                  const c = topLow[ctx.dataIndex];
+                  return [`${metricLabel}: ${fmtDec(c[metric])} cand/vaga`, `Inscritos: ${fmtInt(c.inscritos)} • Vagas: ${fmtInt(c.vagas)}`];
+                }
+              }
+            }
+          },
+          scales: {
+            x: { ticks: { color: tc.text, font: { size: 10 } }, grid: { color: tc.grid } },
+            y: { ticks: { color: tc.text, font: { size: isMobile() ? 10 : 11 } }, grid: { display: false } }
+          }
+        }
+      });
+    }
+
+    // -----------------------------------------------------------------------
+    // SECTION 3: RELAÇÃO C/V POR ÁREA DO CONHECIMENTO
+    // -----------------------------------------------------------------------
+    function renderAreaSection() {
+      const tc = getThemeColors();
+      const info = getActiveCoursesInfo();
+      const activeCourses = info.courses;
+      const map = {};
+
+      document.getElementById('areasTitle').textContent = `Relação Candidato/Vaga por Área do Conhecimento (${info.yearLabel})`;
+      document.getElementById('areasSubtitle').textContent = info.isFallback
+        ? `Comparativo entre as 5 grandes áreas acadêmicas da UERJ (referência 2026). Toque em uma área para filtrar os cursos correspondentes.`
+        : `Comparativo entre as 5 grandes áreas acadêmicas da UERJ (${info.badgeText}). Toque em uma área para filtrar os cursos correspondentes.`;
+
+      activeCourses.forEach(c => {
+        if (!map[c.area]) {
+          map[c.area] = { area: c.area, cursos: 0, vagas: 0, inscritos: 0, sumCV: 0 };
+        }
+        map[c.area].cursos += 1;
+        map[c.area].vagas += c.vagas;
+        map[c.area].inscritos += c.inscritos;
+        map[c.area].sumCV += c.cvGeral;
+      });
+
+      const list = Object.values(map).map(a => ({
+        ...a,
+        ponderado: a.inscritos / a.vagas,
+        media: a.sumCV / a.cursos
+      }));
+
+      if (currentAreaMetric === 'ponderado') {
+        list.sort((a, b) => b.ponderado - a.ponderado);
+        document.getElementById('areaChartTitle').textContent = `C/V Ponderado (Inscritos ÷ Vagas) por Área • ${info.yearLabel}`;
+      } else if (currentAreaMetric === 'media') {
+        list.sort((a, b) => b.media - a.media);
+        document.getElementById('areaChartTitle').textContent = `Média Simples de C/V dos Cursos por Área • ${info.yearLabel}`;
+      } else {
+        list.sort((a, b) => b.inscritos - a.inscritos);
+        document.getElementById('areaChartTitle').textContent = `Total de Inscritos por Área (${info.yearLabel})`;
+      }
+
+      if (charts.area) charts.area.destroy();
+      charts.area = new Chart(document.getElementById('areaChart').getContext('2d'), {
+        type: 'bar',
+        data: {
+          labels: list.map(a => shortLabel(a.area, 28, 18)),
+          datasets: [{
+            label: currentAreaMetric === 'inscritos' ? 'Inscritos' : 'Relação C/V',
+            data: list.map(a => a[currentAreaMetric]),
+            backgroundColor: list.map(a => areaColorPalette[a.area].bg),
+            borderColor: list.map(a => areaColorPalette[a.area].border),
+            borderWidth: 1,
+            borderRadius: 8,
+            maxBarThickness: 34
+          }]
+        },
+        options: {
+          indexAxis: 'y',
+          responsive: true,
+          maintainAspectRatio: false,
+          onClick: (evt, elems) => {
+            if (elems.length > 0) jumpToAreaFilter(list[elems[0].index].area);
+          },
+          plugins: {
+            legend: { display: false },
+            tooltip: {
+              backgroundColor: tc.tooltipBg,
+              padding: 12,
+              cornerRadius: 10,
+              callbacks: {
+                title: (items) => list[items[0].dataIndex].area,
+                label: (ctx) => {
+                  const a = list[ctx.dataIndex];
+                  return [
+                    `C/V Ponderado: ${fmtDec(a.ponderado)}`,
+                    `Média dos Cursos: ${fmtDec(a.media)}`,
+                    `Inscritos: ${fmtInt(a.inscritos)} • Vagas: ${fmtInt(a.vagas)}`
+                  ];
+                }
+              }
+            }
+          },
+          scales: {
+            x: { ticks: { color: tc.text, font: { size: 10 } }, grid: { color: tc.grid } },
+            y: { ticks: { color: tc.text, font: { size: isMobile() ? 10 : 11, weight: '600' } }, grid: { display: false } }
+          }
+        }
+      });
+
+      // Interactive Area Cards
+      const container = document.getElementById('areaCardsContainer');
+      container.innerHTML = '';
+      list.forEach(a => {
+        const pal = areaColorPalette[a.area];
+        const card = document.createElement('button');
+        card.type = 'button';
+        card.className = 'w-full text-left bg-white dark:bg-slate-900 rounded-2xl p-4 border border-slate-200/80 dark:border-slate-800 shadow-sm hover:border-uerj-500/60 dark:hover:border-blue-500/60 hover:shadow transition flex items-center justify-between gap-3';
+        card.innerHTML = `
+          <div class="min-w-0">
+            <div class="flex items-center gap-2">
+              <span class="w-2.5 h-2.5 rounded-full ${pal.dot} shrink-0"></span>
+              <p class="text-sm font-bold text-slate-900 dark:text-white truncate">${a.area}</p>
+            </div>
+            <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">
+              ${a.cursos} cursos • ${fmtInt(a.inscritos)} inscritos • ${fmtInt(a.vagas)} vagas
+            </p>
+          </div>
+          <div class="shrink-0 text-right">
+            <span class="inline-block px-2.5 py-1 rounded-xl text-xs font-extrabold tabular-nums ${pal.badge}">
+              ${currentAreaMetric === 'inscritos' ? fmtInt(a.inscritos) : fmtDec(a[currentAreaMetric]) + ' c/v'}
+            </span>
+          </div>
+        `;
+        card.addEventListener('click', () => jumpToAreaFilter(a.area));
+        container.appendChild(card);
+      });
+    }
+
+    function jumpToAreaFilter(areaName) {
+      document.getElementById('courseAreaFilter').value = areaName;
+      document.getElementById('courseCampusFilter').value = 'ALL';
+      document.getElementById('courseSearch').value = '';
+      renderAllCoursesExplorer();
+      document.getElementById('cursos').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    // -----------------------------------------------------------------------
+    // SECTION 4: CAXIAS × SÃO GONÇALO (GEOGRAFIA, PEDAGOGIA, MATEMÁTICA)
+    // -----------------------------------------------------------------------
+    function updateCampusPairCards(dataset, prefix) {
+      const targetYear = selectedYear === 'ALL' ? 2026 : Number(selectedYear);
+      const row = dataset.find(r => r.ano === targetYear) || dataset[dataset.length - 1];
+      const yearText = selectedYear === 'ALL' ? `Vestibular ${row.ano} (mais recente)` : `Vestibular ${row.ano}`;
+
+      document.getElementById(`${prefix}CaxiasYear`).textContent = yearText;
+      document.getElementById(`${prefix}CaxiasBadge`).textContent = `${fmtDec(row.caxiasCV)} cand/vaga`;
+      document.getElementById(`${prefix}CaxiasCV`).textContent = fmtDec(row.caxiasCV);
+      document.getElementById(`${prefix}CaxiasInsc`).textContent = fmtInt(row.caxiasInsc);
+      document.getElementById(`${prefix}CaxiasMax`).textContent = row.caxiasMax != null ? fmtDec(row.caxiasMax) : '—';
+
+      document.getElementById(`${prefix}SGYear`).textContent = yearText;
+      document.getElementById(`${prefix}SGBadge`).textContent = `${fmtDec(row.sgCV)} cand/vaga`;
+      document.getElementById(`${prefix}SGCV`).textContent = fmtDec(row.sgCV);
+      document.getElementById(`${prefix}SGInsc`).textContent = fmtInt(row.sgInsc);
+      document.getElementById(`${prefix}SGMax`).textContent = row.sgMax != null ? fmtDec(row.sgMax) : '—';
+    }
+
+    function buildCampusLineChart(chartKey, canvasId, titleId, courseLabel, dataset, colors) {
+      const tc = getThemeColors();
+      const ctx = document.getElementById(canvasId).getContext('2d');
+      if (charts[chartKey]) charts[chartKey].destroy();
+
+      const metricTitles = {
+        cv:   `${courseLabel}: Relação Candidato/Vaga Geral (2010–2026)`,
+        insc: `${courseLabel}: Total de Inscritos (2010–2026)`,
+        max:  `${courseLabel}: Nota Máxima Ampla Concorrência (2010–2026)`
+      };
+      document.getElementById(titleId).textContent = metricTitles[currentGeoMetric];
+
+      const metricKeyCaxias = currentGeoMetric === 'cv' ? 'caxiasCV' : currentGeoMetric === 'insc' ? 'caxiasInsc' : 'caxiasMax';
+      const metricKeySG     = currentGeoMetric === 'cv' ? 'sgCV'     : currentGeoMetric === 'insc' ? 'sgInsc'     : 'sgMax';
+      const filteredRows    = currentGeoMetric === 'max' ? dataset.filter(r => r.caxiasMax != null || r.sgMax != null) : dataset;
+      const highlightYear   = selectedYear === 'ALL' ? null : Number(selectedYear);
+
+      charts[chartKey] = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: filteredRows.map(r => String(r.ano)),
+          datasets: [
+            {
+              label: `${courseLabel} • Duque de Caxias`,
+              data: filteredRows.map(r => r[metricKeyCaxias]),
+              borderColor: colors.caxiasBorder,
+              backgroundColor: colors.caxiasFill,
+              borderWidth: 2.5,
+              tension: 0.3,
+              fill: true,
+              spanGaps: true,
+              pointRadius: filteredRows.map(r => highlightYear === r.ano ? 6 : 3.5),
+              pointHoverRadius: 7
+            },
+            {
+              label: `${courseLabel} • São Gonçalo`,
+              data: filteredRows.map(r => r[metricKeySG]),
+              borderColor: colors.sgBorder,
+              backgroundColor: colors.sgFill,
+              borderWidth: 2.5,
+              tension: 0.3,
+              fill: true,
+              spanGaps: true,
+              pointRadius: filteredRows.map(r => highlightYear === r.ano ? 6 : 3.5),
+              pointHoverRadius: 7
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          interaction: { mode: 'index', intersect: false },
+          plugins: {
+            legend: { labels: { color: tc.text, font: { size: 11, weight: '600' }, usePointStyle: true } },
+            tooltip: {
+              backgroundColor: tc.tooltipBg,
+              padding: 12,
+              cornerRadius: 10,
+              callbacks: {
+                label: (c) => {
+                  const v = c.parsed.y;
+                  if (currentGeoMetric === 'insc') return `${c.dataset.label}: ${fmtInt(v)} inscritos`;
+                  if (currentGeoMetric === 'max')  return `${c.dataset.label}: ${fmtDec(v)} pts`;
+                  return `${c.dataset.label}: ${fmtDec(v)} cand/vaga`;
+                }
+              }
+            }
+          },
+          scales: {
+            x: { ticks: { color: tc.text, font: { size: 11 } }, grid: { display: false } },
+            y: {
+              beginAtZero: currentGeoMetric !== 'max',
+              ticks: { color: tc.text, font: { size: 10 } },
+              grid: { color: tc.grid }
+            }
+          }
+        }
+      });
+    }
+
+    function renderGeoChart() {
+      updateCampusPairCards(geoHistorico, 'geo');
+      updateCampusPairCards(pedHistorico, 'ped');
+      updateCampusPairCards(matHistorico, 'mat');
+
+      buildCampusLineChart('geo', 'geoChart', 'geoChartTitle', 'Geografia', geoHistorico, {
+        caxiasBorder: '#14b8a6', caxiasFill: 'rgba(20, 184, 166, 0.14)',
+        sgBorder: '#6366f1',     sgFill: 'rgba(99, 102, 241, 0.12)'
+      });
+      buildCampusLineChart('ped', 'pedChart', 'pedChartTitle', 'Pedagogia', pedHistorico, {
+        caxiasBorder: '#ec4899', caxiasFill: 'rgba(236, 72, 153, 0.14)',
+        sgBorder: '#8b5cf6',     sgFill: 'rgba(139, 92, 246, 0.12)'
+      });
+      buildCampusLineChart('mat', 'matChart', 'matChartTitle', 'Matemática', matHistorico, {
+        caxiasBorder: '#f97316', caxiasFill: 'rgba(249, 115, 22, 0.14)',
+        sgBorder: '#0ea5e9',     sgFill: 'rgba(14, 165, 233, 0.12)'
+      });
+    }
+
+    // -----------------------------------------------------------------------
+    // SECTION 5: NOTAS DE CORTE HISTÓRICAS (MÍNIMA)
+    // -----------------------------------------------------------------------
+    function renderCorteChart() {
+      const tc = getThemeColors();
+      const courseName = document.getElementById('corteCourseSelect').value;
+      const rows = notasCorteHistorico[courseName] || [];
+      if (!rows.length) return;
+
+      const avg = (key) => rows.reduce((s, r) => s + r[key], 0) / rows.length;
+      const highlightYear = selectedYear === 'ALL' ? null : Number(selectedYear);
+      const exactRow = highlightYear ? rows.find(r => r.ano === highlightYear) : null;
+      const displayRow = exactRow || rows[rows.length - 1];
+      const tag = selectedYear === 'ALL'
+        ? `Edição ${displayRow.ano} • Média histórica:`
+        : exactRow
+          ? `Edição ${displayRow.ano} • Média histórica:`
+          : `Sem nota em ${highlightYear} (exibindo ${displayRow.ano}) • Média:`;
+
+      document.getElementById('corteAmplaVal').textContent = `${fmtDec(displayRow.ampla)} pts`;
+      document.getElementById('corteAmplaSub').textContent = `${tag} ${fmtDec(avg('ampla'))} pts`;
+
+      document.getElementById('corteEPVal').textContent = `${fmtDec(displayRow.ep)} pts`;
+      document.getElementById('corteEPSub').textContent = `${tag} ${fmtDec(avg('ep'))} pts`;
+
+      document.getElementById('corteNIVal').textContent = `${fmtDec(displayRow.ni)} pts`;
+      document.getElementById('corteNISub').textContent = `${tag} ${fmtDec(avg('ni'))} pts`;
+
+      const ctx = document.getElementById('corteChart').getContext('2d');
+      if (charts.corte) charts.corte.destroy();
+
+      charts.corte = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: rows.map(r => String(r.ano)),
+          datasets: [
+            {
+              label: 'Ampla Concorrência',
+              data: rows.map(r => r.ampla),
+              borderColor: '#2563eb',
+              backgroundColor: '#2563eb',
+              borderWidth: 2.5,
+              tension: 0.3,
+              pointRadius: rows.map(r => highlightYear === r.ano ? 6 : 3.5),
+              pointHoverRadius: 7
+            },
+            {
+              label: 'Escola Pública (EP)',
+              data: rows.map(r => r.ep),
+              borderColor: '#10b981',
+              backgroundColor: '#10b981',
+              borderWidth: 2.5,
+              tension: 0.3,
+              pointRadius: rows.map(r => highlightYear === r.ano ? 6 : 3.5),
+              pointHoverRadius: 7
+            },
+            {
+              label: 'Negros e Indígenas (NI)',
+              data: rows.map(r => r.ni),
+              borderColor: '#f59e0b',
+              backgroundColor: '#f59e0b',
+              borderWidth: 2.5,
+              tension: 0.3,
+              pointRadius: rows.map(r => highlightYear === r.ano ? 6 : 3.5),
+              pointHoverRadius: 7
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          interaction: { mode: 'index', intersect: false },
+          plugins: {
+            legend: { labels: { color: tc.text, font: { size: 11, weight: '600' }, usePointStyle: true } },
+            tooltip: {
+              backgroundColor: tc.tooltipBg,
+              padding: 12,
+              cornerRadius: 10,
+              callbacks: {
+                label: (c) => `${c.dataset.label}: ${fmtDec(c.parsed.y)} pts`
+              }
+            }
+          },
+          scales: {
+            x: { ticks: { color: tc.text, font: { size: 11 } }, grid: { display: false } },
+            y: {
+              suggestedMin: 15,
+              suggestedMax: 100,
+              ticks: { color: tc.text, font: { size: 10 }, callback: (v) => v + ' pts' },
+              grid: { color: tc.grid }
+            }
+          }
+        }
+      });
+    }
+
+    // -----------------------------------------------------------------------
+    // SECTION 6: NOTAS MÁXIMAS POR MODALIDADE (2026)
+    // -----------------------------------------------------------------------
+    function renderNotasMaxChart() {
+      const tc = getThemeColors();
+      const filter = document.getElementById('notasAreaFilter').value;
+
+      let subset = filter === 'TOP15'
+        ? [...cursos2026].sort((a, b) => b.cvGeral - a.cvGeral).slice(0, 15)
+        : cursos2026.filter(c => c.area === filter).sort((a, b) => (b.maxAmpla || 0) - (a.maxAmpla || 0)).slice(0, 18);
+
+      const safeAvg = (key) => {
+        const vals = subset.map(c => c[key]).filter(v => v != null);
+        return vals.length ? vals.reduce((s, v) => s + v, 0) / vals.length : null;
+      };
+
+      document.getElementById('avgMaxAmpla').textContent = safeAvg('maxAmpla') != null ? `${fmtDec(safeAvg('maxAmpla'))} pts` : '—';
+      document.getElementById('avgMaxEP').textContent    = safeAvg('maxEP')    != null ? `${fmtDec(safeAvg('maxEP'))} pts`    : '—';
+      document.getElementById('avgMaxNI').textContent    = safeAvg('maxNI')    != null ? `${fmtDec(safeAvg('maxNI'))} pts`    : '—';
+
+      const ctx = document.getElementById('notasMaxChart').getContext('2d');
+      if (charts.notasMax) charts.notasMax.destroy();
+
+      charts.notasMax = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: subset.map(c => shortLabel(c.curso, 22, 14)),
+          datasets: [
+            { label: 'Ampla Concorrência', data: subset.map(c => c.maxAmpla), backgroundColor: 'rgba(37, 99, 235, 0.85)', borderRadius: 4 },
+            { label: 'Escola Pública (EP)', data: subset.map(c => c.maxEP), backgroundColor: 'rgba(16, 185, 129, 0.85)', borderRadius: 4 },
+            { label: 'Negros e Indígenas (NI)', data: subset.map(c => c.maxNI), backgroundColor: 'rgba(245, 158, 11, 0.85)', borderRadius: 4 }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          onClick: (evt, elems) => {
+            if (elems.length > 0) openCourseModal(subset[elems[0].index]);
+          },
+          plugins: {
+            legend: { labels: { color: tc.text, font: { size: 11, weight: '600' }, usePointStyle: true } },
+            tooltip: {
+              backgroundColor: tc.tooltipBg,
+              padding: 12,
+              cornerRadius: 10,
+              callbacks: {
+                title: (items) => subset[items[0].dataIndex].curso,
+                label: (c) => c.parsed.y != null
+                  ? `${c.dataset.label}: ${fmtDec(c.parsed.y)} pts`
+                  : `${c.dataset.label}: Sem classificados`
+              }
+            }
+          },
+          scales: {
+            x: { ticks: { color: tc.text, font: { size: isMobile() ? 9 : 10 }, maxRotation: 45, minRotation: 25 }, grid: { display: false } },
+            y: {
+              beginAtZero: true,
+              max: 100,
+              ticks: { color: tc.text, font: { size: 10 } },
+              grid: { color: tc.grid }
+            }
+          }
+        }
+      });
+    }
+
+    // -----------------------------------------------------------------------
+    // SECTION 7: RELAÇÃO CANDIDATO/VAGA POR CURSO
+    // -----------------------------------------------------------------------
+    function initCourseFilters() {
+      const areaSel = document.getElementById('courseAreaFilter');
+      const campusSel = document.getElementById('courseCampusFilter');
+
+      const areas = [...new Set(cursos2026.map(c => c.area))].sort((a, b) => a.localeCompare(b, 'pt-BR'));
+      areas.forEach(a => {
+        const opt = document.createElement('option');
+        opt.value = a;
+        opt.textContent = a;
+        areaSel.appendChild(opt);
+      });
+
+      const campi = [...new Set(cursos2026.map(c => c.campus))].sort((a, b) => a.localeCompare(b, 'pt-BR'));
+      campi.forEach(c => {
+        const opt = document.createElement('option');
+        opt.value = c;
+        opt.textContent = c;
+        campusSel.appendChild(opt);
+      });
+
+      document.getElementById('courseSearch').addEventListener('input', renderAllCoursesExplorer);
+      areaSel.addEventListener('change', renderAllCoursesExplorer);
+      campusSel.addEventListener('change', renderAllCoursesExplorer);
+      document.getElementById('courseSort').addEventListener('change', renderAllCoursesExplorer);
+
+      document.getElementById('resetFiltersBtn').addEventListener('click', () => {
+        document.getElementById('courseSearch').value = '';
+        document.getElementById('courseAreaFilter').value = 'ALL';
+        document.getElementById('courseCampusFilter').value = 'ALL';
+        document.getElementById('courseSort').value = 'cv_desc';
+        setCourseChartModality('cvGeral', false);
+      });
+
+      document.querySelectorAll('.course-mod-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          setCourseChartModality(btn.dataset.courseMod, true);
+        });
+      });
+
+      document.querySelectorAll('.quick-year-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const y = btn.dataset.quickYear;
+          document.getElementById('globalYearSelect').value = y;
+          applyGlobalYear(y);
+        });
+      });
+    }
+
+    function setCourseChartModality(modKey, syncSort = true) {
+      currentCourseChartModality = modKey;
+      document.querySelectorAll('.course-mod-btn').forEach(b => {
+        const active = b.dataset.courseMod === modKey;
+        b.className = active
+          ? 'course-mod-btn px-2.5 py-1.5 rounded-lg bg-uerj-600 text-white shadow-sm transition'
+          : 'course-mod-btn px-2.5 py-1.5 rounded-lg text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition';
+      });
+      if (syncSort && courseModalityMeta[modKey]) {
+        document.getElementById('courseSort').value = courseModalityMeta[modKey].sortKey;
+      }
+      renderAllCoursesExplorer();
+    }
+
+    function renderAllCoursesExplorer() {
+      const tc = getThemeColors();
+      const info = getActiveCoursesInfo();
+      const activeCourses = info.courses;
+
+      // Atualiza cabeçalho e aviso da seção conforme o ano selecionado
+      document.getElementById('cursosYearBadge').textContent = info.badgeText;
+      document.getElementById('cursosSubtitle').textContent = info.isFallback
+        ? `Detalhamento por curso e modalidade disponível de 2023 a 2026. Exibindo ${activeCourses.length} cursos da edição 2026.`
+        : `Pesquise, filtre por campus ou área e toque em qualquer um dos ${activeCourses.length} cursos para ver vagas, inscritos e relação candidato/vaga por cota (${info.badgeText}).`;
+
+      const noticeEl = document.getElementById('cursosYearNotice');
+      if (info.isFallback) {
+        noticeEl.classList.remove('hidden');
+        document.getElementById('cursosYearNoticeText').textContent =
+          `Para o Vestibular ${info.requestedYear}, o painel exibe a série histórica geral acima. O detalhamento de todos os cursos por cota está disponível para 2023–2026 (exibindo 2026):`;
+      } else {
+        noticeEl.classList.add('hidden');
+      }
+
+      const q = document.getElementById('courseSearch').value.trim().toLowerCase();
+      const area = document.getElementById('courseAreaFilter').value;
+      const campus = document.getElementById('courseCampusFilter').value;
+      const sort = document.getElementById('courseSort').value;
+
+      const hasFilter = Boolean(q || area !== 'ALL' || campus !== 'ALL' || sort !== 'cv_desc' || currentCourseChartModality !== 'cvGeral');
+      document.getElementById('resetFiltersBtn').classList.toggle('hidden', !hasFilter);
+
+      const filtered = activeCourses.filter(c => {
+        if (q && !c.curso.toLowerCase().includes(q) && !c.campus.toLowerCase().includes(q)) return false;
+        if (area !== 'ALL' && c.area !== area) return false;
+        if (campus !== 'ALL' && c.campus !== campus) return false;
+        return true;
+      });
+
+      if (sort === 'cv_desc') filtered.sort((a, b) => b.cvGeral - a.cvGeral);
+      else if (sort === 'cv_asc') filtered.sort((a, b) => a.cvGeral - b.cvGeral);
+      else if (sort === 'ampla_desc') filtered.sort((a, b) => b.cvAmpla - a.cvAmpla);
+      else if (sort === 'ep_desc') filtered.sort((a, b) => b.cvEP - a.cvEP);
+      else if (sort === 'ni_desc') filtered.sort((a, b) => b.cvNI - a.cvNI);
+      else if (sort === 'pcd_desc') filtered.sort((a, b) => b.cvPcD - a.cvPcD);
+      else if (sort === 'insc_desc') filtered.sort((a, b) => b.inscritos - a.inscritos);
+      else if (sort === 'name_asc') filtered.sort((a, b) => a.curso.localeCompare(b.curso, 'pt-BR'));
+
+      const modInfo = courseModalityMeta[currentCourseChartModality] || courseModalityMeta.cvGeral;
+      document.getElementById('courseChartTitle').textContent = `Gráfico Dinâmico por Curso (${modInfo.label} • ${info.yearLabel})`;
+      document.getElementById('chartCountBadge').textContent = `${filtered.length} curso${filtered.length === 1 ? '' : 's'}`;
+
+      // Chart
+      const chartData = filtered.slice(0, 20);
+      const wrapper = document.getElementById('allCoursesChartWrapper');
+      const dynamicHeight = Math.max(200, Math.min(540, chartData.length * 28 + 64));
+      wrapper.style.height = dynamicHeight + 'px';
+
+      if (charts.allCourses) charts.allCourses.destroy();
+      charts.allCourses = new Chart(document.getElementById('allCoursesChart').getContext('2d'), {
+        type: 'bar',
+        data: {
+          labels: chartData.map(c => shortLabel(c.curso, 34, 19)),
+          datasets: [{
+            label: modInfo.label,
+            data: chartData.map(c => c[currentCourseChartModality]),
+            backgroundColor: chartData.map(c => modInfo.color || (areaColorPalette[c.area] ? areaColorPalette[c.area].bg : 'rgba(0, 74, 143, 0.8)')),
+            borderRadius: 6,
+            maxBarThickness: 22
+          }]
+        },
+        options: {
+          indexAxis: 'y',
+          responsive: true,
+          maintainAspectRatio: false,
+          onClick: (evt, elems) => {
+            if (elems.length > 0) openCourseModal(chartData[elems[0].index]);
+          },
+          plugins: {
+            legend: { display: false },
+            tooltip: {
+              backgroundColor: tc.tooltipBg,
+              padding: 12,
+              cornerRadius: 10,
+              callbacks: {
+                title: (items) => chartData[items[0].dataIndex].curso,
+                label: (ctx) => {
+                  const c = chartData[ctx.dataIndex];
+                  return [
+                    `C/V Geral: ${fmtDec(c.cvGeral)} | Ampla: ${fmtDec(c.cvAmpla)}`,
+                    `EP: ${fmtDec(c.cvEP)} | NI: ${fmtDec(c.cvNI)} | PcD: ${fmtDec(c.cvPcD)}`,
+                    `Inscritos: ${fmtInt(c.inscritos)} • Vagas: ${fmtInt(c.vagas)}`
+                  ];
+                }
+              }
+            }
+          },
+          scales: {
+            x: { ticks: { color: tc.text, font: { size: 10 } }, grid: { color: tc.grid } },
+            y: { ticks: { color: tc.text, font: { size: isMobile() ? 10 : 11 } }, grid: { display: false } }
+          }
+        }
+      });
+
+      // Clean Table
+      const tbody = document.getElementById('coursesTableBody');
+      tbody.innerHTML = '';
+
+      if (filtered.length === 0) {
+        tbody.innerHTML = `
+          <tr>
+            <td colspan="9" class="py-10 px-4 text-center text-sm text-slate-500 dark:text-slate-400">
+              Nenhum curso encontrado para os filtros aplicados.
+            </td>
+          </tr>
+        `;
+        return;
+      }
+
+      filtered.forEach(c => {
+        const tr = document.createElement('tr');
+        tr.className = 'group hover:bg-uerj-50/50 dark:hover:bg-slate-800/60 transition cursor-pointer';
+        tr.innerHTML = `
+          <td class="sticky left-0 z-10 bg-white dark:bg-slate-900 group-hover:bg-uerj-50/90 dark:group-hover:bg-slate-800 py-3.5 px-4 sm:px-5 font-bold text-slate-900 dark:text-white sticky-col-shadow transition">
+            ${c.curso}
+          </td>
+          <td class="py-3.5 px-3 text-xs text-slate-500 dark:text-slate-400 whitespace-nowrap">${c.campus}</td>
+          <td class="py-3.5 px-3 text-right tabular-nums text-slate-700 dark:text-slate-300">${fmtInt(c.vagas)}</td>
+          <td class="py-3.5 px-3 text-right tabular-nums text-slate-700 dark:text-slate-300">${fmtInt(c.inscritos)}</td>
+          <td class="py-3.5 px-3 text-right tabular-nums font-extrabold text-uerj-600 dark:text-blue-400">${fmtDec(c.cvGeral)}</td>
+          <td class="py-3.5 px-3 text-right tabular-nums font-bold text-indigo-600 dark:text-indigo-400">${fmtDec(c.cvAmpla)}</td>
+          <td class="py-3.5 px-3 text-right tabular-nums font-semibold text-emerald-600 dark:text-emerald-400">${fmtDec(c.cvEP)}</td>
+          <td class="py-3.5 px-3 text-right tabular-nums font-semibold text-amber-600 dark:text-amber-400">${fmtDec(c.cvNI)}</td>
+          <td class="py-3.5 px-3 pr-5 text-right tabular-nums font-semibold text-violet-600 dark:text-violet-400">${fmtDec(c.cvPcD)}</td>
+        `;
+        tr.addEventListener('click', () => openCourseModal(c));
+        tbody.appendChild(tr);
+      });
+    }
+
+    function setRangeBar(barId, textId, minVal, maxVal, fallbackMsg = 'Sem classificados') {
+      const bar = document.getElementById(barId);
+      const txt = document.getElementById(textId);
+      if (minVal == null && maxVal == null) {
+        txt.textContent = fallbackMsg;
+        bar.style.left = '0%';
+        bar.style.width = '0%';
+        return;
+      }
+      if (minVal != null && maxVal == null) {
+        txt.textContent = `Corte mínimo: ${fmtDec(minVal)} pts`;
+        const leftPct = Math.max(0, Math.min(97, minVal));
+        bar.style.left = `${leftPct}%`;
+        bar.style.width = '3%';
+        return;
+      }
+      txt.textContent = `${fmtDec(minVal)} – ${fmtDec(maxVal)} pts`;
+      const leftPct = Math.max(0, Math.min(100, minVal));
+      const widthPct = Math.max(3, Math.min(100 - leftPct, maxVal - minVal));
+      bar.style.left = `${leftPct}%`;
+      bar.style.width = `${widthPct}%`;
+    }
+
+    function openCourseModal(c) {
+      const info = getActiveCoursesInfo();
+      document.getElementById('modalCourseArea').textContent = c.area;
+      document.getElementById('modalCourseTitle').textContent = c.curso;
+      document.getElementById('modalCourseCampus').textContent = `Campus ${c.campus} • ${info.badgeText}`;
+
+      // Top 4 cards
+      document.getElementById('modalVagas').textContent = fmtInt(c.vagas);
+      document.getElementById('modalInscritos').textContent = fmtInt(c.inscritos);
+      document.getElementById('modalCVGeral').textContent = fmtDec(c.cvGeral);
+      document.getElementById('modalCVAmpla').textContent = fmtDec(c.cvAmpla);
+
+      // 3 Quota C/V cards
+      document.getElementById('modalCVEP').textContent = fmtDec(c.cvEP);
+      document.getElementById('modalCVNI').textContent = fmtDec(c.cvNI);
+      document.getElementById('modalCVPcD').textContent = fmtDec(c.cvPcD);
+
+      // Badge
+      const badge = document.getElementById('modalSobrouBadge');
+      if (c.sobrou === 'Sim') {
+        badge.textContent = 'Sobrou vaga';
+        badge.className = 'px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-amber-100 text-amber-800 dark:bg-amber-950 dark:text-amber-300 shrink-0';
+      } else if (c.sobrou === 'Não') {
+        badge.textContent = 'Vagas preenchidas';
+        badge.className = 'px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300 shrink-0';
+      } else {
+        badge.textContent = info.badgeText;
+        badge.className = 'px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-blue-100 text-blue-800 dark:bg-blue-950 dark:text-blue-300 shrink-0';
+      }
+
+      // Modality Breakdown Table
+      const modRows = [
+        { name: 'Ampla Concorrência', dot: 'bg-blue-600', vagas: c.vagasAmpla, insc: c.inscAmpla, cv: c.cvAmpla, cvColor: 'text-blue-700 dark:text-blue-400' },
+        { name: 'Escola Pública (EP)', dot: 'bg-emerald-500', vagas: c.vagasEP, insc: c.inscEP, cv: c.cvEP, cvColor: 'text-emerald-700 dark:text-emerald-400' },
+        { name: 'Negros / Indígenas (NI)', dot: 'bg-amber-500', vagas: c.vagasNI, insc: c.inscNI, cv: c.cvNI, cvColor: 'text-amber-700 dark:text-amber-400' },
+        { name: 'PcD / Outros', dot: 'bg-violet-500', vagas: c.vagasPcD, insc: c.inscPcD, cv: c.cvPcD, cvColor: 'text-violet-700 dark:text-violet-400' }
+      ];
+
+      document.getElementById('modalModalityTableBody').innerHTML = modRows.map(r => `
+        <tr>
+          <td class="py-2.5 px-3 flex items-center gap-2 text-slate-800 dark:text-slate-100 font-medium">
+            <span class="w-2 h-2 rounded-full ${r.dot} shrink-0"></span>
+            <span>${r.name}</span>
+          </td>
+          <td class="py-2.5 px-2.5 text-right tabular-nums text-slate-700 dark:text-slate-200">${fmtInt(r.vagas)}</td>
+          <td class="py-2.5 px-2.5 text-right tabular-nums text-slate-700 dark:text-slate-200">${fmtInt(r.insc)}</td>
+          <td class="py-2.5 px-3 text-right tabular-nums font-extrabold ${r.cvColor}">${fmtDec(r.cv)}</td>
+        </tr>
+      `).join('');
+
+      const noScoreLabel = info.hasFullScores ? 'Sem classificados' : 'Disponível na edição 2026';
+      setRangeBar('modalBarAmpla', 'modalRangeAmpla', c.minAmpla, c.maxAmpla, noScoreLabel);
+      setRangeBar('modalBarEP', 'modalRangeEP', c.minEP, c.maxEP, noScoreLabel);
+      setRangeBar('modalBarNI', 'modalRangeNI', c.minNI, c.maxNI, noScoreLabel);
+
+      const modal = document.getElementById('courseModal');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    }
+
+    function closeCourseModal() {
+      const modal = document.getElementById('courseModal');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    }
+
+    // -----------------------------------------------------------------------
+    // SCROLLSPY & BACK TO TOP
+    // -----------------------------------------------------------------------
+    function initScrollSpy() {
+      const sectionIds = ['panorama', 'rankings', 'areas', 'geografia', 'corte', 'notas', 'cursos'];
+      const desktopLinks = document.querySelectorAll('.nav-link');
+      const mobileLinks = document.querySelectorAll('.mobile-nav-link');
+      const backToTop = document.getElementById('backToTopBtn');
+
+      function updateActive() {
+        const scrollPos = window.scrollY + 150;
+        let current = sectionIds[0];
+
+        sectionIds.forEach(id => {
+          const el = document.getElementById(id);
+          if (el && el.offsetTop <= scrollPos) {
+            current = id;
+          }
+        });
+
+        desktopLinks.forEach(link => {
+          const isActive = link.dataset.nav === current;
+          link.classList.toggle('bg-uerj-50', isActive);
+          link.classList.toggle('text-uerj-600', isActive);
+          link.classList.toggle('dark:bg-blue-950/70', isActive);
+          link.classList.toggle('dark:text-blue-300', isActive);
+        });
+
+        mobileLinks.forEach(link => {
+          const isActive = link.dataset.nav === current;
+          link.className = isActive
+            ? 'mobile-nav-link px-3 py-1.5 rounded-full bg-uerj-600 text-white shadow-sm transition'
+            : 'mobile-nav-link px-3 py-1.5 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 transition';
+        });
+
+        backToTop.classList.toggle('hidden', window.scrollY < 500);
+      }
+
+      window.addEventListener('scroll', updateActive, { passive: true });
+      backToTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+      updateActive();
+    }
+
+    // -----------------------------------------------------------------------
+    // INITIALIZATION & EVENT LISTENERS
+    // -----------------------------------------------------------------------
+    function renderAllCharts() {
+      try {
+        renderMacroChart();
+        renderRankings();
+        renderAreaSection();
+        renderGeoChart();
+        renderCorteChart();
+        renderNotasMaxChart();
+        renderAllCoursesExplorer();
+      } catch (err) {
+        console.error('Erro ao renderizar gráficos:', err);
+      }
+    }
+
+    function initTheme() {
+      try {
+        if (localStorage.getItem('uerj_theme') === 'dark') {
+          document.documentElement.classList.add('dark');
+        }
+      } catch (e) {}
+
+      document.getElementById('themeToggle').addEventListener('click', () => {
+        const isDark = document.documentElement.classList.toggle('dark');
+        try {
+          localStorage.setItem('uerj_theme', isDark ? 'dark' : 'light');
+        } catch (e) {}
+        renderAllCharts();
+      });
+    }
+
+    function initApp() {
+      initTheme();
+      populateGlobalYearSelector();
+      initCourseFilters();
+      initScrollSpy();
+
+      document.getElementById('globalYearSelect').addEventListener('change', (e) => {
+        applyGlobalYear(e.target.value);
+      });
+
+      document.querySelectorAll('.macro-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          currentMacroMode = btn.dataset.macroMode;
+          document.querySelectorAll('.macro-btn').forEach(b => {
+            b.className = 'macro-btn px-3 py-1.5 rounded-lg text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition';
+          });
+          btn.className = 'macro-btn px-3 py-1.5 rounded-lg bg-white dark:bg-slate-700 text-uerj-600 dark:text-white shadow-sm transition';
+          renderMacroChart();
+        });
+      });
+
+      document.querySelectorAll('.rank-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          currentRankMetric = btn.dataset.rankMetric;
+          document.querySelectorAll('.rank-btn').forEach(b => {
+            b.className = 'rank-btn px-3 py-1.5 rounded-lg text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition';
+          });
+          btn.className = 'rank-btn px-3 py-1.5 rounded-lg bg-uerj-600 text-white shadow-sm transition';
+          renderRankings();
+        });
+      });
+
+      document.querySelectorAll('.area-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          currentAreaMetric = btn.dataset.areaMetric;
+          document.querySelectorAll('.area-btn').forEach(b => {
+            b.className = 'area-btn px-3 py-1.5 rounded-lg text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition';
+          });
+          btn.className = 'area-btn px-3 py-1.5 rounded-lg bg-uerj-600 text-white shadow-sm transition';
+          renderAreaSection();
+        });
+      });
+
+      document.querySelectorAll('.geo-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          currentGeoMetric = btn.dataset.geoMetric;
+          document.querySelectorAll('.geo-btn').forEach(b => {
+            b.className = 'geo-btn px-3 py-1.5 rounded-lg text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition';
+          });
+          btn.className = 'geo-btn px-3 py-1.5 rounded-lg bg-teal-600 text-white shadow-sm transition';
+          renderGeoChart();
+        });
+      });
+
+      document.getElementById('corteCourseSelect').addEventListener('change', renderCorteChart);
+      document.getElementById('notasAreaFilter').addEventListener('change', renderNotasMaxChart);
+
+      document.getElementById('closeModalBtn').addEventListener('click', closeCourseModal);
+      document.getElementById('courseModal').addEventListener('click', (e) => {
+        if (e.target.id === 'courseModal') closeCourseModal();
+      });
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') closeCourseModal();
+      });
+
+      window.addEventListener('resize', () => {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(renderAllCharts, 220);
+      });
+
+      applyGlobalYear('2026');
+      renderNotasMaxChart();
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initApp);
+    } else {
+      initApp();
+    }
+  </script>
+</body>
+</html>
