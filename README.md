@@ -1,20 +1,20 @@
-# Painel Vestibular UERJ
-​Aplicação web desenvolvida para auxiliar estudantes na preparação e acompanhamento para o Vestibular da UERJ.
+# Painel vestibular UERJ
 
-​© Direitos Autorais e Propriedade Intelectual
-​Copyright © 2026 Lívia Teixeira Campinas Maximo. Todos os direitos reservados.
+Aplicação interativa desenvolvida para visualização de dados e análise histórica do Vestibular UERJ (2010–2026), com filtros por ano, comparação entre campi e detalhamento de notas e modalidades de cota (Ampla Concorrência, Escola Pública e Negros/Indígenas).
 
-​O projeto Painel vestibular UERJ, incluindo seu código-fonte, design, interface, estrutura, organização de conteúdo e funcionalidades originais, é de propriedade exclusiva de Lívia Teixeira Campinas Maximo e está protegido pelas leis brasileiras de Direitos Autorais (Lei nº 9.610/1998) e tratados internacionais aplicáveis.
+## Direitos Autorais e Propriedade Intelectual
 
-​Termos de Uso e Restrições
-​Proibição de Cópia e Redistribuição: É estritamente proibida a cópia, reprodução, modificação, distribuição, publicação, engenharia reversa ou criação de obras derivadas a partir deste código ou de sua concepção visual sem a autorização prévia, expressa e por escrito da autora.
+© 2026 *Lívia Teixeira Campinas Maximo*. Todos os direitos reservados.
 
-​Uso Comercial Proibido: Nenhuma parte deste projeto pode ser utilizada para fins comerciais, monetização, venda ou incorporação em produtos de terceiros.
+Este projeto — incluindo seu código-fonte, design, estrutura visual, simulações interativas, lógica de organização de dados e conceito — é de propriedade intelectual exclusiva de *Lívia Teixeira Campinas Maximo*.
 
-​Uso Permitido: O acesso público a este repositório e à página hospedada destina-se exclusivamente à visualização e ao uso pessoal como ferramenta de estudo pelos usuários finais.
+### Condições de Uso
 
-​📩 Contato e Autorizações
-​Para solicitações de permissão de uso, parcerias ou dúvidas sobre licenciamento, entre em contato diretamente com a autora:
+* *Visualização:* A disponibilização pública deste repositório tem como única finalidade a demonstração do projeto em portfólio.
+* *Proibições:* É estritamente proibida a cópia, reprodução total ou parcial, modificação, distribuição, publicação ou reutilização deste código, da interface ou da ideia central do projeto em outros repositórios, sites ou aplicações sem autorização prévia e por escrito da autora.
+* *Uso Comercial:* Nenhum direito de uso comercial, licenciamento ou exploração econômica é concedido a terceiros.
 
-​Autora: Lívia Teixeira Campinas Maximo
-​Contato: liviatcmaximo@gmail.com
+## Autoria
+
+Desenvolvido por *Lívia Teixeira Campinas Maximo*  
+Contato: liviatcmaximo@gmail.com
